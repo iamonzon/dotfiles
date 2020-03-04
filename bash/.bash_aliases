@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # make aliases sudo-able
 alias sudo="sudo "
 
@@ -7,11 +9,11 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
-# view aliases
-alias ls ="ls --color=auto"
-alias lf="ls -A"
-alias ll="ls -Ag"
-alias ld="ls -dg .*/ */"
+# list aliases
+alias ls="ls --color=auto"
+alias lf="ls -AhF"
+alias ll="ls -AghF"
+alias ld="ls -dghF .*/ */"
 
 # git shortcuts
 alias gs="git status"
