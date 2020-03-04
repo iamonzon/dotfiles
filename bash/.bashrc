@@ -71,8 +71,8 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # Git configurations for the terminal
-if [ -f ~/.dotfiles/.git_config ]; then
-    . ~/.dotfiles/.git_config
+if [ -f ~/.git_config ]; then
+    . ~/.git_config
 fi
 
 
