@@ -3,6 +3,8 @@
 # make aliases sudo-able
 alias sudo="sudo "
 
+alias cls="clear"
+
 # directory navigation
 alias ..="cd .."
 alias ...="cd ../.."
