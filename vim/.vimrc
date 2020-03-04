@@ -2,6 +2,13 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
 
+" esc in insert mode
+inoremap kj <esc>
+
+" esc in command mode
+cnoremap kj <C-C>
+
+
 " --- tabulation set to 
 set expandtab
 " show existing tab with 2 spaces width
