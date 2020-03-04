@@ -3,3 +3,8 @@
     [ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ] && \
         . $(brew --prefix)/etc/bash_completion.d/git-completion.bash
 }
+
+#load all bash normal config. Used for ssh from my phone
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+fi
