@@ -3,6 +3,9 @@
 # make aliases sudo-able
 alias sudo="sudo "
 
+# delete directories
+alias rmd="rm -rf"
+
 alias cls="clear"
 
 # directory navigation
@@ -19,7 +22,7 @@ alias ld="ls -dghF .*/ */"
 
 # git shortcuts
 alias gs="git status"
-alias ga="git add -A ."
+alias ga="git add"
 alias gc="git commit"
 alias gb="git branch"
 alias gd="git diff"
@@ -33,4 +36,14 @@ alias gcp="git cherry-pick"
 alias gbg="git bisect good"
 alias gbb="git bisect bad"
 
+# git utilities
+alias gff="git flow feature"
+alias gfh="git flow hotfix"
+alias gfr="git flow release"
+alias g-c="git cola"
+
 alias grep="grep --color=auto"
+
+
+alias workspace="cd ~/Work/Projects/"
+alias personalspace="cd ~/Personal/Projects/"
