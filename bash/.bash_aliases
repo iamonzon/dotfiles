@@ -58,6 +58,7 @@ bkgrnd='</dev/null &>/dev/null &'
 
 alias eclipse="~/Tools/eclipse/eclipse $bkgrnd"
 alias spotify="spotify $bkgrnd"
+alias intellij="~/Tools/idea-IU-192.7142.36/bin/idea.sh $bkgrnd"
 
 function firefoxcmd {
   firefox "$@"; 
