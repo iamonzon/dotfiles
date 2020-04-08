@@ -21,7 +21,6 @@ alias ll="ls -AghF"
 alias ld="ls -dghF .*/ */"
 
 # git shortcuts
-alias gs="git status"
 alias ga="git add"
 alias gc="git commit"
 alias gb="git branch"
@@ -45,6 +44,11 @@ alias g-c="git cola"
 alias grep="grep --color=auto"
 
 
+#useful lists
+alias lsg="git status"
+alias lsd="docker ps"
+
+
 alias workspace="cd ~/Work/Projects/"
 alias personalspace="cd ~/Personal/Projects/"
 
@@ -58,7 +62,3 @@ alias spotify="spotify $bkgrnd"
 function firefoxcmd {
   firefox "$@"; 
 }
-function firefoxpcmd {
-  firefox -private "$@"; 
-}
-
