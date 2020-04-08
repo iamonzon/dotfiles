@@ -3,10 +3,10 @@ syntax on
 filetype plugin indent on
 
 " esc in insert mode
-inoremap kj <esc>
+inoremap lk <esc>
 
 " esc in command mode
-cnoremap kj <C-C>
+cnoremap lk <C-C>
 
 
 " --- tabulation set to 
