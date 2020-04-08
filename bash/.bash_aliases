@@ -49,4 +49,16 @@ alias workspace="cd ~/Work/Projects/"
 alias personalspace="cd ~/Personal/Projects/"
 
 #Tools
-alias eclipse="~/Tools/eclipse/eclipse </dev/null &>/dev/null &"
+#run in background command
+bkgrnd='</dev/null &>/dev/null &'
+
+alias eclipse="~/Tools/eclipse/eclipse $bkgrnd"
+alias spotify="spotify $bkgrnd"
+
+function firefoxcmd {
+  firefox "$@"; 
+}
+function firefoxpcmd {
+  firefox -private "$@"; 
+}
+
