@@ -47,3 +47,6 @@ alias grep="grep --color=auto"
 
 alias workspace="cd ~/Work/Projects/"
 alias personalspace="cd ~/Personal/Projects/"
+
+#Tools
+alias eclipse="~/Tools/eclipse/eclipse </dev/null &>/dev/null &"
