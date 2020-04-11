@@ -7,13 +7,35 @@ sudo apt-get install -y git
 git config --global color.ui true
 git config --global push.default simple
 
-application (
+applications=(
   git-cola
   vim
   vim-gnome
 )
-sudo apt-get install -y application{$@}
+sudo apt-get install -y ${applications[@]}
 
-# Zsh. Oh-my-shell. Tilix. Configure all the properties and themes and plugins. copy this files. Change global variables to $DOTFILES
+shell=(
+  zsh
+  tilix
+)
 
+sudo apt-get install -y ${shell[@]} 
 
+#Set zsh as default SHELL
+chsh -s $(which zsh)
+
+#Install oh-my-shell
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+#Theme
+git clone https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+
+DOTFILES_PATH=~/.dotfiles
+
+#Clone repo in $HOME
+git clone https://github.com/ivanlp10n2/environment-configurations $DOTFILES_PATH 
+
+mkdir ~/Personal
+mkdir ~/Work
+
+source $DOTFILES_PATH/.profile
