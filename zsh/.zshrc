@@ -11,18 +11,20 @@ export TERM="xterm-256color" # This sets up colors properly
 export JAVA_HOME=/usr/java/latest
 export PATH=$JAVA_HOME/bin:$HOME/bin:/usr/local/bin:$PATH
 
+DOTFILES_PATH=~/.dotfiles
+ZSH_SRC_PATH=$DOTFILES_PATH/zsh
+
 # Load zsh configurations
-source $HOME/.zsh_custom_cfg
+source $ZSH_SRC_PATH/.zsh_custom_cfg
 # Load oh-my-zsh configs
 source $ZSH/oh-my-zsh.sh
 
 # Override alias with mines
-# Load profile & aliases
-source ~/.profile
-source ~/.aliases
+# Load aliases
+source $ZSH_SRC_PATH/.aliases
 
 # Load tilix config
-source $HOME/.tilix
+source $DOTFILES_PATH/tilix/.tilix
 
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
