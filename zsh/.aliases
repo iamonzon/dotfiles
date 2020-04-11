@@ -49,8 +49,10 @@ alias lsg="git status"
 alias lsd="docker ps"
 
 
-alias workspace="cd ~/Work/Projects/"
-alias personalspace="cd ~/Personal/Projects/"
+alias workspace="cd ~/Work"
+alias personalspace="cd ~/Personal"
+alias pprojects="cd $personalspace/Projects/"
+alias wprojects="cd $workspace/Projects/"
 
 #Tools
 #run in background command
