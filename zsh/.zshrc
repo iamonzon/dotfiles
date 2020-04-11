@@ -11,19 +11,8 @@ export TERM="xterm-256color" # This sets up colors properly
 export JAVA_HOME=/usr/java/latest
 export PATH=$JAVA_HOME/bin:$HOME/bin:/usr/local/bin:$PATH
 
-# Zsh settings
-DISABLE_MAGIC_FUNCTIONS=true
-ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-COMPLETION_WAITING_DOTS=true
-DISABLE_UNTRACKED_FILES_DIRTY=true
-
-plugins=(zsh-autosuggestions git docker docker-compose autojump zsh-syntax-highlighting dnf npm)
-bindkey '^ ' autosuggest-accept #Ctrl + Space for accept suggestion
-
-# set zsh & oh-my-zsh
-export SHELL=/usr/bin/zsh
-export ZSH=$HOME/.oh-my-zsh
-
+# Load zsh configurations
+source $HOME/.zsh_custom_cfg
 # Load oh-my-zsh configs
 source $ZSH/oh-my-zsh.sh
 
@@ -32,10 +21,8 @@ source $ZSH/oh-my-zsh.sh
 source ~/.profile
 source ~/.aliases
 
-# Load TIlIX cfg
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-        source /etc/profile.d/vte.sh
-fi
+# Load tilix config
+source $HOME/.tilix
 
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
