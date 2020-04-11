@@ -39,6 +39,7 @@ plugins=(
 )
 
 # Options
+  chpwd() ls --color=auto -AhF
   # Remove superfluous blanks from each command line being added to the history
   # list
   setopt histreduceblanks
@@ -77,7 +78,8 @@ plugins=(
   setopt rmstarsilent
 
 # Keybinding
-bindkey '^ ' autosuggest-accept #Ctrl + Space for accept suggestion
+#Ctrl + Space for accept suggestion
+bindkey '^ ' autosuggest-accept 
 
 # case-insensitive (uppercase from lowercase) completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
