@@ -18,5 +18,6 @@ ln "$ZSH_SRC_PATH"/.zsh_custom_cfg ~/.zsh_custom_cfg
 ln "$ZSH_SRC_PATH"/.p10k.zsh ~/.p10k.zsh
 ln "$ZSH_SRC_PATH"/.aliases ~/.aliases
 ln "$DOTFILES_PATH"/vim/vimrc ~/.vimrc
+ln "$DOTFILES_PATH"/tilix/.tilix ~/.tilix
 
 dconf load /com/gexperts/Tilix/ < $DOTFILES_PATH/tilix/tilix.dconf
