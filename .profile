@@ -27,4 +27,4 @@ dconf load /com/gexperts/Tilix/ < $DOTFILES_PATH/tilix/tilix.dconf
 
 source "$ZSH_SRC_PATH"/.zshrc
 
-
+echo profile reloaded.
