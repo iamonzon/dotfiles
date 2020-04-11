@@ -17,3 +17,4 @@ ln "$ZSH_SRC_PATH"/.zsh_custom_cfg ~/.zsh_custom_cfg
 ln "$ZSH_SRC_PATH"/.p10k.zsh ~/.p10k.zsh
 ln "$ZSH_SRC_PATH"/.aliases ~/.aliases
 
+dconf load /com/gexperts/Tilix/ < $DOTFILES_PATH/tilix/tilix.dconf
