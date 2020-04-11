@@ -8,6 +8,8 @@ inoremap lk <esc>
 " esc in command mode
 cnoremap lk <C-C>
 
+" global clipboard
+set clipboard=unnamedplus
 
 " --- tabulation set to 
 set expandtab
@@ -25,4 +27,3 @@ set shiftwidth=2
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
-
