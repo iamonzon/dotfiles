@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Run this script with sudo ##
-echo Updating packages
+echo =========== Updating packages ===========
 sudo apt-get update
 
 echo Installing and configuring GIT
@@ -9,7 +9,7 @@ sudo apt-get install -y git
 git config --global color.ui true
 git config --global push.default simple
 
-echo Installing applications
+echo =========== Installing applications  =========== 
 applications=(
   git-cola
   vim
@@ -17,7 +17,7 @@ applications=(
 )
 sudo apt-get install -y ${applications[@]}
 
-echo Installing Shell apps
+echo  =========== Installing Shell apps =========== 
 shell=(
   zsh
   tilix
@@ -32,7 +32,14 @@ chsh -s $(which zsh)
 #Install oh-my-shell
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-echo Cloning Theme for ZSH
+echo =========== Installing plugins for Zsh ===========
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+sudo apt-get install -y autojump
+
+echo =========== Cloning Theme for ZSH ===========
 #Theme
 git clone https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 
