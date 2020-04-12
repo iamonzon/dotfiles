@@ -63,9 +63,12 @@ alias spotify="nohup spotify &"
 alias intellij="nohup ~/Tools/idea-IU-192.7142.36/bin/idea.sh &"
 
 function open {
-  nohup firefox "$1";
+  nohup firefox "$1" &;
 }
 
 function mkcd {
   command mkdir $1 && cd $1
 }
+
+DOTFILES_PATH=~/.dotfiles
+alias rldp='source "$DOTFILES_PATH"/.profile'
