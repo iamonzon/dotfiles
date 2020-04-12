@@ -69,3 +69,6 @@ function open {
 function mkcd {
   command mkdir $1 && cd $1
 }
+
+DOTFILES_PATH=~/.dotfiles
+alias rldp='source "$DOTFILES_PATH"/.profile'
