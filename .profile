@@ -4,6 +4,7 @@
 BKUP=~/.dotfiles-bak
 mkdir -p $BKUP
 
+mv -f ~/.profile $BKUP/ 2>/dev/null
 mv -f ~/.zshrc $BKUP/ 2>/dev/null
 mv -f ~/.zsh_custom_cfg $BKUP/ 2>/dev/null
 mv -f ~/.p10k.zsh $BKUP/ 2>/dev/null
@@ -14,6 +15,7 @@ mv -f ~/.tilix $BKUP/ 2>/dev/null
 DOTFILES_PATH=~/.dotfiles
 ZSH_SRC_PATH=$DOTFILES_PATH/zsh
 
+cp "$DOTFILES_PATH"/.profile ~/.profile 2>/dev/null
 cp "$ZSH_SRC_PATH"/.zshrc ~/.zshrc 2>/dev/null
 cp "$ZSH_SRC_PATH"/.zsh_custom_cfg ~/.zsh_custom_cfg 2>/dev/null
 cp "$ZSH_SRC_PATH"/.p10k.zsh ~/.p10k.zsh 2>/dev/null
