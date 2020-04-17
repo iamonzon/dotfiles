@@ -23,7 +23,7 @@ cp "$ZSH_SRC_PATH"/.aliases ~/.aliases 2>/dev/null
 cp "$DOTFILES_PATH"/tilix/.tilix ~/.tilix 2>/dev/null
 cp "$DOTFILES_PATH"/vim/.vimrc ~/.vimrc 2>/dev/null
 
-sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh 2>/dev/null
+#sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh 2>/dev/null
 
 dconf load /com/gexperts/Tilix/ < $DOTFILES_PATH/tilix/tilix.dconf
 
