@@ -1,10 +1,10 @@
 #!/bin/zsh
 # usage: loads all configs for given applications (specified in bootstrap) and sets this file in your $HOME
 
-BKUP=~/.dotfiles-bak
+BKUP_FOLDER=~/.dotfiles-bak
 mkdir -p $BKUP_FOLDER
 
-echo ====== Backing up your cfg files to $(BKUP_FOLDER) =======
+echo ====== Backing up your cfg files to $(echo $BKUP_FOLDER) =======
 mv -f ~/.zsh_custom_cfg $BKUP_FOLDER/ 2>/dev/null
 mv -f ~/.zshenv $BKUP_FOLDER/ 2>/dev/null
 mv -f ~/.p10k.zsh $BKUP_FOLDER/ 2>/dev/null
