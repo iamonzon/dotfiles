@@ -54,4 +54,4 @@ git clone https://github.com/ivanlp10n2/environment-configurations $DOTFILES_PAT
 mkdir ~/Personal
 mkdir ~/Work
 
-source $DOTFILES_PATH/.profile
+source $DOTFILES_PATH/profile-config
