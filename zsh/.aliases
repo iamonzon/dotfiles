@@ -55,8 +55,6 @@ alias pprojects="cd ~/Personal/Projects/"
 alias wprojects="cd ~/Work/Projects/"
 
 #Tools
-#run in background command
-bkgrnd='</dev/null &>/dev/null &'
 
 alias eclipse="nohup ~/Tools/eclipse/eclipse &"
 alias spotify="nohup spotify &"
