@@ -69,4 +69,4 @@ function mkcd {
 }
 
 DOTFILES_PATH=~/.dotfiles
-alias rldp='source "$DOTFILES_PATH"/.profile'
+alias rldpc='source "$DOTFILES_PATH"/profile-config'
