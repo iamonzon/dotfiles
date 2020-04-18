@@ -1,15 +1,11 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# confirmations, etc.) must go above this block; everything else may go below.  
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 export TERM="xterm-256color" # This sets up colors properly
-
-# $PATH.
-export JAVA_HOME=/usr/java/latest
-export PATH=$JAVA_HOME/bin:$HOME/bin:/usr/local/bin:$PATH
 
 DOTFILES_PATH=~/.dotfiles
 ZSH_SRC_PATH=$DOTFILES_PATH/zsh
@@ -18,7 +14,6 @@ ZSH_SRC_PATH=$DOTFILES_PATH/zsh
 source $ZSH_SRC_PATH/.zsh_custom_cfg
 # Load oh-my-zsh configs
 source $ZSH/oh-my-zsh.sh
-
 # Override alias with mines
 # Load aliases
 source $ZSH_SRC_PATH/.aliases
