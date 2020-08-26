@@ -11,6 +11,9 @@ cnoremap lk <C-C>
 " global clipboard
 set clipboard=unnamedplus
 
+" do not wrap my fucking lines
+:set nowrap
+
 " --- tabulation set to 
 set expandtab
 " show existing tab with 2 spaces width
