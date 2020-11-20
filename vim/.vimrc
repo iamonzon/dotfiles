@@ -1,4 +1,3 @@
-execute pathogen#infect()
 syntax on
 filetype plugin indent on
 
@@ -30,12 +29,4 @@ set shiftwidth=2
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
-
-" NERDTree on bundle folder https://github.com/preservim/nerdtree.git
-" (pathogen)
-nmap <F2> :NERDTree<CR>
-nmap <F4> :vertical resize -5<CR>
-nmap <F5> :vertical resize +5<CR>
-nmap <F6> :resize -5<CR>
-nmap <F7> :resize +5<CR>
 
