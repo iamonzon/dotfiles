@@ -56,9 +56,9 @@ alias wprojects="cd ~/Work/Projects/"
 
 #Tools
 
-alias eclipse="nohup ~/Tools/eclipse/eclipse &"
-alias spotify="nohup spotify &"
-alias intellij="nohup ~/Tools/intellij/bin/idea.sh &"
+alias eclipse="nohup ~/Tools/eclipse/eclipse >/dev/null 2>&1 &"
+alias spotify="nohup spotify >/dev/null 2>&1 &"
+alias intellij="nohup ~/Tools/intellij/bin/idea.sh >/dev/null 2>&1 &"
 
 function open {
   nohup firefox "$1" &;
