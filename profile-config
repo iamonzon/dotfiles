@@ -4,7 +4,7 @@
 BKUP_FOLDER=~/.dotfiles-bak
 mkdir -p $BKUP_FOLDER
 
-echo ====== Backing up your cfg files to $(echo $BKUP_FOLDER) =======
+#echo ====== Backing up your cfg files to $(echo $BKUP_FOLDER) =======
 mv -f ~/.zsh_custom_cfg $BKUP_FOLDER/ 2>/dev/null
 mv -f ~/.zshenv $BKUP_FOLDER/ 2>/dev/null
 mv -f ~/.p10k.zsh $BKUP_FOLDER/ 2>/dev/null
@@ -15,7 +15,7 @@ mv -f ~/.tilix $BKUP_FOLDER/ 2>/dev/null
 DOTFILES_PATH=~/.dotfiles
 ZSH_SRC_PATH=$DOTFILES_PATH/zsh
 
-echo ====== Coping new config giles ======
+#echo ====== Coping new config giles ======
 cp "$DOTFILES_PATH"/profile-config ~/profile-config 2>/dev/null
 cp "$DOTFILES_PATH"/tilix/.tilix ~/.tilix 2>/dev/null
 cp "$DOTFILES_PATH"/vim/.vimrc ~/.vimrc 2>/dev/null
