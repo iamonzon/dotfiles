@@ -2,10 +2,10 @@
 
 ## Run this script with sudo ##
 echo =========== Updating packages ===========
-sudo apt-get update
+sudo apt update
 
 echo Installing and configuring GIT
-sudo apt-get install -y git
+sudo apt install -y git
 git config --global color.ui true
 git config --global push.default simple
 
@@ -21,15 +21,16 @@ applications=(
 curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
 echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
 
-sudo apt-get install -y ${applications[@]}
+sudo apt install -y ${applications[@]}
 
 echo  =========== Installing Shell apps =========== 
 shell=(
   tilix
   zsh
+  curl
 )
 
-sudo apt-get install -y ${shell[@]} 
+sudo apt install -y ${shell[@]} 
 
 #Tilix compatiblity (https://gnunn1.github.io/tilix-web/manual/vteconfig/)
 sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh 
@@ -46,7 +47,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/p
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
-sudo apt-get install -y autojump
+sudo apt install -y autojump
 
 echo =========== Cloning Theme for ZSH ===========
 #Theme
