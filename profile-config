@@ -19,6 +19,7 @@ ZSH_SRC_PATH=$DOTFILES_PATH/zsh
 cp "$DOTFILES_PATH"/profile-config ~/profile-config 2>/dev/null
 cp "$DOTFILES_PATH"/tilix/.tilix ~/.tilix 2>/dev/null
 cp "$DOTFILES_PATH"/vim/.vimrc ~/.vimrc 2>/dev/null
+cp "$DOTFILES_PATH"/vim/.vimrc ~/.ideavimrc 2>/dev/null
 cp "$ZSH_SRC_PATH"/.zshrc ~/.zshrc 2>/dev/null
 cp "$ZSH_SRC_PATH"/.zsh_custom_cfg ~/.zsh_custom_cfg 2>/dev/null
 cp "$ZSH_SRC_PATH"/.zshenv ~/.zshenv 2>/dev/null
