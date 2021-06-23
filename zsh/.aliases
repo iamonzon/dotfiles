@@ -60,6 +60,8 @@ alias eclipse="nohup ~/Tools/eclipse/eclipse >/dev/null 2>&1 &"
 alias spotify="nohup spotify >/dev/null 2>&1 &"
 alias intellij="nohup ~/Tools/intellij/bin/idea.sh >/dev/null 2>&1 &"
 alias intellijs="nohup ~/Tools/intellijs/bin/webstorm.sh >/dev/null 2>&1 &"
+alias datagrip="nohup ~/Tools/datagrip/bin/datagrip.sh >/dev/null 2>&1 &"
+
 
 function open {
   nohup firefox "$1" &;
