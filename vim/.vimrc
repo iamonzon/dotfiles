@@ -8,7 +8,11 @@ inoremap lk <esc>
 cnoremap lk <C-C>
 
 " global clipboard
-set clipboard=unnamedplus
+if system('uname -s') == "Darwin\n"
+  set clipboard=unnamed "OSX
+else
+  set clipboard=unnamedplus "Linux
+endif
 
 " do not wrap my fucking lines
 :set nowrap
