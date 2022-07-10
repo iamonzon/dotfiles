@@ -14,6 +14,7 @@ applications=(
   git-cola
   vim
   vim-gnome
+  nvim
 )
 
 sudo apt install -y ${applications[@]}
@@ -52,6 +53,11 @@ DOTFILES_PATH=~/.dotfiles
 
 #Clone repo in $HOME
 git clone https://github.com/ivanlp10n2/environment-configurations $DOTFILES_PATH 
+
+echo =========== Installing nvim =============
+mkdir -p ~/.config/
+ln -s ~/.vim ~/.config/nvim 
+ln -s ~/.vimrc ~/.config/nvim/init.vim 
 
 mkdir ~/Personal
 mkdir ~/Work
