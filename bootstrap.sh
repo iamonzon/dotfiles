@@ -19,6 +19,8 @@ applications=(
 
 sudo apt install -y ${applications[@]}
 
+echo  =========== NVIM configuration ==============
+
 echo  =========== Installing Shell apps =========== 
 shell=(
   tilix
@@ -29,7 +31,7 @@ shell=(
 sudo apt install -y ${shell[@]} 
 
 #Tilix compatiblity (https://gnunn1.github.io/tilix-web/manual/vteconfig/)
-sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh 
+#sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh 
 
 echo Setting ZSH as SHELL
 #Set zsh as default SHELL
