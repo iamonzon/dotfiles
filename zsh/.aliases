@@ -55,8 +55,8 @@ alias lsd="docker ps"
 
 alias workspace="cd ~/Work"
 alias personalspace="cd ~/Personal"
-alias pprojects="cd ~/Personal/Projects/"
-alias wprojects="cd ~/Work/Projects/"
+alias pp="cd ~/Personal/Projects/"
+alias wp="cd ~/Work/Projects/"
 
 #Tools
 
