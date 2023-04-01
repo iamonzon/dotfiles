@@ -52,6 +52,4 @@ function macos_installation {
 
   mkdir -p ~/Personal/Projects
   mkdir -p ~/Work/Projects
-
-  source $DOTFILES_PATH/update-local-configs
 }
