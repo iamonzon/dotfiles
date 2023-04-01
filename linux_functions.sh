@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 function linux_installation {
   echo =========== Updating packages ===========
   sudo apt update
