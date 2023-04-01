@@ -64,4 +64,4 @@ ln -s ~/.vimrc ~/.config/nvim/init.vim
 mkdir ~/Personal
 mkdir ~/Work
 
-source $DOTFILES_PATH/profile-config
+source $DOTFILES_PATH/update-local-configs
