@@ -53,7 +53,7 @@ function linux_installation {
   DOTFILES_PATH=~/.dotfiles
 
   #Clone repo in $HOME
-  git clone https://github.com/ivanlp10n2/environment-configurations $DOTFILES_PATH 
+  git clone https://github.com/ivanlp10n2/dotfiles $DOTFILES_PATH 
 
   echo =========== Installing nvim =============
   mkdir -p ~/.config/
@@ -62,7 +62,5 @@ function linux_installation {
 
   mkdir ~/Personal
   mkdir ~/Work
-
-  source $DOTFILES_PATH/update-local-configs
 }
 
