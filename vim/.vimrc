@@ -25,12 +25,18 @@ call plug#begin()
   Plug '907th/vim-auto-save'
   " development time coding
   "Plug 'wakatime/vim-wakatime'
+" vim-makrdown + tabular
+  Plug 'godlygeek/tabular' | Plug 'plasticboy/vim-markdown'
+  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install' }
   " control-shift-f
   Plug 'dyng/ctrlsf.vim'
   "vim zoom
   Plug 'Pocco81/TrueZen.nvim'
   "language tool
   Plug 'dpelle/vim-LanguageTool', {'for': 'text'}
+  "python
+  Plug 'davidhalter/jedi-vim'
+
 call plug#end()
 
 " NERDTREE write permission
@@ -111,3 +117,33 @@ nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
 
 " For global replace
 nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+
+"Python cfg
+
+" Show function signatures in the preview window
+"let g:jedi#show_call_signatures = 'preview'
+
+" Show documentation in the preview window
+"let g:jedi#show_docstring = 'preview'
+let g:mkdp_refresh_slow=1
+let g:mkdp_markdown_css='~/.config/vim-markdown/github-markdown-dark.css'
+function! OpenInBrave(url) abort
+    echom "OpenInBrave function called with URL: " . a:url
+    let l:script_path = expand("~/.config/vim-markdown/open_brave.sh")
+    let l:cmd = l:script_path . " " . a:url . " &"
+    echom "Executing command: " . l:cmd
+    call system(l:cmd)
+endfunction
+"let g:mkdp_browserfunc = 'OpenInBrave'
+
+" Resize window to the right
+nnoremap <C-S-L> <C-w>5<>
+
+" Resize window to the left
+nnoremap <C-S-H> <C-w>5<>
+
+" Resize window down
+nnoremap <C-S-J> <C-w>5+
+
+" Resize window up
+nnoremap <C-S-K> <C-w>5-
