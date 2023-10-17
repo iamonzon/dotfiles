@@ -15,8 +15,8 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 # neovim
-alias vi= "nvim"
-alias vim="nvim"
+alias vi = "nvim"
+alias vim = "nvim"
 
 # list aliases
 alias ls="ls --color=auto"
