@@ -4,13 +4,23 @@ DOTFILES_PATH=~/.dotfiles
 BKUP_FOLDER=$DOTFILES_PATH-bak
 mkdir -p $BKUP_FOLDER
 
+function move_to_dotfiles_quietly {
+  from_path = $1
+  to_path_in_dotfiles = $DOTFILES_PATH$2
+  mv -f $from_path $to_path_in_dotfiles 2>/dev/null
+}
+function copy_from_dotfiles_quietly {
+  from_path_in_dotfiles = $DOTFILES_PATH$1
+  to_path = $2
+  mv -f $from_path_in_dotfiles $to_path 2>/dev/null
+}
 function update_common_configs {
   ZSH_SRC_PATH=$DOTFILES_PATH/zsh
   function update_vimrc {
-    mv -f ~/.vimrc "$DOTFILES_PATH"/vim/.vimrc 2>/dev/null
-    mv -f ~/.ideavimrc "$DOTFILES_PATH"/vim/.vimrc 2>/dev/null
-    cp "$DOTFILES_PATH"/vim/.vimrc ~/.vimrc 2>/dev/null
-    cp "$DOTFILES_PATH"/vim/.vimrc ~/.ideavimrc 2>/dev/null
+    move_to_dotfiles_quietly ~/.vimrc /vim/
+    move_to_dotfiles_quietly ~/.ideavimrc /vim/
+    cp /vim/.vimrc ~/.vimrc 2>/dev/null
+    cp /vim/.ideavimrc ~/.ideavimrc 2>/dev/null
   }
   function update_zshrc {
     mv -f ~/.zshrc "$BKUP_FOLDER"/.zshrc 2>/dev/null
