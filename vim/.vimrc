@@ -54,8 +54,8 @@ let NERDTreeSortOrder=['\/$', '*', '\.swp$',  '\.bak$', '\~$', '[[-timestamp]]']
 
 lua require('plugins')
 "
-" NERDTree control-m toggle shortcut
-map <silent> <C-m> :NERDTreeToggle<CR>
+" NERDTree control-b toggle shortcut
+map <silent> <C-b> :NERDTreeToggle<CR>
 
 " NERDTree control-f find active vim window in NERDTree
 map <silent> <C-p> :NERDTreeFind<CR>
