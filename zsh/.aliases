@@ -57,6 +57,7 @@ alias workspace="cd ~/Work"
 alias personalspace="cd ~/Personal"
 alias pp="cd ~/Personal/Projects/"
 alias wp="cd ~/Work/Projects/"
+alias op="cd ~/Obsidian\ Notebook/personal/"
 
 #Tools
 
