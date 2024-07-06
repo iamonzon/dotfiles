@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# make aliases sudo-able
+alias sudo="sudo "
+
+# delete directories
+alias rmd="rm -rf"
+
+alias cls="clear"
+
+# directory navigation
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+# neovim
+alias vi="nvim"
+alias vim="nvim"
+
+# list aliases
+alias ls="ls --color=auto"
+alias lf="ls -AhF"
+alias ll="ls -AghF"
+alias ld="ls -dghF .*/ */"
+
+# git shortcuts
+alias ga="git add"
+alias gc="git commit"
+alias gb="git branch"
+alias gd="git diff"
+alias gco="git checkout"
+alias gp="git push"
+alias gl="git pull"
+alias gt="git tag"
+alias gm="git merge"
+alias gg="git log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gcp="git cherry-pick"
+alias gbg="git bisect good"
+alias gbb="git bisect bad"
+
+# git utilities
+alias gff="git flow feature"
+alias gfh="git flow hotfix"
+alias gfr="git flow release"
+alias g-c="git cola"
+
+alias grep="grep --color=auto"
+
+
+#useful lists
+alias lsg="git status"
+alias lsd="docker ps"
+
+
+alias workspace="cd ~/Work"
+alias personalspace="cd ~/Personal"
+alias pp="cd ~/Personal/Projects/"
+alias wp="cd ~/Work/Projects/"
+alias tp="cd ~/Personal/Projects/tooling/"
+alias op="cd ~/Obsidian\ Notebook/personal/"
+alias dot="cd ~/.dotfiles/"
+
+#Tools
+
+alias eclipse="nohup ~/Tools/eclipse/eclipse >/dev/null 2>&1 &"
+alias spotify="nohup spotify >/dev/null 2>&1 &"
+alias intellij="nohup ~/Tools/intellij/bin/idea.sh >/dev/null 2>&1 &"
+alias intellijs="nohup ~/Tools/intellijs/bin/webstorm.sh >/dev/null 2>&1 &"
+alias datagrip="nohup ~/Tools/datagrip/bin/datagrip.sh >/dev/null 2>&1 &"
+
+
+function mkcd {
+  command mkdir $1 && cd $1
+}
+
+function tlnix {
+  command nix-shell --argstr shell library ~/nix-workspaces/typelevel-nix/shell.nix
+}
+
+DOTFILES_PATH=~/.dotfiles
+alias rldpc='source "$DOTFILES_PATH"/profile-config'
