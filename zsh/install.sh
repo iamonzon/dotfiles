@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 DOTFILES_PATH="$HOME/.dotfiles"
-NEW_ZSH_PATH="$DOTFILES_PATH/new_zsh"
+DOTFILES_ZSH_PATH="$DOTFILES_PATH/zsh"
 DRY_RUN=false
 EXPECTED_HOME="$HOME/expected_home/$(date +%Y%m%d_%H%M%S)"
 
@@ -41,9 +41,9 @@ install_files(){
     rm -f $local_zsh
     rm -f $local_zshenv
     rm -f $local_aliases   
-    ln -sf "$NEW_ZSH_PATH/.zshrc" $local_zsh
-    ln -sf "$NEW_ZSH_PATH/.zshenv" $local_zshenv
-    ln -sf "$NEW_ZSH_PATH/.aliases" $local_aliases
+    ln -sf "$DOTFILES_ZSH_PATH/.zshrc" $local_zsh
+    ln -sf "$DOTFILES_ZSH_PATH/.zshenv" $local_zshenv
+    ln -sf "$DOTFILES_ZSH_PATH/.aliases" $local_aliases
 }
 
 install_oh_my_zsh(){
