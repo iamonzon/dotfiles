@@ -59,6 +59,7 @@ alias pp="cd ~/Personal/Projects/"
 alias wp="cd ~/Work/Projects/"
 alias tp="cd ~/Personal/Projects/tooling/"
 alias op="cd ~/Obsidian\ Notebook/personal/"
+alias dot="cd ~/.dotfiles/"
 
 #Tools
 
