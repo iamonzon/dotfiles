@@ -9,10 +9,30 @@ enable_oh_my_zsh(){
     echo "Enabling Oh My Zsh"
     source_if_exists ~/.oh-my-zsh/oh-my-zsh.sh
 }
+enable_p10k_instant_prompt(){
+    local INSTANT_PROMPT_PATH="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source_if_exists "$INSTANT_PROMPT_PATH"
+}
+enable_p10k_theme(){
+    local USER_V1="opt"
+    local USER_V2="Cellar/powerlevel10k/1.20.0/share"
+    local PATH_V1="/opt/homebrew/$USER_V1/powerlevel10k/powerlevel10k.zsh-theme"
+    local PATH_V2="/opt/homebrew/$USER_V2/powerlevel10k/powerlevel10k.zsh-theme"
+
+    if [[ -f "$PATH_V1" ]]; then
+        source "$PATH_V1"
+    elif [[ -f "$PATH_V2" ]]; then
+        source "$PATH_V2"
+    else
+        echo "Error: Powerlevel10k theme not found in either path."
+        return 1
+    fi
+}
 enable_powerlevel10k(){
     echo "Enabling Powerlevel10k"
-    source_if_exists /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
-    source_if_exists "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source_if_exists "$HOME/.p10k.zsh" # created after p10k configure
+    enable_p10k_theme
+    enable_p10k_instant_prompt
 }
 
 export TERM="xterm-256color"
@@ -35,7 +55,6 @@ load_config_files() {
       "$zsh_configs/nvm.zsh"
       "$zsh_configs/sdkman.zsh"
       #"$DOTFILES_PATH/tilix/.tilix"
-      "$HOME/.p10k.zsh"
   )
 
   for file in "${files[@]}"; do
