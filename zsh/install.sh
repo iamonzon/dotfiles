@@ -61,7 +61,11 @@ install_powerlevel10k(){
         if $DRY_RUN; then
             echo "Would install Powerlevel10k theme"
         else
-            git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+            #TODO: test if works only with brew install.
+            # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+            brew install powerlevel10k
+            echo "starting p10k configure"
+            p10k configure
         fi
     fi
 }
