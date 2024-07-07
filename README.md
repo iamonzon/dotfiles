@@ -1,9 +1,9 @@
 # dotfiles
 ### an attempt to sync my cfgs 
 
-Run 'bootstrap.sh' to install all applications and apply configs
+Run 'install.sh' to apply all the config
 
-> 'boostrap.sh' runs 'update_local_functions.update_configs()' at the end of installation.
+> 'install.sh' runs 'update_local_functions.update_configs()' at the end of installation.
 
 
 ## Troubleshooting
