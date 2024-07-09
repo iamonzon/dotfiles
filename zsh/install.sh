@@ -1,4 +1,6 @@
 #!/bin/zsh
+# USAGE: `./install.sh`. Parameters: --dry-run [optional]
+# --dry-run: creates $EXPECTED_HOME folder and simulates execution
 
 DOTFILES_PATH="$HOME/.dotfiles"
 DOTFILES_ZSH_PATH="$DOTFILES_PATH/zsh"
