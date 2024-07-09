@@ -62,21 +62,9 @@ alias op="cd ~/Obsidian\ Notebook/personal/"
 alias dot="cd ~/.dotfiles/"
 
 #Tools
-
-alias eclipse="nohup ~/Tools/eclipse/eclipse >/dev/null 2>&1 &"
 alias spotify="nohup spotify >/dev/null 2>&1 &"
-alias intellij="nohup ~/Tools/intellij/bin/idea.sh >/dev/null 2>&1 &"
-alias intellijs="nohup ~/Tools/intellijs/bin/webstorm.sh >/dev/null 2>&1 &"
-alias datagrip="nohup ~/Tools/datagrip/bin/datagrip.sh >/dev/null 2>&1 &"
 
 
 function mkcd {
   command mkdir $1 && cd $1
 }
-
-function tlnix {
-  command nix-shell --argstr shell library ~/nix-workspaces/typelevel-nix/shell.nix
-}
-
-DOTFILES_PATH=~/.dotfiles
-alias rldpc='source "$DOTFILES_PATH"/profile-config'
