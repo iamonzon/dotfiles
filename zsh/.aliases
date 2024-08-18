@@ -47,6 +47,8 @@ alias g-c="git cola"
 
 alias grep="grep --color=auto"
 
+alias timestamp="date +%s"
+
 
 #useful lists
 alias lsg="git status"
