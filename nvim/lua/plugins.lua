@@ -34,17 +34,17 @@ return require('packer').startup(function(use)
   }
 
   -- Plugins can also depend on rocks from luarocks.org:
-  use {
-    'my/supercoolplugin',
-    rocks = {'lpeg', {'lua-cjson', version = '2.1.0'}}
-  }
+  --use {
+    --'my/supercoolplugin',
+    --rocks = {'lpeg', {'lua-cjson', version = '2.1.0'}}
+  ---}
 
   -- You can specify rocks in isolation
   use_rocks 'penlight'
   use_rocks {'lua-resty-http', 'lpeg'}
 
   -- Local plugins can be included
-  use '~/projects/personal/hover.nvim'
+  --use '~/projects/personal/hover.nvim'
 
   -- Plugins can have post-install/update hooks
   use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}

@@ -1,6 +1,7 @@
 " <leader> means , 
 let mapleader = ','
 
+let g:python3_host_prog = '/opt/homebrew/Caskroom/miniconda/base/bin/python3.10'
 " smoother sidescroll 
 set sidescroll=1
 
