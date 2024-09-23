@@ -107,9 +107,7 @@ def handle_select_or_list(store, selection_arg=None):
         return store
 
     bookmarks = store['bookmarks']
-    selected = next((bm for bm in bookmarks if bm['name'] == selection_arg or 
-                     (selection_arg.isdigit() and bookmarks.index(bm) == int(selection_arg))), None)
-    
+    selected = find_selected_bookmark(bookmarks, selection_arg)
     if selected:
         print(f"cd {selected['path']}")
         return set_last_selected(store, selected['path'])
@@ -117,6 +115,10 @@ def handle_select_or_list(store, selection_arg=None):
         print('Invalid selection ❌.')
         handle_list(store)
     return store
+
+def find_selected_bookmark(bookmarks, selection_arg):
+    return next((bm for bm in bookmarks if bm['name'] == selection_arg or 
+                    (selection_arg.isdigit() and bookmarks.index(bm) == int(selection_arg))), None)
 
 def main():
     store = read_store()
