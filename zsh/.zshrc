@@ -5,6 +5,19 @@ source_if_exists() {
     fi
     source "$1"
 }
+
+bm() {
+  python -u ~/.dotfiles/tooling/bookmarks_cli.py "$@" | while IFS= read -r line; do
+    echo "$line"
+    if [[ "$line" == cd* ]]; then
+      cd_command="$line"
+    fi
+  done
+  if [[ -n "$cd_command" ]]; then
+    eval "$cd_command"
+  fi
+}
+
 enable_oh_my_zsh(){
     echo "Enabling Oh My Zsh"
     source_if_exists ~/.oh-my-zsh/oh-my-zsh.sh
