@@ -22,10 +22,10 @@ compare_files() {
   diff_result=$?
 
   if [ $diff_result -eq 0 ]; then
-    echo "Files '$file1' and '$file2' are identical."
+    echo "Files '$file1' and '$file2' are identical. ✅"
     return 0
   else
-    echo "Files '$file1' and '$file2' are different:"
+    echo "Files '$file1' and '$file2' are different ❌:"
     while IFS= read -r line; do
       if [[ $line != *"Common subdirectories"* ]]; then
         echo "  $line"
@@ -62,7 +62,7 @@ echo "-------------------"
 if [ ${#successful_comparisons[@]} -gt 0 ]; then
   echo "Successful comparisons:"
   for comparison in "${successful_comparisons[@]}"; do
-    echo "  - $comparison"
+    echo "  - $comparison ✅"
   done
 else
   echo "No successful comparisons."
@@ -71,7 +71,7 @@ fi
 if [ ${#failed_comparisons[@]} -gt 0 ]; then
   echo "Failed comparisons:"
   for comparison in "${failed_comparisons[@]}"; do
-    echo "  - $comparison"
+    echo "  - $comparison ❌"
   done
 else
   echo "No failed comparisons."
@@ -79,9 +79,9 @@ fi
 
 # Check if all comparisons passed
 if $all_equal; then
-  echo "All files are equal. Proceeding with the commit."
+  echo "All files are equal ✅. Proceeding with the commit."
   exit 0
 else
-  echo "Some files are different. Aborting the commit."
+  echo "Some files are different ❌. Aborting the commit."
   exit 1
 fi
