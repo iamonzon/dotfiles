@@ -117,8 +117,26 @@ def handle_select_or_list(store, selection_arg=None):
     return store
 
 def find_selected_bookmark(bookmarks, selection_arg):
-    return next((bm for bm in bookmarks if bm['name'] == selection_arg or 
-                    (selection_arg.isdigit() and bookmarks.index(bm) == int(selection_arg))), None)
+    selection_arg_lower = selection_arg.lower()
+    def name_matches_exactly(bm, selection_arg_lower):
+        return bm['name'].lower() == selection_arg_lower
+
+    def index_matches(bm, selection_arg, bookmarks):
+        return selection_arg.isdigit() and bookmarks.index(bm) == int(selection_arg)
+
+    def name_starts_with(bm, selection_arg_lower):
+        return bm['name'].lower().startswith(selection_arg_lower)
+
+    def name_contains(bm, selection_arg_lower):
+        return selection_arg_lower in bm['name'].lower()
+
+    def bookmark_matches(bm, selection_arg, selection_arg_lower, bookmarks):
+        return (name_matches_exactly(bm, selection_arg_lower) or
+                index_matches(bm, selection_arg, bookmarks) or
+                name_starts_with(bm, selection_arg_lower) or
+                name_contains(bm, selection_arg_lower))
+
+    return next((bm for bm in bookmarks if bookmark_matches(bm, selection_arg, selection_arg_lower, bookmarks)), None)
 
 def main():
     store = read_store()
