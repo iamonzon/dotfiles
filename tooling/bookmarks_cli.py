@@ -109,7 +109,7 @@ def handle_select_or_list(store, selection_arg=None):
     bookmarks = store['bookmarks']
     selected = find_selected_bookmark(bookmarks, selection_arg)
     if selected:
-        print(f"cd {selected['path']}")
+        print(f"cd \"{selected['path']}\"")
         return set_last_selected(store, selected['path'])
     else:
         print('Invalid selection ❌.')
