@@ -74,7 +74,10 @@ alias previewcamera='ffmpeg -f avfoundation -framerate 30 -i "0" -f matroska - |
 alias recscreen='ffmpeg -f avfoundation -i "1" "$(date +"%Y%m%d%H%M.mkv")"'
 alias reccamera='ffmpeg -f avfoundation -i "0" "$(date +"%Y%m%d%H%M.mkv")"'
 
-
 function mkcd {
   command mkdir $1 && cd $1
+}
+
+function readallcsv {
+  command find . -name "*.csv" -print0 | xargs -0 -I {} sh -c 'echo "=== {} ==="; csvlook "{}" | less -S'
 }
