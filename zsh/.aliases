@@ -66,13 +66,6 @@ alias dot="cd ~/.dotfiles/"
 #Tools
 alias spotify="nohup spotify >/dev/null 2>&1 &"
 alias obsidian='open -a "Obsidian"'
- 
-#Recording
-alias listdevices='ffmpeg -f avfoundation -list_devices true -i ""'
-alias previewscreen='ffmpeg -f avfoundation -framerate 30 -i "1" -f matroska - | ffplay -'
-alias previewcamera='ffmpeg -f avfoundation -framerate 30 -i "0" -f matroska - | ffplay -'
-alias recscreen='ffmpeg -f avfoundation -i "1" "$(date +"%Y%m%d%H%M.mkv")"'
-alias reccamera='ffmpeg -f avfoundation -i "0" "$(date +"%Y%m%d%H%M.mkv")"'
 
 function mkcd {
   command mkdir $1 && cd $1
@@ -81,3 +74,25 @@ function mkcd {
 function readallcsv {
   command find . -name "*.csv" -print0 | xargs -0 -I {} sh -c 'echo "=== {} ==="; csvlook "{}" | less -S'
 }
+
+#Recording
+multi_alias() {
+    # Usage: multi_alias "echo something" ss yyy zzz
+    cmd="$1"
+    shift
+    for name in "$@"; do
+        alias "$name"="$cmd"
+    done
+}
+
+multi_alias 'ffmpeg -f avfoundation -framerate 30 -i "1" -f matroska - | ffplay -' \
+  previewscreen screenprev screenpreview prevscreen
+multi_alias 'ffmpeg -f avfoundation -framerate 30 -i "0" -f matroska - | ffplay -' \
+  previewcamera cameraprev camerapreview prevcamera
+multi_alias 'ffmpeg -f avfoundation -i "1" "$(date +"%Y%m%d%H%M.mkv")"' \
+  recscreen screenrec screenrecording
+multi_alias 'ffmpeg -f avfoundation -i "0" "$(date +"%Y%m%d%H%M.mkv")"' \
+  reccamera camrec camerarecording
+multi_alias 'ffmpeg -f avfoundation -list_devices true -i ""' \
+  listdevices lsdevices
+
