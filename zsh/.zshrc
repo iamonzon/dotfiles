@@ -51,7 +51,6 @@ enable_powerlevel10k(){
 export TERM="xterm-256color"
 export DOTFILES_PATH=~/.dotfiles
 export ZSH_SRC_PATH=$DOTFILES_PATH/zsh
-export PATH="~/.zshrc:$PATH"
 
 load_config_files() {
   local zsh_configs="$ZSH_SRC_PATH/configs/zsh"

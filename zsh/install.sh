@@ -63,12 +63,22 @@ install_powerlevel10k(){
         if $DRY_RUN; then
             echo "Would install Powerlevel10k theme"
         else
-            #TODO: test if works only with brew install.
-            # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-            brew install powerlevel10k
-            echo "starting p10k configure"
-            p10k configure
+            if command -v brew >/dev/null 2>&1; then
+                brew install powerlevel10k
+            else
+                git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+            fi
         fi
+    fi
+}
+
+install_dependencies() {
+    if command -v apt-get >/dev/null 2>&1; then
+        sudo apt-get install -y fzf ripgrep
+    elif command -v brew >/dev/null 2>&1; then
+        brew install fzf ripgrep
+    elif command -v dnf >/dev/null 2>&1; then
+        sudo dnf install -y fzf ripgrep
     fi
 }
 
@@ -78,6 +88,7 @@ run(){
     install_files
     install_oh_my_zsh
     install_powerlevel10k
+    install_dependencies
     echo "Dotfiles installation complete!"
     if $DRY_RUN; then
         echo "Dry run completed. Check $EXPECTED_HOME for expected changes."
