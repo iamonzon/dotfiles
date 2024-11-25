@@ -40,6 +40,7 @@ enable_p10k_theme(){
         echo "Error: Powerlevel10k theme not found in either path."
         return 1
     fi
+    ZSH_THEME="powerlevel10k/powerlevel10k"
 }
 enable_powerlevel10k(){
     echo "Enabling Powerlevel10k"
