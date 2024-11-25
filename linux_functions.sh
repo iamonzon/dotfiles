@@ -33,12 +33,12 @@ install_if_missing() {
     fi
 }
 
-function linux_installation {
+function linux_installation() {
     # Check if we're on a Debian-based system
     if ! command -v apt >/dev/null 2>&1; then
         log_error "This script requires apt package manager"
         return 1
-    }
+    fi
 
     log_info "Updating package lists..."
     sudo apt update || {
@@ -88,7 +88,7 @@ function linux_installation {
     # ZSH setup
     if [ "$SHELL" != "$(which zsh)" ]; then
         log_info "Setting ZSH as default shell..."
-        chsh -s "$(which zsh)" || {
+        sudo chsh -s "$(which zsh)" "$USER" || {
             log_error "Failed to set ZSH as default shell"
             return 1
         }
