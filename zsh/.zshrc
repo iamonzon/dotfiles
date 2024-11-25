@@ -82,3 +82,6 @@ run(){
 
 # Main execution
 run
+
+# Add this line if not present
+ZSH_THEME="powerlevel10k/powerlevel10k"

@@ -33,6 +33,43 @@ install_if_missing() {
     fi
 }
 
+function setup_zsh_config() {
+    local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+    
+    # Install Powerlevel10k theme properly
+    if [ ! -d "$zsh_custom/themes/powerlevel10k" ]; then
+        log_info "Installing Powerlevel10k theme..."
+        git clone https://github.com/romkatv/powerlevel10k.git "$zsh_custom/themes/powerlevel10k" || {
+            log_error "Failed to install Powerlevel10k"
+            return 1
+        }
+    fi
+
+    # Link ZSH configurations
+    log_info "Setting up ZSH configuration files..."
+    ln -sf "$DOTFILES_PATH/zsh/.zshrc" "$HOME/.zshrc"
+    ln -sf "$DOTFILES_PATH/zsh/.zshenv" "$HOME/.zshenv"
+    ln -sf "$DOTFILES_PATH/zsh/.aliases" "$HOME/.aliases"
+}
+
+function setup_neovim_config() {
+    log_info "Setting up Neovim configuration..."
+    mkdir -p "$HOME/.config/nvim"
+    mkdir -p "$HOME/.vim"
+
+    # Setup Vim configuration
+    ln -sf "$DOTFILES_PATH/vim/.vimrc" "$HOME/.vimrc"
+    ln -sf "$DOTFILES_PATH/vim/.vim" "$HOME/.vim"
+
+    # Setup Neovim configuration
+    ln -sf "$HOME/.vim" "$HOME/.config/nvim"
+    ln -sf "$HOME/.vimrc" "$HOME/.config/nvim/init.vim"
+    
+    # Setup Lua configuration
+    mkdir -p "$HOME/.config/nvim/lua"
+    ln -sf "$DOTFILES_PATH/lua" "$HOME/.config/nvim/lua"
+}
+
 function linux_installation() {
     # Check if we're on a Debian-based system
     if ! command -v apt >/dev/null 2>&1; then
@@ -46,44 +83,31 @@ function linux_installation() {
         return 1
     }
 
-    # Git installation and configuration
-    if ! check_command git; then
-        log_info "Installing Git..."
-        install_if_missing git
-        git config --global color.ui true
-        git config --global push.default simple
-    else
-        log_info "Git is already installed"
+    # First, clone dotfiles repository
+    DOTFILES_PATH="$HOME/.dotfiles"
+    if [ ! -d "$DOTFILES_PATH" ]; then
+        log_info "Cloning dotfiles repository..."
+        git clone https://github.com/ivanlp10n2/dotfiles "$DOTFILES_PATH" || {
+            log_error "Failed to clone dotfiles repository"
+            return 1
+        }
     fi
 
-    # Applications installation
-    log_info "Installing applications..."
-    applications=(
-        git-cola
-        nvim
-    )
-
-    for app in "${applications[@]}"; do
-        install_if_missing "$app"
-    done
-
-    # Shell apps installation
-    log_info "Installing shell applications..."
-    shell=(
-        tilix
-        zsh
+    # Install basic dependencies
+    log_info "Installing basic dependencies..."
+    dependencies=(
+        git
         curl
+        zsh
+        tilix
+        neovim
+        git-cola
+        autojump
     )
 
-    for app in "${shell[@]}"; do
-        install_if_missing "$app"
+    for dep in "${dependencies[@]}"; do
+        install_if_missing "$dep"
     done
-
-    # Tilix compatibility setup
-    if [ -f "/etc/profile.d/vte-2.91.sh" ] && [ ! -f "/etc/profile.d/vte.sh" ]; then
-        log_info "Setting up Tilix compatibility..."
-        sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
-    fi
 
     # ZSH setup
     if [ "$SHELL" != "$(which zsh)" ]; then
@@ -94,9 +118,12 @@ function linux_installation() {
         }
     fi
 
-    # Oh My Zsh installation
+    # Oh My Zsh installation (with backup of existing .zshrc)
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
         log_info "Installing Oh My Zsh..."
+        # Backup existing zsh config if it exists
+        [ -f "$HOME/.zshrc" ] && mv "$HOME/.zshrc" "$HOME/.zshrc.pre-oh-my-zsh"
+        
         sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended || {
             log_error "Failed to install Oh My Zsh"
             return 1
@@ -115,39 +142,23 @@ function linux_installation() {
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$plugins_dir/zsh-syntax-highlighting"
     fi
 
-    install_if_missing autojump
+    # Setup ZSH configuration (including powerlevel10k)
+    setup_zsh_config || {
+        log_error "Failed to setup ZSH configuration"
+        return 1
+    }
 
-    # Powerlevel10k theme installation
-    if [ ! -d "$HOME/powerlevel10k" ]; then
-        log_info "Installing Powerlevel10k theme..."
-        git clone https://github.com/romkatv/powerlevel10k.git "$HOME/powerlevel10k" || {
-            log_error "Failed to install Powerlevel10k"
-            return 1
-        }
-    fi
-
-    # Dotfiles setup
-    DOTFILES_PATH="$HOME/.dotfiles"
-    if [ ! -d "$DOTFILES_PATH" ]; then
-        log_info "Cloning dotfiles repository..."
-        git clone https://github.com/ivanlp10n2/dotfiles "$DOTFILES_PATH" || {
-            log_error "Failed to clone dotfiles repository"
-            return 1
-        }
+    # Verify Neovim configuration files exist
+    if [ ! -f "$DOTFILES_PATH/vim/.vimrc" ]; then
+        log_error "Vim configuration file not found in dotfiles"
+        return 1
     fi
 
-    # Neovim configuration
-    log_info "Setting up Neovim configuration..."
-    mkdir -p "$HOME/.config"
-    
-    # Only create symlinks if they don't exist or point to different locations
-    if [ ! -L "$HOME/.config/nvim" ] || [ "$(readlink "$HOME/.config/nvim")" != "$HOME/.vim" ]; then
-        ln -sf "$HOME/.vim" "$HOME/.config/nvim"
-    fi
-    
-    if [ ! -L "$HOME/.config/nvim/init.vim" ] || [ "$(readlink "$HOME/.config/nvim/init.vim")" != "$HOME/.vimrc" ]; then
-        ln -sf "$HOME/.vimrc" "$HOME/.config/nvim/init.vim"
-    fi
+    # Setup Neovim configuration
+    setup_neovim_config || {
+        log_error "Failed to setup Neovim configuration"
+        return 1
+    }
 
     # Create project directories
     log_info "Creating project directories..."
@@ -155,5 +166,7 @@ function linux_installation() {
     mkdir -p "$HOME/Work"
 
     log_info "Linux installation completed successfully"
+    log_info "Please log out and log back in for ZSH changes to take effect"
+    log_info "After logging back in, run 'p10k configure' to setup your Powerlevel10k theme"
 }
 
