@@ -8,10 +8,22 @@ DISABLE_UNTRACKED_FILES_DIRTY=true
 plugins=(
   zsh-autosuggestions
   git
-  docker
-  docker-compose
   zsh-syntax-highlighting
-  dnf
-  npm
-  virtualenv
 )
+
+# OS-specific plugins
+if command -v docker >/dev/null 2>&1; then
+    plugins+=(docker docker-compose)
+fi
+
+if command -v dnf >/dev/null 2>&1; then
+    plugins+=(dnf)
+fi
+
+if command -v npm >/dev/null 2>&1; then
+    plugins+=(npm)
+fi
+
+if command -v python >/dev/null 2>&1; then
+    plugins+=(virtualenv)
+fi

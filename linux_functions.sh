@@ -11,8 +11,6 @@ function linux_installation {
   echo =========== Installing applications  =========== 
   applications=(
     git-cola
-    vim
-    vim-gnome
     nvim
   )
 
