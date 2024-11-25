@@ -40,12 +40,14 @@ install_files(){
     local local_zshenv="$HOME/.zshenv"
     local local_aliases="$HOME/.aliases"
     
-    rm -f $local_zsh
-    rm -f $local_zshenv
-    rm -f $local_aliases   
-    ln -sf "$DOTFILES_ZSH_PATH/.zshrc" $local_zsh
-    ln -sf "$DOTFILES_ZSH_PATH/.zshenv" $local_zshenv
-    ln -sf "$DOTFILES_ZSH_PATH/.aliases" $local_aliases
+    if [ ! -L "$HOME/.zshrc" ] || [ "$(readlink "$HOME/.zshrc")" != "$DOTFILES_ZSH_PATH/.zshrc" ]; then
+        rm -f $local_zsh
+        rm -f $local_zshenv
+        rm -f $local_aliases   
+        ln -sf "$DOTFILES_ZSH_PATH/.zshrc" $local_zsh
+        ln -sf "$DOTFILES_ZSH_PATH/.zshenv" $local_zshenv
+        ln -sf "$DOTFILES_ZSH_PATH/.aliases" $local_aliases
+    fi
 }
 
 install_oh_my_zsh(){
