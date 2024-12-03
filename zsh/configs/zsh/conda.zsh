@@ -5,7 +5,7 @@ else
     if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
         . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
     else
-        export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
+        # export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
     fi
 fi
 unset __conda_setup

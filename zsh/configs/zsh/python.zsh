@@ -1,1 +1,4 @@
-alias python3=python3.10
+# Add these lines to your shell config
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

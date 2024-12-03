@@ -67,6 +67,7 @@ load_config_files() {
       "$zsh_configs/python.zsh"
       "$zsh_configs/nvm.zsh"
       "$zsh_configs/sdkman.zsh"
+      "$zsh_configs/android.zsh"
       #"$DOTFILES_PATH/tilix/.tilix"
   )
 
