@@ -21,8 +21,11 @@ alias vim="nvim"
 # list aliases
 alias ls="ls --color=auto"
 alias lf="ls -AhF"
-alias ll="ls -AghF"
 alias ld="ls -dghF .*/ */"
+lt() {
+    local level=${1:-1}  # Use the first argument if provided, default to 1 if not
+    tree -L $level
+}
 
 # git shortcuts
 alias ga="git add"
