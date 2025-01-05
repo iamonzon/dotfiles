@@ -17,26 +17,6 @@ function create_backup_folder() {
     mkdir -p $BACKUP_FOLDER
 }
 
-function move_to_dotfiles_quietly() {
-    local from_path=$1
-    local to_path_in_dotfiles=$DOTFILES_PATH$2
-    mv -f $from_path $to_path_in_dotfiles 2>/dev/null
-}
-
-function copy_from_dotfiles_quietly() {
-    local from_path_in_dotfiles=$DOTFILES_PATH$1
-    local to_path=$2
-    cp -f $from_path_in_dotfiles $to_path 2>/dev/null
-}
-
-# Config update functions
-function update_vim_configs() {
-    move_to_dotfiles_quietly ~/.vimrc /vim/
-    move_to_dotfiles_quietly ~/.ideavimrc /vim/
-    copy_from_dotfiles_quietly /vim/.vimrc ~/.vimrc
-    copy_from_dotfiles_quietly /vim/.ideavimrc ~/.ideavimrc
-}
-
 function update_zsh_configs() {
     mv -f ~/.zshrc "$BACKUP_FOLDER"/.zshrc 2>/dev/null
     mv -f ~/.zsh_custom_cfg $BACKUP_FOLDER/ 2>/dev/null
