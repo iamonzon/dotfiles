@@ -1,29 +1,50 @@
 # dotfiles
-### an attempt to sync my cfgs 
 
-Run 'install.sh' to apply all the config
+Two configuration approaches: **Local** (traditional symlinks) and **Nix** (experimental, goal: single source of truth).
 
-> 'install.sh' runs 'update_local_functions.update_configs()' at the end of installation.
+## Quick Start
 
+| Approach | Command | Status |
+|----------|---------|--------|
+| Local | `./install.sh` | Stable |
+| Nix | `./nix-migration/bootstrap.sh` | Experimental |
 
-## Troubleshooting
-```
-if zsh is not correctly instaled, follow the steps:
-    - git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-    - echo 'source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+## Repository Structure
 
--  add packer config 
-        git clone --depth 1 https://github.com/wbthomason/packer.nvim\ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+### Local Config
 
-```
+| Directory | Purpose | Target |
+|-----------|---------|--------|
+| `zsh/` | Shell config (.zshrc, .aliases) | `~/.zshrc`, `~/.aliases` |
+| `lazy-vim/` | Neovim (LazyVim) | `~/.config/nvim` |
+| `intellij/` | IntelliJ settings exports | Manual import |
+| `vscode/` | VS Code profiles | Manual import |
+| `iterm/` | iTerm2 preferences | Manual import |
+| `tilix/` | Tilix terminal (Linux) | Manual import |
+| `tooling/` | Custom tools (bookmarks CLI) | - |
 
-## Commands to link things
-```
-ln -sf ~/.dotfiles/vim/.vim ~/.dotfiles/nvim
-ln -sf ~/.dotfiles/vim/.vimrc ~/.dotfiles/nvim/init.vim
-ln -sf ~/.dotfiles/lua ~/.dotfiles/nvim/lua
+| File | Purpose |
+|------|---------|
+| `install.sh` | Main installer (runs `update_local_functions.sh`) |
+| `macos_functions.sh` | macOS-specific shell functions |
+| `linux_functions.sh` | Linux-specific shell functions |
 
-ln -sf ~/.dotfiles/vim/.vimrc ~/.vimrc
-ln -sf ~/.dotfiles/vim/.vimrc ~/.ideavimrc
-ln -sf ~/.dotfiles/nvim ~/.config/nvim
+### Nix Config
+
+| File | Purpose |
+|------|---------|
+| `nix-migration/home.nix` | Home Manager configuration |
+| `nix-migration/bootstrap.sh` | Nix setup script |
+| `nix-migration/MIGRATION_PLAN.md` | Transition roadmap |
+| `nix-migration/ARCHITECTURE_VISION.md` | End-state design |
+
+## Symlink Reference
+
+```sh
+# Neovim
+ln -sf ~/.dotfiles/lazy-vim ~/.config/nvim
+
+# Zsh
+ln -sf ~/.dotfiles/zsh/.zshrc ~/.zshrc
+ln -sf ~/.dotfiles/zsh/.aliases ~/.aliases
 ```
