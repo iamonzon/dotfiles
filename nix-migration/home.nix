@@ -56,7 +56,7 @@
     # Other tools
     csvkit
     cloudflared
-    gnu-sed
+    gnused
   ];
 
   # ============================================
@@ -122,7 +122,7 @@
       timestamp = "date +%s";
     };
 
-    initExtra = ''
+    initContent = ''
       # Custom functions
       mkcd() { mkdir -p "$1" && cd "$1"; }
       lt() { tree -L ''${1:-1}; }
@@ -182,7 +182,7 @@
     # userName = "Ivan";
     # userEmail = "your@email.com";
 
-    extraConfig = {
+    settings = {
       color.ui = true;
       push.default = "simple";
       init.defaultBranch = "main";
