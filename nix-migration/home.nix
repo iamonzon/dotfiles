@@ -4,7 +4,7 @@
 # Apply with: home-manager switch
 # Rollback with: home-manager switch --rollback
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.username = "ivan";
@@ -43,6 +43,7 @@
     # Development
     neovim
     neovide       # Neovim GUI
+    nodejs
 
     # Media
     ffmpeg
@@ -67,6 +68,9 @@
     enable = true;
 
     shellAliases = {
+      # Make aliases sudo-able
+      sudo = "sudo ";
+
       # Delete directories
       rmd = "rm -rf";
       cls = "clear";
@@ -104,6 +108,13 @@
       gfh = "git flow hotfix";
       gfr = "git flow release";
 
+      # Git bisect
+      gbg = "git bisect good";
+      gbb = "git bisect bad";
+
+      # Grep with color
+      grep = "grep --color=auto";
+
       # Useful lists
       lsg = "git status";
       lsd = "docker ps";
@@ -122,22 +133,51 @@
       timestamp = "date +%s";
     };
 
-    initContent = ''
-      # Custom functions
-      mkcd() { mkdir -p "$1" && cd "$1"; }
-      lt() { tree -L ''${1:-1}; }
+    # Powerlevel10k
+    plugins = [
+      {
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+      {
+        name = "zsh-syntax-highlighting";
+        src = pkgs.zsh-syntax-highlighting;
+        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+      }
+      {
+        name = "zsh-autosuggestions";
+        src = pkgs.zsh-autosuggestions;
+        file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+      }
+    ];
 
-      # Export paths
-      export TERM="xterm-256color"
-      export DOTFILES_PATH=~/.dotfiles
+    initContent = lib.mkMerge [
+      (lib.mkBefore ''
+        # Enable Powerlevel10k instant prompt (must be at top)
+        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+        fi
+      '')
+      ''
+        # Custom functions
+        mkcd() { mkdir -p "$1" && cd "$1"; }
+        lt() { tree -L ''${1:-1}; }
+        chpwd() { ls --color=auto -AhF; }  # Auto-ls on directory change
 
-      # Keep existing configs working during migration
-      # Remove this block once fully migrated
-      if [[ -f "$DOTFILES_PATH/zsh/configs/zsh/env.zsh" ]]; then
-        source "$DOTFILES_PATH/zsh/configs/zsh/env.zsh"
-      fi
-    '';
+        # Export paths
+        export TERM="xterm-256color"
+        export DOTFILES_PATH=~/.dotfiles
 
+        # Keep existing configs working during migration
+        if [[ -f "$DOTFILES_PATH/zsh/configs/zsh/env.zsh" ]]; then
+          source "$DOTFILES_PATH/zsh/configs/zsh/env.zsh"
+        fi
+        
+        # Load p10k config
+        [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+      ''
+    ];
     oh-my-zsh = {
       enable = true;
       plugins = [
@@ -148,19 +188,6 @@
       # Theme handled by powerlevel10k below
     };
 
-    # Powerlevel10k
-    plugins = [
-      {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      }
-    ];
-  };
-
-  # Source p10k config if it exists
-  home.file.".p10k.zsh" = {
-    source = config.lib.file.mkOutOfStoreSymlink "/Users/ivan/.p10k.zsh";
   };
 
   # ============================================
@@ -207,7 +234,13 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
+    NPM_CONFIG_PREFIX = "$HOME/.npm-global";
+
   };
+
+  home.sessionPath = [
+    "$HOME/.npm-global/bin"
+  ];
 
   # ============================================
   # DIRECTORIES
@@ -215,4 +248,7 @@
 
   home.file."Personal/Projects/.keep".text = "";
   home.file."Work/Projects/.keep".text = "";
+
+  # Powerlevel10k config (shows only current folder name in prompt)
+  home.file.".p10k.zsh".source = ./p10k.zsh;
 }
