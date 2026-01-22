@@ -14,11 +14,12 @@
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
 
-      # Yazi config directory with Tokyo Night theme
+      # Yazi config directory with Tokyo Night flavor
       yaziConfigDir = pkgs.runCommand "yazi-tokyo-night-config" {} ''
-        mkdir -p $out
+        mkdir -p $out/flavors/tokyo-night.yazi
         cp ${./experiments/yazi/yazi.toml} $out/yazi.toml
         cp ${./experiments/yazi/theme.toml} $out/theme.toml
+        cp ${./experiments/yazi/flavors/tokyo-night.yazi/flavor.toml} $out/flavors/tokyo-night.yazi/flavor.toml
       '';
 
       # Wrapper script that runs yazi with custom config
