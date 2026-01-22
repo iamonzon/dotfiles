@@ -1,17 +1,64 @@
 # dotfiles
 
-Two configuration approaches: **Local** (traditional symlinks) and **Nix** (experimental, goal: single source of truth).
+Two configuration approaches: **Local** (traditional symlinks) and **Nix** (flake-based home-manager).
 
 ## Quick Start
 
 | Approach | Command | Status |
 |----------|---------|--------|
 | Local | `./install.sh` | Stable |
-| Nix | `./nix-migration/bootstrap.sh` | Experimental |
+| Nix | `home-manager switch --flake ~/.dotfiles/nix#ivan` | Active |
 
-## Repository Structure
+## Nix Configuration
 
-### Local Config
+Flake-based home-manager setup in `nix/`:
+
+```
+nix/
+├── flake.nix           # Entry point (nixpkgs + home-manager inputs)
+├── flake.lock          # Pinned dependency versions
+├── home/
+│   ├── default.nix     # Main config, imports modules
+│   ├── shell.nix       # zsh, fzf, aliases, powerlevel10k
+│   ├── git.nix         # git, gh
+│   ├── dev-tools.nix   # bat, ripgrep, fd, jq, htop, etc.
+│   ├── editors.nix     # neovim, neovide, yazi
+│   ├── media.nix       # ffmpeg, yt-dlp, imagemagick, sox
+│   └── pdf.nix         # sioyek with vim bindings
+├── hosts/
+│   └── macbook.nix     # Darwin-specific paths
+└── files/
+    └── p10k.zsh        # Powerlevel10k config
+```
+
+### Usage
+
+```bash
+# Apply configuration
+home-manager switch --flake ~/.dotfiles/nix#ivan
+
+# Preview changes without applying
+home-manager switch --flake ~/.dotfiles/nix#ivan --dry-run
+
+# Roll back to previous generation
+home-manager switch --rollback
+
+# List all generations
+home-manager generations
+```
+
+### Adding Packages
+
+Edit the relevant module in `nix/home/`:
+- Shell tools → `dev-tools.nix`
+- Media tools → `media.nix`
+- Editors → `editors.nix`
+
+Then apply with `home-manager switch --flake ~/.dotfiles/nix#ivan`.
+
+## Local Configuration (Legacy)
+
+Traditional symlink-based configs:
 
 | Directory | Purpose | Target |
 |-----------|---------|--------|
@@ -23,28 +70,10 @@ Two configuration approaches: **Local** (traditional symlinks) and **Nix** (expe
 | `tilix/` | Tilix terminal (Linux) | Manual import |
 | `tooling/` | Custom tools (bookmarks CLI) | - |
 
-| File | Purpose |
-|------|---------|
-| `install.sh` | Main installer (runs `update_local_functions.sh`) |
-| `macos_functions.sh` | macOS-specific shell functions |
-| `linux_functions.sh` | Linux-specific shell functions |
+### Symlink Reference
 
-### Nix Config
-
-| File | Purpose |
-|------|---------|
-| `nix-migration/home.nix` | Home Manager configuration |
-| `nix-migration/bootstrap.sh` | Nix setup script |
-| `nix-migration/MIGRATION_PLAN.md` | Transition roadmap |
-| `nix-migration/ARCHITECTURE_VISION.md` | End-state design |
-
-## Symlink Reference
-
-```sh
-# Neovim
+```bash
 ln -sf ~/.dotfiles/lazy-vim ~/.config/nvim
-
-# Zsh
 ln -sf ~/.dotfiles/zsh/.zshrc ~/.zshrc
 ln -sf ~/.dotfiles/zsh/.aliases ~/.aliases
 ```
