@@ -104,6 +104,7 @@
 
         # Export paths
         export TERM="xterm-256color"
+        export COLORTERM="truecolor"
         export DOTFILES_PATH=~/.dotfiles
 
         # Keep existing configs working during migration
