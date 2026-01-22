@@ -1,4 +1,4 @@
-# Use Tokyo Night flavor
+# Available flavors: dracula, gruvbox-dark, tokyo-night, catppuccin-mocha
 [flavor]
-dark = "tokyo-night"
-light = "tokyo-night"
+dark = "dracula"
+light = "dracula"

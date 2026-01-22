@@ -14,17 +14,18 @@
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
 
-      # Yazi config directory with Tokyo Night flavor
-      yaziConfigDir = pkgs.runCommand "yazi-tokyo-night-config" {} ''
-        mkdir -p $out/flavors/tokyo-night.yazi
+      # Yazi config directory with flavors
+      yaziConfigDir = pkgs.runCommand "yazi-config" {} ''
+        mkdir -p $out/flavors
         cp ${./experiments/yazi/yazi.toml} $out/yazi.toml
         cp ${./experiments/yazi/theme.toml} $out/theme.toml
-        cp ${./experiments/yazi/flavors/tokyo-night.yazi/flavor.toml} $out/flavors/tokyo-night.yazi/flavor.toml
+        cp -r ${./experiments/yazi/flavors}/* $out/flavors/
       '';
 
       # Wrapper script that runs yazi with custom config
       yaziTest = pkgs.writeShellScriptBin "yazi-test" ''
         export YAZI_CONFIG_HOME=${yaziConfigDir}
+        export COLORTERM=truecolor
         exec ${pkgs.yazi}/bin/yazi "$@"
       '';
     in
