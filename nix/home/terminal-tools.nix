@@ -12,7 +12,13 @@
   programs.bat = {
     enable = true;
     config = {
-      theme = "TwoDark";
+      theme = "Catppuccin Mocha";
+    };
+    themes = {
+      "Catppuccin Mocha" = {
+        src = ../files/yazi/flavors/catppuccin-mocha.yazi;
+        file = "tmtheme.xml";
+      };
     };
   };
 }
