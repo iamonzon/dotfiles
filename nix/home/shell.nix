@@ -4,6 +4,13 @@
   programs.zsh = {
     enable = true;
 
+    # Nix daemon sourcing - survives macOS major upgrades (unlike /etc/zshrc)
+    profileExtra = ''
+      if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
+        . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+      fi
+    '';
+
     shellAliases = {
       # Make aliases sudo-able
       sudo = "sudo ";
@@ -15,6 +22,13 @@
       b = "bat";
       g = "git";
       t = "tree";
+      c = "claude";
+
+      # Claude dangerous mode
+      cdsp = "claude --dangerously-skip-permissions";
+
+      # Home Manager
+      hms = "home-manager switch --flake ~/.dotfiles/nix#ivan";
 
       # Delete directories
       rmd = "rm -rf";
