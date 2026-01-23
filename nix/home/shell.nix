@@ -4,11 +4,22 @@
   programs.zsh = {
     enable = true;
 
-    # Nix daemon sourcing - survives macOS major upgrades (unlike /etc/zshrc)
+    # .zprofile content - survives macOS major upgrades (unlike /etc/zshrc)
     profileExtra = ''
+      # Nix daemon
       if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
         . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
       fi
+
+      # Homebrew
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+
+      # Python 3.10
+      PATH="/Library/Frameworks/Python.framework/Versions/3.10/bin:''${PATH}"
+      export PATH
+
+      # Coursier
+      export PATH="$PATH:/Users/ivan/Library/Application Support/Coursier/bin"
     '';
 
     shellAliases = {
@@ -55,7 +66,7 @@
       gco = "git checkout";
       gp = "git push";
       gpm = "git push origin master";
-      gl = "git pull";
+      gl = "git log";
       gt = "git tag";
       gm = "git merge";
       glog = "git log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
