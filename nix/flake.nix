@@ -22,10 +22,21 @@
         cp -r ${./experiments/yazi/flavors}/* $out/flavors/
       '';
 
+      # Preview tools for yazi
+      previewTools = with pkgs; [
+        file              # mime type detection
+        ffmpegthumbnailer # video thumbnails
+        poppler-utils     # PDF previews (pdftoppm)
+        imagemagick       # image processing
+      ];
+
+      previewPath = pkgs.lib.makeBinPath previewTools;
+
       # Wrapper script that runs yazi with custom config
       yaziTest = pkgs.writeShellScriptBin "yazi-test" ''
         export YAZI_CONFIG_HOME=${yaziConfigDir}
         export COLORTERM=truecolor
+        export PATH="${previewPath}:$PATH"
         exec ${pkgs.yazi}/bin/yazi "$@"
       '';
     in
