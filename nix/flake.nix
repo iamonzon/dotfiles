@@ -39,6 +39,7 @@
         export PATH="${previewPath}:$PATH"
         exec ${pkgs.yazi}/bin/yazi "$@"
       '';
+
     in
     {
       homeConfigurations = {

@@ -6,6 +6,7 @@
     ./version-control.nix
     ./text-editor.nix
     ./file-manager.nix
+    ./terminal.nix
     ./terminal-tools.nix
     ./system-monitor.nix
     ./data-tools.nix
