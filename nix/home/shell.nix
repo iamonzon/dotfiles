@@ -8,6 +8,14 @@
       # Make aliases sudo-able
       sudo = "sudo ";
 
+      # Quick shortcuts
+      y = "yazi";
+      v = "nvim";
+      d = "docker";
+      b = "bat";
+      g = "git";
+      t = "tree";
+
       # Delete directories
       rmd = "rm -rf";
       cls = "clear";
