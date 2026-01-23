@@ -2,9 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    ffmpeg
-    imagemagick
-    yt-dlp
-    sox
+    nodejs
   ];
 }

@@ -3,11 +3,16 @@
 {
   imports = [
     ./shell.nix
-    ./git.nix
-    ./dev-tools.nix
-    ./editors.nix
-    ./media.nix
-    ./pdf.nix
+    ./version-control.nix
+    ./text-editor.nix
+    ./file-manager.nix
+    ./terminal-tools.nix
+    ./system-monitor.nix
+    ./data-tools.nix
+    ./dev-runtime.nix
+    ./network-tools.nix
+    ./media-processing.nix
+    ./document-viewer.nix
   ];
 
   home.username = "ivan";
