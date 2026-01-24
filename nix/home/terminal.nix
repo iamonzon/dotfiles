@@ -62,6 +62,12 @@
       color15 = "#bac2de";
     };
     keybindings = {
+      # Scrolling (vim-style)
+      "alt+u" = "scroll_page_up";
+      "alt+d" = "scroll_page_down";
+      "ctrl+k" = "scroll_line_up";
+      "ctrl+j" = "scroll_line_down";
+
       # Pane navigation (Alt+h/j/k/l)
       "alt+h" = "neighboring_window left";
       "alt+j" = "neighboring_window bottom";
