@@ -97,16 +97,22 @@
     };
   };
 
-  # Zellij terminal multiplexer
-  programs.zellij = {
+  # Tmux terminal multiplexer
+  programs.tmux = {
     enable = true;
-    settings = {
-      simplified_ui = false;
-      copy_on_select = true;
-      pane_frames = false;
-      theme = "catppuccin-mocha";
-      session_serialization = true;
-      scroll_buffer_size = 10000;
-    };
+    mouse = true;
+    keyMode = "vi";
+    baseIndex = 1;
+    escapeTime = 0;
+    historyLimit = 10000;
+    terminal = "tmux-256color";
+    plugins = with pkgs.tmuxPlugins; [
+      catppuccin
+      sensible
+    ];
+    extraConfig = ''
+      # True color support
+      set -ag terminal-overrides ",xterm-256color:RGB"
+    '';
   };
 }
