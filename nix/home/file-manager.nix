@@ -25,11 +25,29 @@
     };
     keymap = {
       mgr.prepend_keymap = [
-        { on = [ "<C-d>" ]; run = "seek 20"; desc = "Preview page down"; }
-        { on = [ "<C-u>" ]; run = "seek -20"; desc = "Preview page up"; }
-        { on = [ "<C-j>" ]; run = "seek 1"; desc = "Preview scroll down"; }
-        { on = [ "<C-k>" ]; run = "seek -1"; desc = "Preview scroll up"; }
+        { run = "cd ~/.dotfiles/"; on = ["d" "o"]; desc = "Go to dotfiles";}
+        { run = "cd ~/Work/Projects/"; on = ["w" "p"]; desc = "Go to work Projects";}
+        { run = "cd ~/Personal/Projects/"; on = ["p" "p"]; desc = "Go to personal Projects";}
+        { run = "tab_switch 1 --relative"; on = [ "J" ]; }
+        { run = "tab_switch -1 --relative"; on = [ "K" ]; }
+        { run = "close"; on = [ "x" ]; }
+        { run = "cd --interactive"; on = [ "c" "d" ]; desc = "Change directory interactive"; }
+        { run = "seek 20"; on = [ "<C-d>" ]; desc = "Preview page down"; }
+        { run = "seek -20"; on = [ "<C-u>" ]; desc = "Preview page up"; }
+        { run = "seek 1"; on = [ "<C-j>" ]; desc = "Preview scroll down"; }
+        { run = "seek -1"; on = [ "<C-k>" ]; desc = "Preview scroll up"; }
       ];
+    };
+    yaziPlugins = {
+      enable = true;
+      plugins = {
+        relative-motions = {
+          enable = true;
+          show_numbers = "relative_absolute";
+          show_motion = true;
+        };
+        starship.enable = true;
+      };
     };
   };
 
