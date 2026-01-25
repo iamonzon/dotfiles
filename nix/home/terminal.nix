@@ -60,6 +60,11 @@
       color13 = "#f2aede";
       color14 = "#6bd7ca";
       color15 = "#bac2de";
+
+      # Inactive pane styling
+      inactive_text_alpha = "0.3";
+      active_border_color = "#89b4fa";
+      inactive_border_color = "#45475a";
     };
     keybindings = {
       # Scrolling (vim-style)
