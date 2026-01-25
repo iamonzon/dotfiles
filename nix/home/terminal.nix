@@ -12,6 +12,7 @@
   # Kitty terminal emulator
   programs.kitty = {
     enable = true;
+    shellIntegration.enableZshIntegration = false;  # We handle this manually to avoid tmux issues
     font = {
       name = "0xProto Nerd Font Mono";
       size = 22.0;
