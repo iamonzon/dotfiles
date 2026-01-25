@@ -55,8 +55,13 @@
       vi = "nvim";
       vim = "nvim";
 
-      # List
-      lf = "ls -AhF";
+      # List (lsd with icons)
+      ls = "lsd";
+      l = "lsd -a --blocks date,size,name --date '+%Y%m%d-%H:%M'";
+      la = "lsd -a";
+      ll = "lsd -la";  # Full info
+      lf = "lsd -aF";
+      lt = "lsd --tree --depth 2";
 
       # Git shortcuts
       ga = "git add";
@@ -87,7 +92,7 @@
 
       # Useful lists
       lsg = "git status";
-      lsd = "docker ps";
+      dps = "docker ps";
 
       # Directory shortcuts
       workspace = "cd ~/Work";
@@ -132,8 +137,7 @@
       ''
         # Custom functions
         mkcd() { mkdir -p "$1" && cd "$1"; }
-        lt() { tree -L ''${1:-1}; }
-        chpwd() { ls --color=auto -AhF; }  # Auto-ls on directory change
+        chpwd() { lsd -aF; }  # Auto-ls on directory change
 
         # Export paths
         export TERM="xterm-256color"
