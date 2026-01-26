@@ -28,6 +28,8 @@
       enable_audio_bell = false;
       shell = "/bin/zsh";
       cursor_shape = "block";
+      cursor_trail = 3;
+      cursor_trail_decay = "0.1 0.4";
 
       # Layout - splits for iTerm-like pane behavior
       enabled_layouts = "splits,stack";
