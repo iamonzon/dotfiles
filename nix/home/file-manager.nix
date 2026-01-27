@@ -31,6 +31,7 @@
         { run = "tab_switch 1 --relative"; on = [ "J" ]; }
         { run = "tab_switch -1 --relative"; on = [ "K" ]; }
         { run = "close"; on = [ "x" ]; }
+        { run = "close"; on = [ "<Esc>" ]; }
         { run = "cd --interactive"; on = [ "c" "d" ]; desc = "Change directory interactive"; }
         { run = "seek 20"; on = [ "<C-d>" ]; desc = "Preview page down"; }
         { run = "seek -20"; on = [ "<C-u>" ]; desc = "Preview page up"; }

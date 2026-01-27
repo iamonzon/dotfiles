@@ -11,6 +11,11 @@ return {
     },
     opts = {
       open_for_directories = true,
+      hooks = {
+        yazi_opened = function(_, yazi_buffer_id, _)
+          vim.keymap.set("t", "<esc>", "<cmd>close<cr>", { buffer = yazi_buffer_id })
+        end,
+      },
     },
   },
 }
