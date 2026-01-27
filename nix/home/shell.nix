@@ -1,6 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
+  imports = [
+    ./zoxide.nix
+  ];
+
   programs.zsh = {
     enable = true;
 
@@ -59,7 +68,7 @@
       ls = "lsd";
       l = "lsd -a --blocks date,size,name --date '+%Y%m%d-%H:%M'";
       la = "lsd -a";
-      ll = "lsd -la";  # Full info
+      ll = "lsd -la"; # Full info
       lf = "lsd -aF";
       lt = "lsd --tree --depth 2";
 
@@ -100,7 +109,7 @@
       pp = "cd ~/Personal/Projects/";
       wp = "cd ~/Work/Projects/";
       tp = "cd ~/Personal/Projects/tooling/";
-      dot = "cd ~/.dotfiles/";
+      # dot = "cd ~/.dotfiles/";
 
       # Tools
       obsidian = ''open -a "Obsidian"'';
@@ -166,12 +175,6 @@
 
   # FZF integration
   programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-
-  # Zoxide (smart cd)
-  programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
   };
