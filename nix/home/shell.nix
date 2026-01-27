@@ -169,4 +169,10 @@
     enable = true;
     enableZshIntegration = true;
   };
+
+  # Zoxide (smart cd)
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 }
