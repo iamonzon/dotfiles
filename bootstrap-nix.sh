@@ -45,7 +45,7 @@ fi
 # 3. Install Nix
 if ! command -v nix &>/dev/null; then
     log "Installing Nix..."
-    curl -L https://nixos.org/nix/install | sh
+    curl -L https://nixos.org/nix/install | sh -s -- --no-modify-profile
 
     # Source Nix for current session
     if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
