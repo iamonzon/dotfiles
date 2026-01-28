@@ -16,14 +16,20 @@ return {
       callback = function(args)
         local buf_id = args.data.buf_id
 
+        local MiniFiles = require("mini.files")
         local open_split = function(direction)
-          local entry = require("mini.files").get_fs_entry()
+          local entry = MiniFiles.get_fs_entry()
           if entry and entry.fs_type == "file" then
-            local win_id = vim.api.nvim_get_current_win()
-            vim.api.nvim_win_call(require("mini.files").get_target_window(), function()
-              vim.cmd(direction .. " " .. vim.fn.fnameescape(entry.path))
+            -- Get the target window from explorer state
+            local cur_target = MiniFiles.get_explorer_state().target_window
+            -- Create new split in that window
+            local new_target = vim.api.nvim_win_call(cur_target, function()
+              vim.cmd(direction .. " split")
+              return vim.api.nvim_get_current_win()
             end)
-            vim.api.nvim_set_current_win(win_id)
+            -- Set the new window as target and open the file
+            MiniFiles.set_target_window(new_target)
+            MiniFiles.go_in({ close_on_file = true })
           end
         end
 
