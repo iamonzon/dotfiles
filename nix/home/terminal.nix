@@ -111,11 +111,17 @@
     terminal = "tmux-256color";
     plugins = with pkgs.tmuxPlugins; [
       catppuccin
-      sensible
+      # sensible removed - we configure what we need directly
     ];
     extraConfig = ''
       # True color support
       set -ag terminal-overrides ",xterm-256color:RGB"
+
+      # From sensible (without broken reattach-to-user-namespace)
+      set -g focus-events on
+      set -g aggressive-resize on
+      bind C-p previous-window
+      bind C-n next-window
 
       # Pane navigation (Alt+h/j/k/l) - no prefix needed
       bind -n M-h select-pane -L
