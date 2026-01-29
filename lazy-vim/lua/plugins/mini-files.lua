@@ -44,6 +44,21 @@ return {
         vim.keymap.set("n", "<C-k>", function()
           open_split("split")
         end, { buffer = buf_id, desc = "Open in horizontal split" })
+
+        vim.keymap.set("n", "<CR>", function()
+          local entry = MiniFiles.get_fs_entry()
+          if entry == nil then return end
+
+          if entry.fs_type == "file" then
+            -- Open file and close mini-files
+            MiniFiles.go_in({ close_on_file = true })
+          else
+            -- Directory: close and reopen with this directory as root
+            local path = entry.path
+            MiniFiles.close()
+            MiniFiles.open(path, false)
+          end
+        end, { buffer = buf_id, desc = "Open file / Enter directory as root" })
       end,
     })
   end,
