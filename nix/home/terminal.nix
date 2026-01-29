@@ -116,6 +116,28 @@
     extraConfig = ''
       # True color support
       set -ag terminal-overrides ",xterm-256color:RGB"
+
+      # Pane navigation (Alt+h/j/k/l) - no prefix needed
+      bind -n M-h select-pane -L
+      bind -n M-j select-pane -D
+      bind -n M-k select-pane -U
+      bind -n M-l select-pane -R
+
+      # Pane splitting (Alt+Ctrl+j/l)
+      bind -n M-C-j split-window -v -c "#{pane_current_path}"
+      bind -n M-C-l split-window -h -c "#{pane_current_path}"
+
+      # Pane resizing (Alt+Shift+h/j/k/l)
+      bind -n M-H resize-pane -L 5
+      bind -n M-J resize-pane -D 5
+      bind -n M-K resize-pane -U 5
+      bind -n M-L resize-pane -R 5
+
+      # Maximize pane toggle (Alt+Ctrl+x)
+      bind -n M-C-x resize-pane -Z
+
+      # Close pane (Alt+w) - Cmd not available in terminal
+      bind -n M-w kill-pane
     '';
   };
 }
