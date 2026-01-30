@@ -8,6 +8,12 @@
   programs.zsh = {
     enable = true;
 
+    history = {
+      size = 500000;
+      save = 500000;
+      path = "$HOME/.zsh_history";
+    };
+
     # .zprofile content - survives macOS major upgrades (unlike /etc/zshrc)
     profileExtra = ''
       # Nix daemon
@@ -148,11 +154,6 @@
         export COLORTERM="truecolor"
         export DOTFILES_PATH=~/.dotfiles
 
-        # Keep existing configs working during migration
-        if [[ -f "$DOTFILES_PATH/zsh/configs/zsh/env.zsh" ]]; then
-          source "$DOTFILES_PATH/zsh/configs/zsh/env.zsh"
-        fi
-
         # Load p10k config
         [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
       ''
@@ -172,5 +173,16 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    defaultCommand = "rg --files --hidden";
+    defaultOptions = [
+      "-m"
+      "--height 50%"
+      "--layout=reverse"
+      "--border"
+      "--inline-info"
+      "--preview-window=:hidden"
+      "--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'"
+      "--bind '?:toggle-preview'"
+    ];
   };
 }
