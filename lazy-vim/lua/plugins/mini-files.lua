@@ -76,10 +76,10 @@ return {
       "<leader>M",
       function()
         if not require("mini.files").close() then
-          require("mini.files").open(LazyVim.root(), true)
+          require("mini.files").open(vim.uv.cwd(), true)
         end
       end,
-      desc = "Toggle mini.files (root)",
+      desc = "Toggle mini.files (cwd)",
     },
   },
 }
