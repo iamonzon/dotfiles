@@ -4,7 +4,7 @@
   home.packages = with pkgs; [
     statix
     deadnix
-    nixfmt-rfc-style
+    nixfmt
     nil
     nix-output-monitor
   ];
