@@ -28,7 +28,10 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
+    GIT_EDITOR = "nvim";
     NPM_CONFIG_PREFIX = "$HOME/.npm-global";
+    LC_ALL = "en_US.UTF-8";
+    LANG = "en_US.UTF-8";
   };
 
   # Create standard directories
