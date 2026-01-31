@@ -4,6 +4,37 @@
 
 vim.keymap.set("n", "WW", ":w<CR>", { desc = "Save file" })
 vim.keymap.set("n", "QQ", ":q!<CR>", { desc = "Quit without saving" })
+vim.keymap.set("n", "<leader>qq", "<cmd>Q<CR>", { desc = "Close buffer" })
+vim.keymap.set("n", "<leader>qa", "<cmd>qa<CR>", { desc = "Quit all" })
+
+-- Swap ; and : (easier command mode, keep f/t repeat)
+vim.keymap.set("n", ";", ":", { desc = "Command mode" })
+vim.keymap.set("n", ":", ";", { desc = "Repeat f/t motion" })
+
+-- Toggle project terminal
+vim.keymap.set("n", "<leader>tt", function()
+  local term_buf = vim.g.project_term_buf
+
+  -- Check if our terminal buffer is still valid
+  if term_buf and vim.api.nvim_buf_is_valid(term_buf) and vim.bo[term_buf].buftype == "terminal" then
+    local wins = vim.fn.win_findbuf(term_buf)
+    if #wins > 0 then
+      vim.api.nvim_win_close(wins[1], false)
+    else
+      vim.cmd("botright split")
+      vim.api.nvim_win_set_buf(0, term_buf)
+      vim.cmd("resize 15")
+    end
+  else
+    -- Create new terminal at project root
+    vim.cmd("botright split")
+    vim.cmd("resize 15")
+    vim.cmd("terminal")
+    vim.g.project_term_buf = vim.api.nvim_get_current_buf()
+    local root = vim.fn.getcwd()
+    vim.fn.chansend(vim.b.terminal_job_id, "cd " .. root .. "\n")
+  end
+end, { desc = "Toggle terminal" })
 
 -- Split creation (matching Cursor's Ctrl+Alt+h/j/k/l)
 vim.keymap.set("n", "<C-A-l>", "<cmd>vsplit<CR>", { desc = "Split right" })
@@ -90,3 +121,31 @@ end, { desc = "Notification history" })
 
 -- Escape to focus editor (matching Cursor behavior)
 vim.keymap.set("n", "<Esc>", "<cmd>noh<CR><Esc>", { desc = "Clear search and escape" })
+
+-- Escape terminal mode with <Esc>
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+-- IDE-like buffer closing (:q closes buffer, :qa quits vim)
+local function close_buffer()
+  local buffers = vim.fn.getbufinfo({ buflisted = 1 })
+  if #buffers <= 1 then
+    vim.cmd("quit")
+  else
+    vim.cmd("bdelete")
+  end
+end
+
+local function save_and_close_buffer()
+  vim.cmd("write")
+  close_buffer()
+end
+
+vim.api.nvim_create_user_command("Q", close_buffer, { desc = "Close buffer (quit if last)" })
+vim.api.nvim_create_user_command("Wq", save_and_close_buffer, { desc = "Save and close buffer" })
+vim.api.nvim_create_user_command("WQ", save_and_close_buffer, { desc = "Save and close buffer" })
+
+-- Replace :q and :wq with buffer-closing versions (but keep :qa, :wqa, etc. working normally)
+vim.cmd([[
+  cnoreabbrev <expr> q getcmdtype() == ":" && getcmdline() == "q" ? "Q" : "q"
+  cnoreabbrev <expr> wq getcmdtype() == ":" && getcmdline() == "wq" ? "Wq" : "wq"
+]])
