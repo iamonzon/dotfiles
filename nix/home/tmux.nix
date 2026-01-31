@@ -37,7 +37,7 @@ in
           set -g @catppuccin_status_right_separator "${rightSep}"
 
           # Directory module config
-          set -g @catppuccin_directory_text "#{pane_current_path}"
+          set -g @catppuccin_directory_text "#{b:pane_current_path}"
         '';
       }
       # Session persistence
@@ -126,6 +126,17 @@ in
       bind -n M-7 select-window -t 7
       bind -n M-8 select-window -t 8
       bind -n M-9 select-window -t 9
+
+      # Switch to session by number (Alt+Shift+1-9)
+      bind -n M-! run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 1p)\""
+      bind -n M-@ run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 2p)\""
+      bind -n 'M-#' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 3p)\""
+      bind -n 'M-$' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 4p)\""
+      bind -n 'M-%' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 5p)\""
+      bind -n 'M-^' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 6p)\""
+      bind -n 'M-&' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 7p)\""
+      bind -n 'M-*' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 8p)\""
+      bind -n 'M-(' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 9p)\""
 
       # Rename window (Alt+r)
       bind -n M-r command-prompt -I "#W" "rename-window '%%'"
