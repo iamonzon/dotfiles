@@ -91,11 +91,11 @@ in
       bind -n C-M-j split-window -v -c "#{pane_current_path}"
       bind -n C-M-l split-window -h -c "#{pane_current_path}"
 
-      # Pane resizing (Ctrl+Shift+h/j/k/l)
-      bind -n C-H resize-pane -L 5
-      bind -n C-J resize-pane -D 5
-      bind -n C-K resize-pane -U 5
-      bind -n C-L resize-pane -R 5
+      # Pane resizing (Alt+Shift+h/j/k/l)
+      bind -n M-H resize-pane -L 5
+      bind -n M-J resize-pane -D 5
+      bind -n M-K resize-pane -U 5
+      bind -n M-L resize-pane -R 5
 
       # Maximize pane toggle (Ctrl+Alt+x)
       bind -n C-M-x resize-pane -Z
@@ -142,12 +142,9 @@ in
       bind -n M-r command-prompt -I "#W" "rename-window '%%'"
 
       # Session management (Alt+Shift+key)
-      bind -n M-J switch-client -p
-      bind -n M-K switch-client -n
       bind -n M-N command-prompt -p "Session name:" "new-session -s '%%'"
       bind -n M-R command-prompt -I "#S" "rename-session '%%'"
       bind -n M-W confirm-before -p "Kill session #S? (y/n)" kill-session
-      bind -n M-L choose-tree -Zs
       bind -n M-D detach-client
 
       # Copy mode improvements
