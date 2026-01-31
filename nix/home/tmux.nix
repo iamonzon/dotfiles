@@ -1,5 +1,9 @@
 { pkgs, ... }:
 
+let
+  # Powerline rounded right separator (U+E0B4) - encoded to survive formatters
+  rightSep = builtins.fromJSON ''"\ue0b4"'';
+in
 {
   # Tmux terminal multiplexer
   programs.tmux = {
@@ -18,14 +22,18 @@
           # Theme
           set -g @catppuccin_flavor "mocha"
 
-          # Window styling - only basic/rounded/slanted/none are valid
+          # Window styling
           set -g @catppuccin_window_status_style "rounded"
           set -g @catppuccin_window_number_position "right"
+
+          # Status module - fully rounded (pill shape)
+          set -g @catppuccin_status_connect_separator "no"
+          set -g @catppuccin_status_right_separator "${rightSep}"
 
           # Directory module config
           set -g @catppuccin_directory_text "#{pane_current_path}"
 
-          # Window text - show window name
+          # Window text
           set -g @catppuccin_window_default_text "#W"
           set -g @catppuccin_window_current_text "#W"
         '';
@@ -63,9 +71,8 @@
       set -g status-position top
 
       # Status bar modules
-      set -g status-left ""
+      set -g status-left "#{E:@catppuccin_status_session}"
       set -g status-right "#{E:@catppuccin_status_directory}"
-      set -ag status-right "#{E:@catppuccin_status_session}"
 
       # Hide non-current windows from status bar (keep only current visible)
       set -g window-status-format ""
