@@ -145,9 +145,12 @@
         fi
       '')
       ''
-        # Auto-start tmux
+        # Auto-start tmux (attach existing or prompt for new session name)
         if [[ -z "$TMUX" ]] && command -v tmux &> /dev/null && [[ $- == *i* ]]; then
-          tmux attach-session -t main 2>/dev/null || tmux new-session -s main
+          if ! tmux attach-session 2>/dev/null; then
+            read "name?New tmux session name: "
+            tmux new-session -s "${name:-default}"
+          fi
         fi
 
         # Custom functions
