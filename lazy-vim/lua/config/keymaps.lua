@@ -37,12 +37,6 @@ vim.keymap.set("n", "<leader>tt", function()
   end
 end, { desc = "Toggle terminal" })
 
--- Split creation (matching Cursor's Ctrl+Alt+h/j/k/l)
-vim.keymap.set("n", "<C-A-l>", "<cmd>vsplit<CR>", { desc = "Split right" })
-vim.keymap.set("n", "<C-A-h>", "<cmd>vsplit<CR><C-w>H", { desc = "Split left" })
-vim.keymap.set("n", "<C-A-j>", "<cmd>split<CR>", { desc = "Split down" })
-vim.keymap.set("n", "<C-A-k>", "<cmd>split<CR><C-w>K", { desc = "Split up" })
-
 -- Navigation history
 vim.keymap.set("n", "<leader>h", "<C-o>", { desc = "Navigate back" })
 vim.keymap.set("n", "<leader>l", "<C-i>", { desc = "Navigate forward" })
@@ -71,7 +65,7 @@ vim.keymap.set("n", "<leader>dl", "<cmd>Trouble diagnostics<CR>", { desc = "Diag
 
 -- Pane maximize toggle
 local maximized = false
-vim.keymap.set("n", "<leader>pf", function()
+local function toggle_maximize()
   if maximized then
     vim.cmd("wincmd =")
     maximized = false
@@ -80,8 +74,7 @@ vim.keymap.set("n", "<leader>pf", function()
     vim.cmd("wincmd _")
     maximized = true
   end
-end, { desc = "Toggle window fullscreen" })
-
+end
 
 -- File explorer (matching Cursor's Ctrl+B)
 vim.keymap.set("n", "<C-b>", "<cmd>Neotree toggle<CR>", { desc = "Toggle file explorer" })
@@ -107,7 +100,7 @@ vim.keymap.set("n", "<leader>pj", function()
   vim.cmd("split")
   vim.lsp.buf.definition()
 end, { desc = "Definition in below split" })
-vim.keymap.set("n", "<leader>px", "<cmd>close<CR>", { desc = "Close pane" })
+vim.keymap.set("n", "<leader>px", toggle_maximize, { desc = "Toggle window fullscreen" })
 
 -- Lazy menu
 vim.keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "Lazy" })

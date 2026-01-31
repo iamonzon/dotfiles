@@ -157,6 +157,28 @@
         mkcd() { mkdir -p "$1" && cd "$1"; }
         chpwd() { lsd -aF; }  # Auto-ls on directory change
 
+        # Wrap tmux to prompt for session name on new sessions
+        tmux() {
+          if [[ $# -eq 0 ]]; then
+            # No args: attach to existing session or prompt for new
+            if ! command tmux attach-session 2>/dev/null; then
+              read "name?New tmux session name: "
+              command tmux new-session -s "''${name:-default}"
+            fi
+          elif [[ "$1" == "new" || "$1" == "new-session" ]]; then
+            # Creating new session: prompt if no -s flag provided
+            if [[ "$*" != *"-s"* ]]; then
+              read "name?Session name: "
+              command tmux "$@" -s "''${name:-default}"
+            else
+              command tmux "$@"
+            fi
+          else
+            # Pass through all other commands unchanged
+            command tmux "$@"
+          fi
+        }
+
         # Export paths
         export TERM="xterm-256color"
         export COLORTERM="truecolor"
