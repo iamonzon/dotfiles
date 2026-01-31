@@ -26,16 +26,18 @@ in
           set -g @catppuccin_window_status_style "rounded"
           set -g @catppuccin_window_number_position "right"
 
-          # Status module - fully rounded (pill shape)
+          # Window text and number format
+          set -g @catppuccin_window_text "#W"
+          set -g @catppuccin_window_number "#I"
+          set -g @catppuccin_window_current_text "#W"
+          set -g @catppuccin_window_current_number "#I"
+
+          # Status module separators (pill shape)
           set -g @catppuccin_status_connect_separator "no"
           set -g @catppuccin_status_right_separator "${rightSep}"
 
           # Directory module config
           set -g @catppuccin_directory_text "#{pane_current_path}"
-
-          # Window text
-          set -g @catppuccin_window_default_text "#W"
-          set -g @catppuccin_window_current_text "#W"
         '';
       }
       # Session persistence
@@ -71,7 +73,8 @@ in
       set -g status-position top
 
       # Status bar modules
-      set -g status-left "#{E:@catppuccin_status_session}"
+      set -g status-left "#{E:@catppuccin_status_session} "
+      set -g status-left-length 50
       set -g status-right "#{E:@catppuccin_status_directory}"
 
       # Hide non-current windows from status bar (keep only current visible)
