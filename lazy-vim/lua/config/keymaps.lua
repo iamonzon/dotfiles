@@ -6,6 +6,7 @@ vim.keymap.set("n", "WW", ":w<CR>", { desc = "Save file" })
 vim.keymap.set("n", "QQ", ":q!<CR>", { desc = "Quit without saving" })
 vim.keymap.set("n", "<leader>qq", "<cmd>Q<CR>", { desc = "Close buffer" })
 vim.keymap.set("n", "<leader>qa", "<cmd>qa<CR>", { desc = "Quit all" })
+vim.keymap.set("n", "<leader>wq", "<cmd>Wq<CR>", { desc = "Save and close buffer" })
 
 -- Swap ; and : (easier command mode, keep f/t repeat)
 vim.keymap.set("n", ";", ":", { desc = "Command mode" })
