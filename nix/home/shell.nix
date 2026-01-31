@@ -49,7 +49,7 @@
       cdsp = "claude --dangerously-skip-permissions";
 
       # Home Manager
-      hms = "home-manager switch --flake ~/.dotfiles/nix#ivan";
+      hms = "home-manager switch --flake ~/.dotfiles/nix#ivan |& nom";
 
       # Delete directories
       rmd = "rm -rf";
@@ -145,6 +145,11 @@
         fi
       '')
       ''
+        # Auto-start tmux
+        if [[ -z "$TMUX" ]] && command -v tmux &> /dev/null && [[ $- == *i* ]]; then
+          tmux attach-session -t main 2>/dev/null || tmux new-session -s main
+        fi
+
         # Custom functions
         mkcd() { mkdir -p "$1" && cd "$1"; }
         chpwd() { lsd -aF; }  # Auto-ls on directory change
