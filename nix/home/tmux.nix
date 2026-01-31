@@ -76,16 +76,10 @@
 
       # Prevent automatic renaming from overriding manual names
       set-option -g automatic-rename off
-      bind C-p previous-window
-      bind C-n next-window
 
-      # Scrolling (vim-style) - enters copy-mode if needed
-      bind -n M-u copy-mode \; send-keys -X halfpage-up
-      bind -n M-d copy-mode \; send-keys -X halfpage-down
-
-      # Pane splitting (Alt+Ctrl+j/l)
-      bind -n M-C-j split-window -v -c "#{pane_current_path}"
-      bind -n M-C-l split-window -h -c "#{pane_current_path}"
+      # Pane splitting (Ctrl+Alt+j/l)
+      bind -n C-M-j split-window -v -c "#{pane_current_path}"
+      bind -n C-M-l split-window -h -c "#{pane_current_path}"
 
       # Pane resizing (Ctrl+Shift+h/j/k/l)
       bind -n C-H resize-pane -L 5
@@ -93,8 +87,8 @@
       bind -n C-K resize-pane -U 5
       bind -n C-L resize-pane -R 5
 
-      # Maximize pane toggle (Alt+Ctrl+x)
-      bind -n M-C-x resize-pane -Z
+      # Maximize pane toggle (Ctrl+Alt+x)
+      bind -n C-M-x resize-pane -Z
 
       # Close pane (Ctrl+w)
       bind -n C-w kill-pane
@@ -102,9 +96,12 @@
       # Close window (Alt+w)
       bind -n M-w kill-window
 
-      # Window navigation (Alt+h/l)
-      bind -n M-H previous-window
-      bind -n M-L next-window
+      # Window navigation (Alt+j/k)
+      bind -n M-k previous-window
+      bind -n M-j next-window
+
+      # List windows (Alt+l)
+      bind -n M-l choose-tree -Zw
 
       # New window (Alt+n) - prompts for window name
       bind -n M-n command-prompt -p "Window name:" "new-window -c '#{pane_current_path}' -n '%%'"
@@ -123,8 +120,19 @@
       # Rename window (Alt+r)
       bind -n M-r command-prompt -I "#W" "rename-window '%%'"
 
+      # Session management (Alt+Shift+key)
+      bind -n M-J switch-client -p
+      bind -n M-K switch-client -n
+      bind -n M-N command-prompt -p "Session name:" "new-session -s '%%'"
+      bind -n M-R command-prompt -I "#S" "rename-session '%%'"
+      bind -n M-W confirm-before -p "Kill session #S? (y/n)" kill-session
+      bind -n M-L choose-tree -Zs
+      bind -n M-D detach-client
+
       # Copy mode improvements
-      bind v copy-mode
+      bind k copy-mode
+      bind C-Space if-shell -F '#{pane_in_mode}' 'send-keys -X cancel' 'copy-mode'
+      bind -T copy-mode-vi Escape send-keys -X cancel
       bind -T copy-mode-vi v send-keys -X begin-selection
       bind -T copy-mode-vi y send-keys -X copy-selection-and-cancel
 
