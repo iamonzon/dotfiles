@@ -149,7 +149,7 @@
         if [[ -z "$TMUX" ]] && command -v tmux &> /dev/null && [[ $- == *i* ]]; then
           if ! tmux attach-session 2>/dev/null; then
             read "name?New tmux session name: "
-            tmux new-session -s "${name:-default}"
+            tmux new-session -s "''${name:-default}"
           fi
         fi
 
