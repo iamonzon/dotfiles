@@ -24,6 +24,13 @@
   # Let home-manager manage itself
   programs.home-manager.enable = true;
 
+  # Direnv with nix-direnv for automatic flake environments
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+
   # Environment variables
   home.sessionVariables = {
     EDITOR = "nvim";
