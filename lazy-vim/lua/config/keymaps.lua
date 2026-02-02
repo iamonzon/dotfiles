@@ -57,9 +57,6 @@ end, { desc = "Toggle inlay hints" })
 -- Rename symbol
 vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { desc = "Rename symbol" })
 
--- Code actions
-vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action, { desc = "Code actions" })
-
 -- Diagnostics list
 vim.keymap.set("n", "<leader>dl", "<cmd>Trouble diagnostics<CR>", { desc = "Diagnostics list" })
 
@@ -130,7 +127,10 @@ local function close_buffer()
 end
 
 local function save_and_close_buffer()
-  vim.cmd("write")
+  -- Only write if it's a normal file buffer (not special buffers like Claude Code input)
+  if vim.bo.buftype == "" then
+    vim.cmd("write")
+  end
   close_buffer()
 end
 
