@@ -138,6 +138,15 @@ vim.api.nvim_create_user_command("Q", close_buffer, { desc = "Close buffer (quit
 vim.api.nvim_create_user_command("Wq", save_and_close_buffer, { desc = "Save and close buffer" })
 vim.api.nvim_create_user_command("WQ", save_and_close_buffer, { desc = "Save and close buffer" })
 
+-- Zoxide quick jump
+vim.keymap.set("n", "<leader>z", function()
+  vim.ui.input({ prompt = "Zoxide: " }, function(input)
+    if input and input ~= "" then
+      vim.cmd("Z " .. input)
+    end
+  end)
+end, { desc = "Zoxide jump" })
+
 -- Replace :q and :wq with buffer-closing versions (but keep :qa, :wqa, etc. working normally)
 vim.cmd([[
   cnoreabbrev <expr> q getcmdtype() == ":" && getcmdline() == "q" ? "Q" : "q"
