@@ -10,9 +10,12 @@
       size = 22.0;
     };
     settings = {
-      # Window
-      window_padding_width = 10;
-      hide_window_decorations = "titlebar-only";
+      # Window (top right bottom left - no top padding for tmux status bar)
+      window_padding_width = "0 10 10 10";
+
+      # Pull content up to minimize gap at top
+      adjust_line_height = -3;
+      hide_window_decorations = "yes";
       background_opacity = "0.95";
 
       # Terminal
@@ -29,6 +32,7 @@
       # macOS specific
       macos_option_as_alt = "yes";
       macos_quit_when_last_window_closed = "yes";
+      macos_traditional_fullscreen = "yes";
 
       # Catppuccin Mocha colors
       foreground = "#cdd6f4";
