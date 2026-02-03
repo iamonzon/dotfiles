@@ -38,6 +38,9 @@ in
 
           # Directory module config
           set -g @catppuccin_directory_text "#{b:pane_current_path}"
+
+          # Date/time module config (24h format)
+          set -g @catppuccin_date_time_text "%H:%M"
         '';
       }
       # Session persistence
@@ -76,6 +79,8 @@ in
       set -g status-left "#{E:@catppuccin_status_session} "
       set -g status-left-length 50
       set -g status-right "#{E:@catppuccin_status_directory}"
+      set -ag status-right " "
+      set -ag status-right "#{E:@catppuccin_status_date_time}"
 
       # Hide non-current windows from status bar (keep only current visible)
       set -g window-status-format ""
@@ -153,6 +158,9 @@ in
       bind -T copy-mode-vi Escape send-keys -X cancel
       bind -T copy-mode-vi v send-keys -X begin-selection
       bind -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+
+      # Reload config (prefix + r)
+      bind r source-file ~/.config/tmux/tmux.conf \; display "Config reloaded!"
 
       # New window keeps current path
       bind c new-window -c "#{pane_current_path}"
