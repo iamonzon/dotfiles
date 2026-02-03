@@ -59,20 +59,19 @@ let
   '';
 
   themeConfig = ''
-    # Status bar position (must be set separately, catppuccin doesn't control this)
+    # Status bar position
     set -g status-position top
+    set -g status-justify right  # Push window list to right
 
-    # Status bar modules
-    set -g status-left "#{E:@catppuccin_status_session} "
-    set -g status-left-length 50
-    set -g status-right "#(gitmux -cfg ~/.config/gitmux/.gitmux.conf \"#{pane_current_path}\")"
-    set -ag status-right " "
-    set -ag status-right "#{E:@catppuccin_status_directory}"
+    # LEFT: dirname, git status
+    set -g status-left "#{E:@catppuccin_status_directory} "
+    set -ag status-left "#(gitmux -cfg ~/.config/gitmux/.gitmux.conf \"#{pane_current_path}\")"
+    set -g status-left-length 100
+
+    # RIGHT: session, time (window list auto-positioned before this)
+    set -g status-right " #{E:@catppuccin_status_session}"
     set -ag status-right " "
     set -ag status-right "#{E:@catppuccin_status_date_time}"
-
-    # Hide non-current windows from status bar (keep only current visible)
-    set -g window-status-format ""
   '';
 
   keybindingsConfig = ''
