@@ -8,6 +8,7 @@ vim.keymap.set("n", "QQ", ":q!<CR>", { desc = "Quit without saving" })
 vim.keymap.set("n", "<leader>qq", "<cmd>Q<CR>", { desc = "Close buffer" })
 vim.keymap.set("n", "<leader>qa", "<cmd>qa<CR>", { desc = "Quit all" })
 vim.keymap.set("n", "<leader>wq", "<cmd>Wq<CR>", { desc = "Save and close buffer" })
+vim.keymap.set("n", "<leader>ww", "<cmd>Ww<CR>", { desc = "Save buffer" })
 
 -- Swap ; and : (easier command mode, keep f/t repeat)
 vim.keymap.set("n", ";", ":", { desc = "Command mode" })
@@ -127,17 +128,22 @@ local function close_buffer()
   end
 end
 
-local function save_and_close_buffer()
-  -- Only write if it's a normal file buffer (not special buffers like Claude Code input)
+local function save_buffer()
   if vim.bo.buftype == "" then
     vim.cmd("write")
   end
+end
+
+local function save_and_close_buffer()
+  -- Only write if it's a normal file buffer (not special buffers like Claude Code input)
+  save_buffer()
   close_buffer()
 end
 
 vim.api.nvim_create_user_command("Q", close_buffer, { desc = "Close buffer (quit if last)" })
 vim.api.nvim_create_user_command("Wq", save_and_close_buffer, { desc = "Save and close buffer" })
 vim.api.nvim_create_user_command("WQ", save_and_close_buffer, { desc = "Save and close buffer" })
+vim.api.nvim_create_user_command("Ww", save_buffer, { desc = "Save current buffer" })
 
 -- Zoxide quick jump
 vim.keymap.set("n", "<leader>z", function()
