@@ -228,6 +228,8 @@
         alias -s go='$EDITOR'
         alias -s rs='$EDITOR'
         alias -s md='$EDITOR'
+        alias -s lua='$EDITOR'
+        alias -s nix='$EDITOR'
 
         # Global aliases (usable anywhere in command)
         alias -g NE='2>/dev/null'
