@@ -50,6 +50,7 @@
 
       # Home Manager
       hms = "home-manager switch --flake ~/.dotfiles/nix#ivan |& nom";
+      tks = "tmux kill-server";
 
       # Delete directories
       rmd = "rm -rf";
