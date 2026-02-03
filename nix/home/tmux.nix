@@ -65,7 +65,9 @@ let
     # Status bar modules
     set -g status-left "#{E:@catppuccin_status_session} "
     set -g status-left-length 50
-    set -g status-right "#{E:@catppuccin_status_directory}"
+    set -g status-right "#(gitmux -cfg ~/.config/gitmux/.gitmux.conf \"#{pane_current_path}\")"
+    set -ag status-right " "
+    set -ag status-right "#{E:@catppuccin_status_directory}"
     set -ag status-right " "
     set -ag status-right "#{E:@catppuccin_status_date_time}"
 
