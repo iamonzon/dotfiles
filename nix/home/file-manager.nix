@@ -1,5 +1,3 @@
-{ config, pkgs, lib, ... }:
-
 {
   programs.yazi = {
     enable = true;
@@ -47,7 +45,6 @@
           show_numbers = "relative_absolute";
           show_motion = true;
         };
-        starship.enable = true;
       };
     };
   };
