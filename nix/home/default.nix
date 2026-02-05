@@ -11,6 +11,7 @@
     ./dev-runtime.nix
     ./network-tools.nix
     ./media-processing.nix
+    ./music-player.nix
     ./document-viewer.nix
     ./nix-tools.nix
   ];
