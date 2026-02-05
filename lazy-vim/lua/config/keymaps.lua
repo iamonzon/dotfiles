@@ -61,6 +61,10 @@ vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { desc = "Rename symbol" })
 
 -- Diagnostics list
 vim.keymap.set("n", "<leader>dl", "<cmd>Trouble diagnostics<CR>", { desc = "Diagnostics list" })
+vim.keymap.set("n", "<leader>gl", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+vim.keymap.set("n", "<leader>gv", function()
+  require("gitsigns").preview_hunk()
+end, { desc = "View Git Hunk" })
 
 -- Pane maximize toggle
 local maximized = false
