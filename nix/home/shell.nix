@@ -158,6 +158,24 @@
         # Custom functions
         mkcd() { mkdir -p "$1" && cd "$1"; }
 
+        # Fuzzy find file -> open in editor
+        fe() {
+          fzf --preview "bat --style=numbers --color=always --line-range :500 {}" \
+              --preview-window=right:60% \
+              --bind "enter:become($EDITOR {})"
+        }
+
+        # Fuzzy live grep -> open in editor at line
+        ge() {
+          rg --line-number --no-heading --color=always --smart-case "" 2>/dev/null | \
+            fzf --ansi --disabled \
+              --bind "change:reload:rg --line-number --no-heading --color=always --smart-case {q} 2>/dev/null || true" \
+              --delimiter : \
+              --preview "bat --style=numbers --color=always --highlight-line {2} {1} 2>/dev/null" \
+              --preview-window=right:60%:+{2}-5 \
+              --bind "enter:become($EDITOR +{2} {1})"
+        }
+
         # Edit command line in $EDITOR (Ctrl+X Ctrl+G)
         autoload -Uz edit-command-line
         zle -N edit-command-line
@@ -278,14 +296,10 @@
     enableZshIntegration = true;
     defaultCommand = "rg --files --hidden";
     defaultOptions = [
-      "-m"
-      "--height 50%"
+      "--height 80%"
       "--layout=reverse"
       "--border"
-      "--inline-info"
-      "--preview-window=:hidden"
-      "--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'"
-      "--bind '?:toggle-preview'"
+      "--bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up'"
     ];
   };
 }
