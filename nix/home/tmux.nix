@@ -41,6 +41,7 @@ let
 
     # Directory module config
     set -g @catppuccin_directory_text " #{b:pane_current_path}"
+    set -g @catppuccin_directory_icon "#(~/.config/tmux/scripts/dir-icon.sh '#{pane_current_path}')"
     set -g @catppuccin_directory_color "#(~/.config/tmux/scripts/dir-color.sh '#{pane_current_path}')"
 
     # Date/time module config (24h format)
@@ -219,25 +220,21 @@ in
     '';
   };
 
-  # Example config for custom directory styles (user can edit this)
-  home.file.".config/tmux/directory-styles.conf" = {
-    text = ''
-      # Custom directory styles for tmux status bar
-      # Format: path|icon|color
-      # - path: Directory path (supports ~ for home, matches if current path starts with this)
-      # - icon: Custom nerd font icon (optional - leave empty for default)
-      # - color: Custom hex color (optional - leave empty for hash-based color)
-      #
-      # Examples:
-      # ~/Projects/my-app||#fab387
-      # ~/Work||#89b4fa
-      # ~/.dotfiles||#f5c2e7
-    '';
+  # Shared lookup table for directory styling (colors and icons)
+  home.file.".config/tmux/scripts/dir-lookup-table.sh" = {
+    executable = true;
+    source = ./scripts/tmux/dir-lookup-table.sh;
   };
 
   # Script for dynamic directory color based on path
   home.file.".config/tmux/scripts/dir-color.sh" = {
     executable = true;
     source = ./scripts/tmux/dir-color.sh;
+  };
+
+  # Script for directory icon based on path
+  home.file.".config/tmux/scripts/dir-icon.sh" = {
+    executable = true;
+    source = ./scripts/tmux/dir-icon.sh;
   };
 }
