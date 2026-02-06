@@ -40,7 +40,8 @@ let
     set -g @catppuccin_status_right_separator "${rightSep}"
 
     # Directory module config
-    set -g @catppuccin_directory_text "#{b:pane_current_path}"
+    set -g @catppuccin_directory_text " #{b:pane_current_path}"
+    set -g @catppuccin_directory_color "#(~/.config/tmux/scripts/dir-color.sh '#{pane_current_path}')"
 
     # Date/time module config (24h format)
     set -g @catppuccin_date_time_text "${dateTimeFormat}"
@@ -215,6 +216,58 @@ in
 
       # Hot-reload experimental config (create ~/.config/tmux/experimental.conf to use)
       source-file -q ~/.config/tmux/experimental.conf
+    '';
+  };
+
+  # Example config for custom directory styles (user can edit this)
+  home.file.".config/tmux/directory-styles.conf" = {
+    text = ''
+      # Custom directory styles for tmux status bar
+      # Format: path|icon|color
+      # - path: Directory path (supports ~ for home, matches if current path starts with this)
+      # - icon: Custom nerd font icon (optional - leave empty for default)
+      # - color: Custom hex color (optional - leave empty for hash-based color)
+      #
+      # Examples:
+      # ~/Projects/my-app||#fab387
+      # ~/Work||#89b4fa
+      # ~/.dotfiles||#f5c2e7
+    '';
+  };
+
+  # Script for dynamic directory color based on path
+  home.file.".config/tmux/scripts/dir-color.sh" = {
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      path="$1"
+      dir=$(basename "$path")
+      config="$HOME/.config/tmux/directory-styles.conf"
+      color=""
+
+      # Check custom config for color override
+      if [[ -f "$config" ]]; then
+        expanded_path="${"$"}{path/#\~/$HOME}"
+        while IFS='|' read -r cfg_path cfg_icon cfg_color || [[ -n "$cfg_path" ]]; do
+          [[ "$cfg_path" =~ ^[[:space:]]*# ]] && continue
+          [[ -z "$cfg_path" ]] && continue
+          cfg_path_expanded="${"$"}{cfg_path/#\~/$HOME}"
+          if [[ "$expanded_path" == "$cfg_path_expanded"* ]]; then
+            [[ -n "$cfg_color" ]] && color="$cfg_color"
+            break
+          fi
+        done < "$config"
+      fi
+
+      # Fallback: hash-based color from directory name
+      if [[ -z "$color" ]]; then
+        char=$(printf '%d' "'${"$"}{dir:0:1}" 2>/dev/null || echo 97)
+        colors=("#f5e0dc" "#f2cdcd" "#f5c2e7" "#cba6f7" "#f38ba8" "#eba0ac" "#fab387" "#f9e2af" "#a6e3a1" "#94e2d5" "#89dceb" "#74c7ec" "#89b4fa" "#b4befe")
+        idx=$((char % 14))
+        color="${"$"}{colors[$idx]}"
+      fi
+
+      echo "$color"
     '';
   };
 }
