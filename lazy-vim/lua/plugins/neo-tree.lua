@@ -1,6 +1,7 @@
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
+    init = function() end, -- Don't auto-open when starting with a directory
     opts = {
       window = {
         position = "right",
