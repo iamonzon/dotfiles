@@ -205,6 +205,8 @@ in
       }
       # Seamless vim/tmux navigation
       vim-tmux-navigator
+      # Extract URLs from pane and open with fzf picker (prefix + u)
+      fzf-tmux-url
     ];
     extraConfig = ''
       ${coreConfig}
