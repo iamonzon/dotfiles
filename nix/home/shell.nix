@@ -158,11 +158,23 @@
         # Custom functions
         mkcd() { mkdir -p "$1" && cd "$1"; }
 
-        # Fuzzy find file -> open in editor
+        # Fuzzy find file -> open in editor (Enter) or cd to folder (Ctrl+O)
         fe() {
-          fzf --preview "bat --style=numbers --color=always --line-range :500 {}" \
+          local result key file
+          result=$(fzf --preview "bat --style=numbers --color=always --line-range :500 {}" \
               --preview-window=right:60% \
-              --bind "enter:become($EDITOR {})"
+              --expect=ctrl-o)
+
+          if [[ -n "$result" ]]; then
+            key=$(head -1 <<< "$result")
+            file=$(tail -n +2 <<< "$result")
+
+            if [[ "$key" == "ctrl-o" ]]; then
+              cd "$(dirname "$file")"
+            elif [[ -n "$file" ]]; then
+              $EDITOR "$file"
+            fi
+          fi
         }
 
         # Fuzzy live grep -> open in editor at line
