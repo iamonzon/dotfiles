@@ -44,7 +44,6 @@
       g = "git";
       t = "tree";
       c = "claude";
-      sp = "spotify_player";
 
       # Claude dangerous mode
       cdsp = "claude --dangerously-skip-permissions";
