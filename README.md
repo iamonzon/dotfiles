@@ -15,20 +15,16 @@ Flake-based home-manager setup in `nix/`:
 
 ```
 nix/
-├── flake.nix           # Entry point (nixpkgs + home-manager inputs)
-├── flake.lock          # Pinned dependency versions
+├── flake.nix           # Entry point
 ├── home/
-│   ├── default.nix     # Main config, imports modules
-│   ├── shell.nix       # zsh, fzf, aliases, powerlevel10k
-│   ├── git.nix         # git, gh
-│   ├── dev-tools.nix   # bat, ripgrep, fd, jq, htop, etc.
-│   ├── editors.nix     # neovim, neovide, yazi
-│   ├── media.nix       # ffmpeg, yt-dlp, imagemagick, sox
-│   └── pdf.nix         # sioyek with vim bindings
-├── hosts/
-│   └── macbook.nix     # Darwin-specific paths
-└── files/
-    └── p10k.zsh        # Powerlevel10k config
+│   ├── default.nix     # Main config
+│   ├── *.nix           # Tool modules (tmux, shell, kitty, etc.)
+│   └── scripts/        # Executable scripts (runtime)
+│       └── tmux/
+└── files/              # Static assets (configs, themes, wallpapers)
+    ├── starship/
+    ├── yazi/
+    └── wallpapers/
 ```
 
 ### Usage
