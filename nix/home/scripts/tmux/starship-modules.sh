@@ -17,10 +17,31 @@ get_module_color() {
   esac
 }
 
-for MODULE in nix_shell direnv package nodejs python rust docker_context golang ruby; do
-  RESULT=$(starship module "$MODULE" 2>/dev/null | sed 's/\x1b\[[0-9;]*m//g')
-  if [[ "$RESULT" =~ [^[:space:]] ]]; then
-    COLOR=$(get_module_color "$MODULE")
-    printf "#[fg=%s]%s#[fg=default]" "$COLOR" "$RESULT"
+ANSI_STRIP_PATTERN='s/\x1b\[[0-9;]*m//g'
+MODULES=(nix_shell direnv package nodejs python rust docker_context golang ruby)
+
+strip_ansi_codes() {
+  sed "$ANSI_STRIP_PATTERN"
+}
+
+get_module_output() {
+  starship module "$1" 2>/dev/null | strip_ansi_codes
+}
+
+has_content() {
+  [[ "$1" =~ [^[:space:]] ]]
+}
+
+format_for_tmux() {
+  local color="$1"
+  local content="$2"
+  printf "#[fg=%s]%s#[fg=default]" "$color" "$content"
+}
+
+for module in "${MODULES[@]}"; do
+  output=$(get_module_output "$module")
+  if has_content "$output"; then
+    color=$(get_module_color "$module")
+    format_for_tmux "$color" "$output"
   fi
 done
