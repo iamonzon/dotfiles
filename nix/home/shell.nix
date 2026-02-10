@@ -232,6 +232,18 @@
         add-zsh-hook chpwd auto_venv
         add-zsh-hook chpwd auto_nvm
 
+        # Cache gitmux and starship for tmux status bar
+        # precmd: works when split panes, syncs both updates together
+        function _tmux_status_update() {
+          [[ -n "$TMUX_PANE" ]] || return
+          local pane_path
+          pane_path=$(pwd)
+          gitmux -cfg ~/.config/gitmux/.gitmux.conf "$pane_path" > "/tmp/tmux-gitmux-$TMUX_PANE" 2>/dev/null
+          ~/.config/tmux/scripts/starship-modules.sh > "/tmp/tmux-starship-$TMUX_PANE" 2>/dev/null
+          tmux refresh-client -S 2>/dev/null
+        }
+        add-zsh-hook precmd _tmux_status_update
+
         # Suffix aliases (open files by extension)
         alias -s py='$EDITOR'
         alias -s js='$EDITOR'

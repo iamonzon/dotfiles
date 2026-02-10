@@ -49,6 +49,9 @@ let
   '';
 
   coreConfig = ''
+    # 256-color support for proper color rendering
+    set -g default-terminal "tmux-256color"
+    
     # True color support
     set -ag terminal-overrides ",xterm-256color:RGB"
 
@@ -65,9 +68,10 @@ let
     set -g status-position top
     set -g status-justify right  # Push window list to right
 
-    # LEFT: dirname, git status
+    # LEFT: dirname, git status, env indicators (via starship modules)
     set -g status-left "#{E:@catppuccin_status_directory} "
-    set -ag status-left "#(gitmux -cfg ~/.config/gitmux/.gitmux.conf \"#{pane_current_path}\")"
+    set -ag status-left "#(cat /tmp/tmux-gitmux-#{pane_id} 2>/dev/null) "
+    set -ag status-left "#(cat /tmp/tmux-starship-#{pane_id} 2>/dev/null)"
     set -g status-left-length 100
 
     # RIGHT: session, time (window list auto-positioned before this)
@@ -236,5 +240,11 @@ in
   home.file.".config/tmux/scripts/dir-icon.sh" = {
     executable = true;
     source = ./scripts/tmux/dir-icon.sh;
+  };
+
+  # Starship modules wrapper for tmux status bar
+  home.file.".config/tmux/scripts/starship-modules.sh" = {
+    executable = true;
+    source = ./scripts/tmux/starship-modules.sh;
   };
 }
