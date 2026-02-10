@@ -15,7 +15,7 @@ let
   # Timing and sizing
   resizeAmount = 5;
   continuumSaveInterval = 15;
-  dateTimeFormat = "%H:%M";
+  dateTimeFormat = " %H:%M, %A";
 
   # ====================
   # Config Sections
