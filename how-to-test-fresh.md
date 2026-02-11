@@ -61,7 +61,7 @@ After bootstrap completes, verify each component:
 |-----------|--------------|-----------------|
 | Shell | Open new terminal | Powerlevel10k prompt appears |
 | Neovim | `nvim` | LazyVim UI loads |
-| Yazi | `nix run ~/dotfiles/nix#yazi-test` | File manager opens |
+| Yazi | `nix run ~/dotfiles/current/nix#yazi-test` | File manager opens |
 | Git aliases | `g st` | Runs `git status` |
 | Zoxide | `cd ~/dotfiles && cd ~ && z dot` | Returns to dotfiles |
 | Environment | `echo $EDITOR` | Shows `nvim` |
@@ -81,7 +81,7 @@ home-manager rollback
 home-manager generations
 
 # Switch to a specific generation
-home-manager switch --flake ~/dotfiles/nix#ivan
+home-manager switch --flake ~/dotfiles/current/nix#ivan
 ```
 
 ## VM Snapshots (Recommended)
@@ -117,7 +117,7 @@ cat ~/.config/nix/nix.conf
 ### home-manager command not found
 ```bash
 # Run via nix run instead
-nix run home-manager -- switch --flake ~/dotfiles/nix#ivan
+nix run home-manager -- switch --flake ~/dotfiles/current/nix#ivan
 ```
 
 ### Permission errors

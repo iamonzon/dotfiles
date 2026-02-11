@@ -7,7 +7,7 @@ Two configuration approaches: **Local** (traditional symlinks) and **Nix** (flak
 | Approach | Command | Status |
 |----------|---------|--------|
 | Local | `./install.sh` | Stable |
-| Nix | `home-manager switch --flake ~/dotfiles/nix#ivan` | Active |
+| Nix | `hms` | Active |
 
 ## Nix Configuration
 
@@ -31,10 +31,14 @@ nix/
 
 ```bash
 # Apply configuration
-home-manager switch --flake ~/dotfiles/nix#ivan
+hms
+
+# Apply a specific worktree/branch configuration
+hms feat/kitty-integration
 
 # Preview changes without applying
-home-manager switch --flake ~/dotfiles/nix#ivan --dry-run
+hms --dry-run
+hms feat/kitty-integration --dry-run
 
 # Roll back to previous generation
 home-manager switch --rollback
@@ -43,6 +47,38 @@ home-manager switch --rollback
 home-manager generations
 ```
 
+### Worktree Modes
+
+`hms` supports both repository layouts:
+
+1. Without worktrees (single clone)
+
+```text
+~/dotfiles/
+  nix/
+  lazy-vim/
+```
+
+`hms` resolves to `~/dotfiles/nix`.
+
+2. With worktrees (branch-aware setup)
+
+```text
+~/dotfiles/
+  master/
+    nix/
+    lazy-vim/
+  feat/kitty-integration/
+    nix/
+    lazy-vim/
+  current -> master (or another selected worktree)
+```
+
+- `hms` resolves to `~/dotfiles/master/nix` (fallback `~/dotfiles/nix`)
+- `hms feat/kitty-integration` resolves to `~/dotfiles/feat/kitty-integration/nix`
+- On successful switch, `hms` updates `~/dotfiles/current` to the selected worktree
+- Neovim is linked to `~/dotfiles/current/lazy-vim`, so editor config follows the active worktree
+
 ### Adding Packages
 
 Edit the relevant module in `nix/home/`:
@@ -50,7 +86,7 @@ Edit the relevant module in `nix/home/`:
 - Media tools → `media.nix`
 - Editors → `editors.nix`
 
-Then apply with `home-manager switch --flake ~/dotfiles/nix#ivan`.
+Then apply with `hms`.
 
 ## Local Configuration (Legacy)
 
@@ -68,8 +104,18 @@ Traditional symlink-based configs:
 
 ### Symlink Reference
 
+Without worktrees:
+
 ```bash
 ln -sf ~/dotfiles/lazy-vim ~/.config/nvim
 ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/zsh/.aliases ~/.aliases
+```
+
+With worktrees:
+
+```bash
+ln -sf ~/dotfiles/current/lazy-vim ~/.config/nvim
+ln -sf ~/dotfiles/current/zsh/.zshrc ~/.zshrc
+ln -sf ~/dotfiles/current/zsh/.aliases ~/.aliases
 ```

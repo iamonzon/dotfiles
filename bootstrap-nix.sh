@@ -109,9 +109,16 @@ else
     cd "$DOTFILES_DIR" && git pull
 fi
 
+# Keep a stable "current" pointer so runtime configs can follow active worktree.
+if [ -d "$DOTFILES_DIR/master/nix" ]; then
+    ln -sfn "$DOTFILES_DIR/master" "$DOTFILES_DIR/current"
+else
+    ln -sfn "$DOTFILES_DIR" "$DOTFILES_DIR/current"
+fi
+
 # 7. Run home-manager switch
 log "Running home-manager switch..."
-cd "$DOTFILES_DIR/nix"
+cd "$DOTFILES_DIR/current/nix"
 
 # Dry run first
 log "Performing dry-run to check for errors..."
