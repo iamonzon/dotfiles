@@ -49,7 +49,6 @@
       cdsp = "claude --dangerously-skip-permissions";
 
       # Home Manager
-      hms = "home-manager switch --flake ~/dotfiles/nix#ivan |& nom";
       tks = "tmux kill-server";
 
       # Delete directories
@@ -155,6 +154,39 @@
         fi
 
         # Custom functions
+        # Usage:
+        #   hms                  -> uses $DOTFILES_PATH/master/nix, then $DOTFILES_PATH/nix
+        #   hms tmux-update      -> uses $DOTFILES_PATH/tmux-update/nix
+        #   hms --dry-run        -> default path with extra home-manager flags
+        #   hms tmux-update --dry-run
+        hms() {
+          local dotfiles_root="''${DOTFILES_PATH:-$HOME/dotfiles}"
+          local flake_path=""
+
+          if [[ $# -gt 0 && "$1" != -* ]]; then
+            if [[ -d "$dotfiles_root/$1/nix" ]]; then
+              flake_path="$dotfiles_root/$1/nix"
+              shift
+            else
+              echo "hms: worktree '$1' not found at $dotfiles_root/$1/nix" >&2
+              return 1
+            fi
+          fi
+
+          if [[ -z "$flake_path" ]]; then
+            if [[ -d "$dotfiles_root/master/nix" ]]; then
+              flake_path="$dotfiles_root/master/nix"
+            elif [[ -d "$dotfiles_root/nix" ]]; then
+              flake_path="$dotfiles_root/nix"
+            else
+              echo "hms: nix flake not found. Checked $dotfiles_root/master/nix and $dotfiles_root/nix" >&2
+              return 1
+            fi
+          fi
+
+          home-manager switch --flake "$flake_path#ivan" "$@" |& nom
+        }
+
         mkcd() { mkdir -p "$1" && cd "$1"; }
 
         # Fuzzy find file -> open in editor (Enter) or cd to folder (Ctrl+O)
@@ -299,7 +331,7 @@
         # Export paths
         export TERM="xterm-256color"
         export COLORTERM="truecolor"
-        export DOTFILES_PATH=~/dotfiles
+        export DOTFILES_PATH="''${DOTFILES_PATH:-$HOME/dotfiles}"
 
         # Load p10k config
         [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
