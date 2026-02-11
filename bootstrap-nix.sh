@@ -97,7 +97,7 @@ if ! grep -q "experimental-features" ~/.config/nix/nix.conf 2>/dev/null; then
 fi
 
 # 6. Clone dotfiles (if not already present)
-DOTFILES_DIR="$HOME/.dotfiles"
+DOTFILES_DIR="$HOME/dotfiles"
 DOTFILES_REPO="https://github.com/iamonzon/dotfiles.git"
 
 if [ ! -d "$DOTFILES_DIR" ]; then

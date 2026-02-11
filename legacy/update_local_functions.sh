@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-DOTFILES_PATH=~/.dotfiles
+DOTFILES_PATH=~/dotfiles
 BACKUP_FOLDER=$DOTFILES_PATH-bak
 ZSH_SRC_PATH=$DOTFILES_PATH/zsh
 

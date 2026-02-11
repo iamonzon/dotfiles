@@ -35,8 +35,8 @@ get_dir_style() {
   local expanded="$1"
   case "$expanded" in
     # Examples (uncomment and edit) Order from most specific:
-    "$HOME/.dotfiles/nix"*) echo "󱄅|mauve" ;;
-    "$HOME/.dotfiles"*) echo "|mauve" ;;
+    "$HOME/dotfiles/nix"*) echo "󱄅|mauve" ;;
+    "$HOME/dotfiles"*) echo "|mauve" ;;
     "$HOME/Personal/dory"*)  echo "󰈺|blue" ;;
     "$HOME/Personal"*)  echo "󰲋|blue" ;;
     "$HOME/Work"*)      echo "|sky" ;;  # default icon, sky color
