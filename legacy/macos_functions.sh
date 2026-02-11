@@ -2,7 +2,7 @@
 #
 #USAGE ./
 
-DOTFILES_PATH=~/.dotfiles
+DOTFILES_PATH=~/dotfiles
 DOTFILES_ZSH_PATH="$DOTFILES_PATH/zsh"
 DRY_RUN=true
 EXPECTED_HOME="$HOME/expected_home/$(date +%Y%m%d_%H%M%S)"

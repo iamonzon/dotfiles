@@ -11,7 +11,7 @@ RED = '\033[91m'
 GREEN = '\033[92m'
 RESET = '\033[0m'
 
-STORE_FILE = Path.home() / '.dotfiles/tooling/bookmarks.json'
+STORE_FILE = Path.home() / 'dotfiles/tooling/bookmarks.json'
 
 def read_store():
     try:

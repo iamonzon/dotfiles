@@ -84,7 +84,7 @@ function linux_installation() {
     }
 
     # First, clone dotfiles repository
-    DOTFILES_PATH="$HOME/.dotfiles"
+    DOTFILES_PATH="$HOME/dotfiles"
     if [ ! -d "$DOTFILES_PATH" ]; then
         log_info "Cloning dotfiles repository..."
         git clone https://github.com/ivanlp10n2/dotfiles "$DOTFILES_PATH" || {

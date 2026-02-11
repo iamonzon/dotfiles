@@ -14,7 +14,7 @@
 
   # Zoxide autojump and highlighting for zsh
   programs.zsh.initContent = lib.mkAfter ''
-    # Use zoxide for unknown commands (type "dot" to jump to ~/.dotfiles)
+    # Use zoxide for unknown commands (type "dot" to jump to ~/dotfiles)
     zoxide-autojump() {
       local cmd="$BUFFER"
       # Skip if empty, contains spaces (has args), or starts with special chars

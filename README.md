@@ -7,7 +7,7 @@ Two configuration approaches: **Local** (traditional symlinks) and **Nix** (flak
 | Approach | Command | Status |
 |----------|---------|--------|
 | Local | `./install.sh` | Stable |
-| Nix | `home-manager switch --flake ~/.dotfiles/nix#ivan` | Active |
+| Nix | `home-manager switch --flake ~/dotfiles/nix#ivan` | Active |
 
 ## Nix Configuration
 
@@ -31,10 +31,10 @@ nix/
 
 ```bash
 # Apply configuration
-home-manager switch --flake ~/.dotfiles/nix#ivan
+home-manager switch --flake ~/dotfiles/nix#ivan
 
 # Preview changes without applying
-home-manager switch --flake ~/.dotfiles/nix#ivan --dry-run
+home-manager switch --flake ~/dotfiles/nix#ivan --dry-run
 
 # Roll back to previous generation
 home-manager switch --rollback
@@ -50,7 +50,7 @@ Edit the relevant module in `nix/home/`:
 - Media tools → `media.nix`
 - Editors → `editors.nix`
 
-Then apply with `home-manager switch --flake ~/.dotfiles/nix#ivan`.
+Then apply with `home-manager switch --flake ~/dotfiles/nix#ivan`.
 
 ## Local Configuration (Legacy)
 
@@ -69,7 +69,7 @@ Traditional symlink-based configs:
 ### Symlink Reference
 
 ```bash
-ln -sf ~/.dotfiles/lazy-vim ~/.config/nvim
-ln -sf ~/.dotfiles/zsh/.zshrc ~/.zshrc
-ln -sf ~/.dotfiles/zsh/.aliases ~/.aliases
+ln -sf ~/dotfiles/lazy-vim ~/.config/nvim
+ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
+ln -sf ~/dotfiles/zsh/.aliases ~/.aliases
 ```

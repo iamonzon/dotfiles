@@ -49,7 +49,7 @@
       cdsp = "claude --dangerously-skip-permissions";
 
       # Home Manager
-      hms = "home-manager switch --flake ~/.dotfiles/nix#ivan |& nom";
+      hms = "home-manager switch --flake ~/dotfiles/nix#ivan |& nom";
       tks = "tmux kill-server";
 
       # Delete directories
@@ -111,7 +111,7 @@
       pp = "cd ~/Personal/Projects/";
       wp = "cd ~/Work/Projects/";
       tp = "cd ~/Personal/Projects/tooling/";
-      # dot = "cd ~/.dotfiles/";
+      # dot = "cd ~/dotfiles/";
 
       # Tools
       obsidian = ''open -a "Obsidian"'';
@@ -187,14 +187,17 @@
               --bind "enter:become($EDITOR +{2} {1})"
         }
 
-        # Edit command line in $EDITOR (Ctrl+X Ctrl+G)
+        # Edit command line in $EDITOR (Ctrl+X Ctrl+X)
         autoload -Uz edit-command-line
         zle -N edit-command-line
-        bindkey '^X^g' edit-command-line
+        bindkey '^X^x' edit-command-line
 
         # Undo/Redo keybindings
-        bindkey '^-' undo      # Ctrl+- to undo
-        bindkey '^=' redo      # Ctrl+= to redo
+        bindkey '^X^-' undo   # Ctrl+X Ctrl+- to undo
+        bindkey '^X^=' redo   # Ctrl+X Ctrl+= to redo
+
+        # Accept autosuggestion
+        bindkey '^e' autosuggest-accept
 
         # PWD hooks using add-zsh-hook
         autoload -Uz add-zsh-hook
@@ -296,7 +299,7 @@
         # Export paths
         export TERM="xterm-256color"
         export COLORTERM="truecolor"
-        export DOTFILES_PATH=~/.dotfiles
+        export DOTFILES_PATH=~/dotfiles
 
         # Load p10k config
         [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
