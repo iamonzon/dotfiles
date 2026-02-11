@@ -33,10 +33,15 @@ PASTEL_PALETTE=(
 # Add custom entries here (user can edit)
 get_dir_style() {
   local expanded="$1"
+  local dotfiles_root="${DOTFILES_PATH:-$HOME/dotfiles}"
+  local dotfiles_current="${DOTFILES_CURRENT:-$dotfiles_root/current}"
+
   case "$expanded" in
     # Examples (uncomment and edit) Order from most specific:
-    "$HOME/dotfiles/nix"*) echo "󱄅|mauve" ;;
-    "$HOME/dotfiles"*) echo "|mauve" ;;
+    "$dotfiles_current/nix"*) echo "󱄅|mauve" ;;
+    "$dotfiles_current"*) echo "|mauve" ;;
+    "$dotfiles_root/nix"*) echo "󱄅|mauve" ;;
+    "$dotfiles_root"*) echo "|mauve" ;;
     "$HOME/Personal/dory"*)  echo "󰈺|blue" ;;
     "$HOME/Personal"*)  echo "󰲋|blue" ;;
     "$HOME/Work"*)      echo "|sky" ;;  # default icon, sky color

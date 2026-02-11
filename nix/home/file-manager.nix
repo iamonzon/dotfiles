@@ -23,7 +23,7 @@
     };
     keymap = {
       mgr.prepend_keymap = [
-        { run = "cd ~/dotfiles/"; on = ["d" "o"]; desc = "Go to dotfiles";}
+        { run = "cd ~/dotfiles/current/"; on = ["d" "o"]; desc = "Go to active dotfiles";}
         { run = "cd ~/Work/Projects/"; on = ["w" "p"]; desc = "Go to work Projects";}
         { run = "cd ~/Personal/Projects/"; on = ["p" "p"]; desc = "Go to personal Projects";}
         { run = "tab_switch 1 --relative"; on = [ "J" ]; }

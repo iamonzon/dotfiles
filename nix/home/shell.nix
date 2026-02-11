@@ -154,37 +154,117 @@
         fi
 
         # Custom functions
+        # Remove any legacy alias so the function always wins.
+        unalias hms 2>/dev/null || true
+
         # Usage:
-        #   hms                  -> uses $DOTFILES_PATH/master/nix, then $DOTFILES_PATH/nix
-        #   hms tmux-update      -> uses $DOTFILES_PATH/tmux-update/nix
-        #   hms --dry-run        -> default path with extra home-manager flags
-        #   hms tmux-update --dry-run
+        #   hms                         -> uses <root>/master/nix, then <root>/nix
+        #   hms feat/kitty-integration  -> uses <root>/feat/kitty-integration/nix
+        #   hms --dry-run               -> default path with extra home-manager flags
+        #   hms feat/kitty-integration --dry-run
+        #
+        # Root search order:
+        #   1) $DOTFILES_PATH (if set)
+        #   2) ~/dotfiles
+        #   3) ~/.dotfiles
+        #
+        # On successful switch, this updates:
+        #   <root>/current -> selected worktree
         hms() {
-          local dotfiles_root="''${DOTFILES_PATH:-$HOME/dotfiles}"
+          local -a roots checked_paths
+          local -A seen_roots
+          local root
+          local dotfiles_root=""
+          local worktree_path=""
           local flake_path=""
+          local current_link=""
+
+          [[ -n "''${DOTFILES_PATH:-}" ]] && roots+=("''${DOTFILES_PATH:A}")
+          roots+=("$HOME/dotfiles" "$HOME/.dotfiles")
+
+          local -a unique_roots
+          for root in "''${roots[@]}"; do
+            [[ -n "$root" ]] || continue
+            root="''${root:A}"
+            [[ -d "$root" ]] || continue
+            [[ -n "''${seen_roots[$root]}" ]] && continue
+            seen_roots[$root]=1
+            unique_roots+=("$root")
+          done
+          roots=("''${unique_roots[@]}")
+
+          if [[ ''${#roots[@]} -eq 0 ]]; then
+            echo "hms: no dotfiles root found. Checked DOTFILES_PATH, ~/dotfiles and ~/.dotfiles" >&2
+            return 1
+          fi
+
+          dotfiles_root="''${roots[1]}"
+          current_link="$dotfiles_root/current"
 
           if [[ $# -gt 0 && "$1" != -* ]]; then
-            if [[ -d "$dotfiles_root/$1/nix" ]]; then
-              flake_path="$dotfiles_root/$1/nix"
+            local worktree_name="$1"
+            for root in "''${roots[@]}"; do
+              checked_paths+=("$root/$worktree_name/nix")
+              if [[ -d "$root/$worktree_name/nix" ]]; then
+                worktree_path="$root/$worktree_name"
+                break
+              fi
+            done
+
+            if [[ -z "$worktree_path" && -d "$worktree_name/nix" ]]; then
+              worktree_path="$worktree_name"
+              checked_paths+=("$worktree_name/nix")
+            fi
+
+            if [[ -n "$worktree_path" ]]; then
               shift
             else
-              echo "hms: worktree '$1' not found at $dotfiles_root/$1/nix" >&2
+              echo "hms: worktree '$worktree_name' not found. Checked:" >&2
+              printf '  - %s\n' "''${checked_paths[@]}" >&2
               return 1
             fi
           fi
 
-          if [[ -z "$flake_path" ]]; then
-            if [[ -d "$dotfiles_root/master/nix" ]]; then
-              flake_path="$dotfiles_root/master/nix"
-            elif [[ -d "$dotfiles_root/nix" ]]; then
-              flake_path="$dotfiles_root/nix"
-            else
-              echo "hms: nix flake not found. Checked $dotfiles_root/master/nix and $dotfiles_root/nix" >&2
+          if [[ -z "$worktree_path" ]]; then
+            for root in "''${roots[@]}"; do
+              checked_paths+=("$root/master/nix")
+              if [[ -d "$root/master/nix" ]]; then
+                worktree_path="$root/master"
+                break
+              fi
+            done
+
+            if [[ -z "$worktree_path" ]]; then
+              for root in "''${roots[@]}"; do
+                checked_paths+=("$root/nix")
+                if [[ -d "$root/nix" ]]; then
+                  worktree_path="$root"
+                  break
+                fi
+              done
+            fi
+
+            if [[ -z "$worktree_path" ]]; then
+              echo "hms: nix flake not found. Checked:" >&2
+              printf '  - %s\n' "''${checked_paths[@]}" >&2
               return 1
             fi
           fi
+
+          # Use zsh path expansion to avoid triggering chpwd hooks (auto_ls).
+          worktree_path="''${worktree_path:A}"
+          flake_path="$worktree_path/nix"
 
           home-manager switch --flake "$flake_path#ivan" "$@" |& nom
+          local hm_status=$?
+          if [[ $hm_status -ne 0 ]]; then
+            return $hm_status
+          fi
+
+          mkdir -p "$dotfiles_root"
+          ln -sfn "$worktree_path" "$current_link"
+          export DOTFILES_CURRENT="$current_link"
+          echo "hms: active worktree -> $worktree_path"
         }
 
         mkcd() { mkdir -p "$1" && cd "$1"; }
@@ -332,6 +412,7 @@
         export TERM="xterm-256color"
         export COLORTERM="truecolor"
         export DOTFILES_PATH="''${DOTFILES_PATH:-$HOME/dotfiles}"
+        export DOTFILES_CURRENT="''${DOTFILES_CURRENT:-$DOTFILES_PATH/current}"
 
         # Load p10k config
         [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
