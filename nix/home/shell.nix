@@ -48,6 +48,10 @@
       # Claude dangerous mode
       cdsp = "claude --dangerously-skip-permissions";
 
+      # Fabric AI patterns
+      f = "fabric";
+      fp = "fabric --list";
+
       # Home Manager
       tks = "tmux kill-server";
 
@@ -266,7 +270,6 @@
           export DOTFILES_CURRENT="$current_link"
           echo "hms: active worktree -> $worktree_path"
         }
-
         mkcd() { mkdir -p "$1" && cd "$1"; }
 
         # Fuzzy find file -> open in editor (Enter) or cd to folder (Ctrl+O)
