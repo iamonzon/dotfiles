@@ -6,9 +6,9 @@
     ./tmux.nix
   ];
 
-  # 0xProto Nerd Font (matching iTerm config)
+  # JetBrains Mono Nerd Font
   home.packages = with pkgs; [
-    nerd-fonts._0xproto
+    nerd-fonts.jetbrains-mono
   ];
 
   # Enable fontconfig so macOS apps can find Nix-installed fonts
