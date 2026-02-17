@@ -2,12 +2,13 @@
 
 {
   home.packages = with pkgs; [
-    ripgrep   # rg - fast grep
-    fd        # better find
-    tree      # directory tree
-    tldr      # simplified man pages
-    lsd       # ls with icons
-    starship  # cross-shell prompt (used for tmux env modules)
+    ripgrep    # rg - fast grep
+    fd         # better find
+    tree       # directory tree
+    tldr       # simplified man pages
+    lsd        # ls with icons
+    starship   # cross-shell prompt (used for tmux env modules)
+    fabric-ai  # AI prompt patterns (fabric)
   ];
 
   # Starship config (used for tmux status bar modules, not as shell prompt)
