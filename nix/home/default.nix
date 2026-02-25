@@ -14,6 +14,7 @@
     ./media-processing.nix
     ./document-viewer.nix
     ./nix-tools.nix
+    ./intellij.nix
   ];
 
   home.username = "ivan";
