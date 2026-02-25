@@ -6,6 +6,7 @@
     ./file-manager.nix
     ./terminal.nix
     ./terminal-tools.nix
+    ./fabric.nix
     ./system-monitor.nix
     ./data-tools.nix
     ./dev-runtime.nix

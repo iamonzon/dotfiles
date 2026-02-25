@@ -48,10 +48,6 @@
       # Claude dangerous mode
       cdsp = "claude --dangerously-skip-permissions";
 
-      # Fabric AI patterns
-      f = "fabric";
-      fp = "fabric --list";
-
       # Home Manager
       tks = "tmux kill-server";
 

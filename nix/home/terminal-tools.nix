@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -8,7 +8,6 @@
     tldr       # simplified man pages
     lsd        # ls with icons
     starship   # cross-shell prompt (used for tmux env modules)
-    fabric-ai  # AI prompt patterns (fabric)
   ];
 
   # Starship config (used for tmux status bar modules, not as shell prompt)
