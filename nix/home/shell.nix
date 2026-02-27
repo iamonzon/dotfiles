@@ -28,8 +28,9 @@
       PATH="/Library/Frameworks/Python.framework/Versions/3.10/bin:''${PATH}"
       export PATH
 
-      # Coursier
-      export PATH="$PATH:/Users/ivan/Library/Application Support/Coursier/bin"
+      # SDKMAN
+      export SDKMAN_DIR="$HOME/.sdkman"
+      [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
     '';
 
     shellAliases = {
