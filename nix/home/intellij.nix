@@ -77,7 +77,7 @@
     nmap <leader>px :action HideAllWindows<CR>
 
     " Clear search highlight
-    nmap <Esc> :noh<CR><Esc>
+    nnoremap <Esc> :noh<CR>
 
     " View git change
     nmap <leader>gv :action VcsShowCurrentChangeMarker<CR>
