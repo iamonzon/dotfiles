@@ -17,12 +17,14 @@
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
+      username = "ivan"; # Change this to your system username
 
     in
     {
       homeConfigurations = {
-        "ivan" = home-manager.lib.homeManagerConfiguration {
+        ${username} = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
+          extraSpecialArgs = { inherit username; };
           modules = [
             nix-yazi-plugins.legacyPackages.${system}.homeManagerModules.default
             ./home/default.nix

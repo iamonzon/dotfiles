@@ -122,9 +122,9 @@ cd "$DOTFILES_DIR/current/nix"
 
 # Dry run first
 log "Performing dry-run to check for errors..."
-if nix run home-manager -- switch --flake .#ivan --dry-run; then
+if nix run home-manager -- switch --flake ".#$USER" --dry-run; then
     log "Dry-run successful! Applying configuration..."
-    nix run home-manager -- switch --flake .#ivan
+    nix run home-manager -- switch --flake ".#$USER"
 else
     error "Dry-run failed. Please check the errors above."
 fi

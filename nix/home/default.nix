@@ -1,3 +1,5 @@
+{ username, pkgs, ... }:
+
 {
   imports = [
     ./shell.nix
@@ -17,8 +19,9 @@
     ./intellij.nix
   ];
 
-  home.username = "ivan";
-  home.homeDirectory = "/Users/ivan";
+  home.username = username;
+  home.homeDirectory =
+    if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
