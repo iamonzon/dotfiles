@@ -81,7 +81,7 @@ home-manager rollback
 home-manager generations
 
 # Switch to a specific generation
-home-manager switch --flake ~/dotfiles/current/nix#ivan
+home-manager switch --flake ~/dotfiles/current/nix#$USER
 ```
 
 ## VM Snapshots (Recommended)
@@ -117,7 +117,7 @@ cat ~/.config/nix/nix.conf
 ### home-manager command not found
 ```bash
 # Run via nix run instead
-nix run home-manager -- switch --flake ~/dotfiles/current/nix#ivan
+nix run home-manager -- switch --flake ~/dotfiles/current/nix#$USER
 ```
 
 ### Permission errors
