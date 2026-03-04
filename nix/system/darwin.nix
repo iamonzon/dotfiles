@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ username, ... }:
 
 {
   # Nix settings
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "root" "ivan" ];
+    trusted-users = [ "root" username ];
   };
 
   # Allow unfree packages
