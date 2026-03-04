@@ -1,5 +1,26 @@
-{ ... }:
+{ lib, ... }:
+let
+  coreCasks = [
+    "boring-notch"
+    "firefox@developer-edition"
+    "jordanbaird-ice"
+    "karabiner-elements"
+    "rectangle"
+    "stats"
+    "time-out"
+    "zen"
+  ];
 
+  defaultSelections = lib.importJSON ./homebrew-casks-default.json;
+  localSelectionsPath = ./homebrew-casks-local.json;
+  localSelections =
+    if builtins.pathExists localSelectionsPath
+    then lib.importJSON localSelectionsPath
+    else {};
+  selections = defaultSelections // localSelections;
+  enabledOptionalCasks =
+    lib.filter (name: selections.${name} or false) (builtins.attrNames selections);
+in
 {
   homebrew = {
     enable = true;
@@ -10,21 +31,6 @@
       upgrade = true;
     };
 
-    casks = [
-      "android-studio"
-      "boring-notch"
-      "docker-desktop"
-      "firefox@developer-edition"
-      "iterm2"
-      "jordanbaird-ice"
-      "karabiner-elements"
-      "pearcleaner"
-      "popclip"
-      "rectangle"
-      "stats"
-      "ticktick"
-      "time-out"
-      "zen"
-    ];
+    casks = coreCasks ++ enabledOptionalCasks;
   };
 }
