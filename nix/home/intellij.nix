@@ -22,6 +22,7 @@
     set smartcase
     set relativenumber
     set number
+    set clipboard+=unnamedplus
 
     " --- Keymaps ---
     " Disable macro recording
