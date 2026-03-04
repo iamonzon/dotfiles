@@ -5,12 +5,10 @@
     enable = true;
 
     onActivation = {
-      cleanup = "zap";
+      cleanup = "uninstall";
       autoUpdate = true;
       upgrade = true;
     };
-
-    brews = [];
 
     casks = [
       "android-studio"

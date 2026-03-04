@@ -16,7 +16,7 @@
   # Touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
 
-  # Used for backwards compatibility
+  # nix-darwin state version; set on first install, do not change
   system.stateVersion = 6;
 
   # macOS system defaults
@@ -75,7 +75,5 @@
     # Double-click titlebar minimizes
     defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool true
 
-    # Apply Dock changes
-    killall Dock 2>/dev/null || true
   '';
 }
