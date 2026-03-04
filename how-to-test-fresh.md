@@ -118,6 +118,13 @@ sudo launchctl kickstart -k system/org.nixos.nix-daemon
 nix run nix-darwin -- switch --flake ~/dotfiles/current/nix#empanada
 ```
 
+### Flakes not enabled
+```bash
+# Verify flakes config (Determinate installer sets this automatically)
+cat /etc/nix/nix.conf
+# Should contain: experimental-features = nix-command flakes
+```
+
 ### Permission errors
 ```bash
 # Fix Nix store permissions

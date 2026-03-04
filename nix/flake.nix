@@ -20,11 +20,13 @@
   outputs = { self, nixpkgs, nix-darwin, home-manager, nix-yazi-plugins, ... }@inputs:
     let
       system = "aarch64-darwin";
-      username = "ivan";
+      username = "ivan";     # Change this to your macOS username
+      hostname = "empanada"; # Change this to your desired hostname
     in
     {
-      darwinConfigurations.empanada = nix-darwin.lib.darwinSystem {
+      darwinConfigurations.${hostname} = nix-darwin.lib.darwinSystem {
         inherit system;
+        specialArgs = { inherit username hostname; };
         modules = [
           ./system/darwin.nix
           ./system/homebrew.nix
@@ -32,7 +34,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit username; };
+            home-manager.extraSpecialArgs = { inherit username hostname; };
             home-manager.users.${username} = { ... }: {
               imports = [
                 nix-yazi-plugins.legacyPackages.${system}.homeManagerModules.default

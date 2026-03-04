@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, hostname, ... }:
 
 {
   imports = [
@@ -161,7 +161,7 @@
         # Usage:
         #   hms                         -> uses <root>/master/nix, then <root>/nix
         #   hms feat/kitty-integration  -> uses <root>/feat/kitty-integration/nix
-        #   hms --dry-run               -> default path with extra home-manager flags
+        #   hms --dry-run               -> default path with extra darwin-rebuild flags
         #   hms feat/kitty-integration --dry-run
         #
         # Root search order:
@@ -256,7 +256,7 @@
           worktree_path="''${worktree_path:A}"
           flake_path="$worktree_path/nix"
 
-          darwin-rebuild switch --flake "$flake_path#empanada" "$@" |& nom
+          darwin-rebuild switch --flake "$flake_path#${hostname}" "$@" |& nom
           local hm_status=$?
           if [[ $hm_status -ne 0 ]]; then
             return $hm_status

@@ -66,6 +66,16 @@ done
 
 # 4. Install Nix (Determinate Systems installer - handles flakes automatically)
 if [ ! -d "/nix" ]; then
+    # Clean up any leftover backup files from previous failed installs
+    for backup in /etc/bashrc.backup-before-nix /etc/zshrc.backup-before-nix /etc/bash.bashrc.backup-before-nix; do
+        if [ -f "$backup" ]; then
+            warn "Found leftover backup from failed Nix install: $backup"
+            original="${backup%.backup-before-nix}"
+            log "Restoring $original from backup..."
+            sudo mv "$backup" "$original"
+        fi
+    done
+
     log "Installing Nix (Determinate Systems)..."
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 else
@@ -80,6 +90,7 @@ fi
 # 5. Clone dotfiles (if not already present)
 DOTFILES_DIR="$HOME/dotfiles"
 DOTFILES_REPO="https://github.com/iamonzon/dotfiles.git"
+HOSTNAME="empanada"
 
 if [ ! -d "$DOTFILES_DIR" ]; then
     log "Cloning dotfiles repository..."
@@ -101,8 +112,13 @@ fi
 log "Running nix-darwin switch..."
 cd "$DOTFILES_DIR/current/nix"
 
-log "Applying configuration..."
-nix run nix-darwin -- switch --flake .#empanada
+log "Performing dry-run to check for errors..."
+if nix run nix-darwin -- switch --flake ".#$HOSTNAME" --dry-run; then
+    log "Dry-run successful! Applying configuration..."
+    nix run nix-darwin -- switch --flake ".#$HOSTNAME"
+else
+    error "Dry-run failed. Please check the errors above."
+fi
 
 # 7. Final setup
 log "Bootstrap complete!"
