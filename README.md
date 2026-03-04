@@ -1,6 +1,6 @@
 # dotfiles
 
-Two configuration approaches: **Local** (traditional symlinks) and **Nix** (flake-based home-manager).
+Two configuration approaches: **Local** (traditional symlinks) and **Nix** (nix-darwin + home-manager).
 
 ## Quick Start
 
@@ -11,13 +11,16 @@ Two configuration approaches: **Local** (traditional symlinks) and **Nix** (flak
 
 ## Nix Configuration
 
-Flake-based home-manager setup in `nix/`:
+nix-darwin with home-manager as a module in `nix/`:
 
 ```
 nix/
-├── flake.nix           # Entry point
+├── flake.nix           # Entry point (darwinConfigurations)
+├── system/
+│   ├── darwin.nix      # macOS defaults, Nix settings
+│   └── homebrew.nix    # Declarative Homebrew casks
 ├── home/
-│   ├── default.nix     # Main config
+│   ├── default.nix     # Main home-manager config
 │   ├── *.nix           # Tool modules (tmux, shell, kitty, etc.)
 │   └── scripts/        # Executable scripts (runtime)
 │       └── tmux/
@@ -41,10 +44,10 @@ hms --dry-run
 hms feat/kitty-integration --dry-run
 
 # Roll back to previous generation
-home-manager switch --rollback
+darwin-rebuild switch --rollback
 
 # List all generations
-home-manager generations
+darwin-rebuild --list-generations
 ```
 
 ### Worktree Modes
@@ -81,10 +84,8 @@ home-manager generations
 
 ### Adding Packages
 
-Edit the relevant module in `nix/home/`:
-- Shell tools → `dev-tools.nix`
-- Media tools → `media.nix`
-- Editors → `editors.nix`
+- **CLI tools** (managed by Nix): Edit the relevant module in `nix/home/`
+- **GUI apps** (managed by Homebrew): Add cask to `nix/system/homebrew.nix`
 
 Then apply with `hms`.
 

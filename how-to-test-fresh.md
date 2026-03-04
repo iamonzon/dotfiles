@@ -59,6 +59,7 @@ After bootstrap completes, verify each component:
 
 | Component | Test Command | Expected Result |
 |-----------|--------------|-----------------|
+| Generations | `darwin-rebuild --list-generations` | Shows generation 1 |
 | Shell | Open new terminal | Powerlevel10k prompt appears |
 | Neovim | `nvim` | LazyVim UI loads |
 | Yazi | `nix run ~/dotfiles/current/nix#yazi-test` | File manager opens |
@@ -68,20 +69,24 @@ After bootstrap completes, verify each component:
 | FZF | Press `Ctrl+R` | History search appears |
 | Ripgrep | `rg --version` | Version number shown |
 | Kitty | Open Kitty.app | Catppuccin theme applied |
+| Spotlight | Search "Kitty" in Spotlight | Kitty appears in results |
+| Dock | `defaults read com.apple.dock autohide` | Returns 1 |
+| Homebrew casks | `brew list --cask` | Shows declared casks |
+| hms | Run `hms` | darwin-rebuild switch succeeds |
 
 ## Rollback Instructions
 
-If something goes wrong with home-manager:
+If something goes wrong with nix-darwin:
 
 ```bash
 # Roll back to previous generation
-home-manager rollback
+darwin-rebuild switch --rollback
 
 # List all generations
-home-manager generations
+darwin-rebuild --list-generations
 
-# Switch to a specific generation
-home-manager switch --flake ~/dotfiles/current/nix#$USER
+# Switch using a specific flake
+darwin-rebuild switch --flake ~/dotfiles/current/nix#empanada
 ```
 
 ## VM Snapshots (Recommended)
@@ -107,17 +112,10 @@ sudo launchctl list | grep nix
 sudo launchctl kickstart -k system/org.nixos.nix-daemon
 ```
 
-### Flakes not enabled
-```bash
-# Verify flakes config
-cat ~/.config/nix/nix.conf
-# Should contain: experimental-features = nix-command flakes
-```
-
-### home-manager command not found
+### darwin-rebuild command not found
 ```bash
 # Run via nix run instead
-nix run home-manager -- switch --flake ~/dotfiles/current/nix#$USER
+nix run nix-darwin -- switch --flake ~/dotfiles/current/nix#empanada
 ```
 
 ### Permission errors

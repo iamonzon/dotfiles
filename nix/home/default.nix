@@ -14,7 +14,6 @@
     ./dev-runtime.nix
     ./network-tools.nix
     ./media-processing.nix
-    ./document-viewer.nix
     ./nix-tools.nix
     ./intellij.nix
   ];
