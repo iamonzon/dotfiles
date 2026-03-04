@@ -256,7 +256,7 @@
           worktree_path="''${worktree_path:A}"
           flake_path="$worktree_path/nix"
 
-          home-manager switch --flake "$flake_path#$USER" "$@" |& nom
+          darwin-rebuild switch --flake "$flake_path#empanada" "$@" |& nom
           local hm_status=$?
           if [[ $hm_status -ne 0 ]]; then
             return $hm_status

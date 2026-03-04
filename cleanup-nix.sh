@@ -16,13 +16,23 @@ echo "=========================================="
 echo "  Nix & Homebrew Cleanup Script"
 echo "=========================================="
 echo ""
-warn "This will remove Nix and optionally Homebrew from your system."
+warn "This will remove nix-darwin, Nix, and optionally Homebrew from your system."
 echo ""
 read -p "Continue? (y/N) " -n 1 -r
 echo ""
 [[ ! $REPLY =~ ^[Yy]$ ]] && exit 0
 
-# 1. Uninstall Nix using official method
+# 1. Restore nix-darwin managed files
+log "Cleaning up nix-darwin..."
+for f in /etc/bashrc /etc/zshrc /etc/zprofile /etc/zshenv /etc/nix/nix.conf; do
+    backup="${f}.before-nix-darwin"
+    if [ -f "$backup" ]; then
+        log "Restoring $f from $backup..."
+        sudo mv "$backup" "$f"
+    fi
+done
+
+# 2. Uninstall Nix using official method
 log "Uninstalling Nix..."
 if [ -x /nix/nix-installer ]; then
     /nix/nix-installer uninstall
@@ -34,7 +44,7 @@ else
     curl -L https://install.determinate.systems/nix | sh -s -- uninstall
 fi
 
-# 2. Clean up user state (not always removed by uninstaller)
+# 3. Clean up user state (not always removed by uninstaller)
 log "Cleaning up user Nix files..."
 rm -rf ~/.nix-profile ~/.nix-defexpr ~/.nix-channels 2>/dev/null || true
 rm -rf ~/.local/state/nix ~/.local/state/home-manager 2>/dev/null || true
@@ -43,7 +53,7 @@ rm -rf ~/.config/nix ~/.cache/nix 2>/dev/null || true
 log "Nix has been removed."
 echo ""
 
-# 3. Optionally remove Homebrew
+# 4. Optionally remove Homebrew
 read -p "Also remove Homebrew? (y/N) " -n 1 -r
 echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]; then

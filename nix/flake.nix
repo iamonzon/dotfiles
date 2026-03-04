@@ -1,8 +1,12 @@
 {
-  description = "Ivan's Home Configuration";
+  description = "Ivan's Darwin Configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,24 +17,31 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-yazi-plugins, ... }@inputs:
+  outputs = { self, nixpkgs, nix-darwin, home-manager, nix-yazi-plugins, ... }@inputs:
     let
       system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
-      username = "ivan"; # Change this to your system username
-
+      username = "ivan";
     in
     {
-      homeConfigurations = {
-        ${username} = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = { inherit username; };
-          modules = [
-            nix-yazi-plugins.legacyPackages.${system}.homeManagerModules.default
-            ./home/default.nix
-            ./hosts/macbook.nix
-          ];
-        };
+      darwinConfigurations.empanada = nix-darwin.lib.darwinSystem {
+        inherit system;
+        modules = [
+          ./system/darwin.nix
+          ./system/homebrew.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit username; };
+            home-manager.users.${username} = { ... }: {
+              imports = [
+                nix-yazi-plugins.legacyPackages.${system}.homeManagerModules.default
+                ./home/default.nix
+                ./hosts/macbook.nix
+              ];
+            };
+          }
+        ];
       };
     };
 }

@@ -21,7 +21,6 @@
 
   home.packages = with pkgs; [
     neovim
-    neovide  # Neovim GUI
   ];
 
   # LazyVim configuration follows active dotfiles worktree via ~/dotfiles/current.
