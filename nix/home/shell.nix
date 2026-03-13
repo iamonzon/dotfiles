@@ -111,6 +111,7 @@
       tp = "cd ~/Personal/Projects/tooling/";
       sls = "cd ~/Work/boddle-projects/smart-learning-system/";
       lms = "cd ~/Work/boddle-projects/learning-management-system/";
+      lspec = "docker compose -f ~/Work/boddle-projects/learning-management-system/main/docker-compose-rspec.yml run --rm lms bundle exec rspec";
       improve = "cd ~/.claude/";
       # dot = "cd ~/dotfiles/";
 
