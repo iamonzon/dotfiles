@@ -1,5 +1,5 @@
 {
-  description = "Ivan's Home Configuration";
+  description = "Boddle's Home Configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -17,7 +17,7 @@
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
-      username = "ivan"; # Change this to your system username
+      username = "boddle"; # Change this to your system username
 
     in
     {

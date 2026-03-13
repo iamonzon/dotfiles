@@ -106,11 +106,12 @@
       dps = "docker ps";
 
       # Directory shortcuts
-      workspace = "cd ~/Work";
-      personalspace = "cd ~/Personal";
-      pp = "cd ~/Personal/Projects/";
-      wp = "cd ~/Work/Projects/";
+      pp = "cd ~/Personal/";
+      wp = "cd ~/Work/";
       tp = "cd ~/Personal/Projects/tooling/";
+      sls = "cd ~/Work/boddle-projects/smart-learning-system/";
+      lms = "cd ~/Work/boddle-projects/learning-management-system/";
+      improve = "cd ~/.claude/";
       # dot = "cd ~/dotfiles/";
 
       # Tools

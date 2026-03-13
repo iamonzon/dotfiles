@@ -10,9 +10,8 @@
 
   programs.git = {
     enable = true;
-    # Uncomment and fill in your details:
-    # userName = "Ivan";
-    # userEmail = "your@email.com";
+    userName = "iamonzon";
+    userEmail = "ivan@boddlelearning.com";
 
     settings = {
       color.ui = true;
