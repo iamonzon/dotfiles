@@ -27,11 +27,15 @@
         zle accept-line
         return
       fi
-      # Try zoxide
-      local dir
-      dir=$(zoxide query --exclude "$PWD" -- "$cmd" 2>/dev/null)
-      if [[ -n "$dir" ]]; then
-        BUFFER="cd $dir"
+      # Prefer local subdirectory, then fall back to zoxide
+      if [[ -d "$cmd" ]]; then
+        BUFFER="cd $cmd"
+      else
+        local dir
+        dir=$(zoxide query --exclude "$PWD" -- "$cmd" 2>/dev/null)
+        if [[ -n "$dir" ]]; then
+          BUFFER="cd $dir"
+        fi
       fi
       zle accept-line
     }
@@ -44,8 +48,8 @@
       # Skip if empty, has spaces, or is already a valid command
       [[ -z "$cmd" || "$cmd" == *" "* ]] && return
       type "$cmd" &>/dev/null && return
-      # Check zoxide and highlight in green if match found
-      if zoxide query --exclude "$PWD" -- "$cmd" &>/dev/null 2>&1; then
+      # Highlight in green if local dir exists or zoxide matches
+      if [[ -d "$cmd" ]] || zoxide query --exclude "$PWD" -- "$cmd" &>/dev/null 2>&1; then
         region_highlight+=("0 ''${#cmd} fg=green,bold")
       fi
     }
