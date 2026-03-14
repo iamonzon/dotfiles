@@ -20,7 +20,7 @@ return {
           -- Strip the project root to get the relative spec path
           local rel_cmd = cmd:gsub(lms_root .. "/", "")
           return string.format(
-            "docker compose -f %s/docker-compose-rspec.yml run --rm lms bundle exec %s",
+            "docker-compose -f %s/docker-compose-rspec.yml run --rm lms bundle exec %s",
             lms_root,
             rel_cmd
           )

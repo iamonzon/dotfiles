@@ -44,10 +44,10 @@
       b = "bat";
       g = "git";
       t = "tree";
-      c = "claude";
+      c = "claude --verbose";
 
       # Claude dangerous mode
-      cdsp = "claude --dangerously-skip-permissions";
+      cdsp = "claude --dangerously-skip-permissions --verbose";
 
       # Home Manager
       tks = "tmux kill-server";
@@ -111,7 +111,7 @@
       tp = "cd ~/Personal/Projects/tooling/";
       sls = "cd ~/Work/boddle-projects/smart-learning-system/";
       lms = "cd ~/Work/boddle-projects/learning-management-system/";
-      lspec = "docker compose -f ~/Work/boddle-projects/learning-management-system/main/docker-compose-rspec.yml run --rm lms bundle exec rspec";
+      lspec = "docker-compose -f ~/Work/boddle-projects/learning-management-system/main/docker-compose-rspec.yml run --rm lms bundle exec rspec";
       improve = "cd ~/.claude/";
       # dot = "cd ~/dotfiles/";
 
