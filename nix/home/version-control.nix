@@ -20,6 +20,12 @@
     };
   };
 
+  # Worktree sync script: pull latest & warn about stale branches
+  home.file.".config/scripts/git-worktree-sync.sh" = {
+    executable = true;
+    source = ./scripts/git-worktree-sync.sh;
+  };
+
   # Gitmux config (p10k-matching format)
   xdg.configFile."gitmux/.gitmux.conf".text = ''
     tmux:

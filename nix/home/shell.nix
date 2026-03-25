@@ -94,6 +94,10 @@
       gfh = "git flow hotfix";
       gfr = "git flow release";
 
+      # Worktree sync: pull latest & warn about stale branches
+      gws = "~/.config/scripts/git-worktree-sync.sh";
+      gwsa = "~/.config/scripts/git-worktree-sync.sh --all";
+
       # Git bisect
       gbg = "git bisect good";
       gbb = "git bisect bad";
