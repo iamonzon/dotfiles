@@ -1,0 +1,111 @@
+#!/bin/sh
+set -e
+
+usage() {
+    cat <<'EOF'
+Usage: gwt-create <branch-name> [--from <start-point>]
+
+Create a git worktree in the organized bare-repo layout.
+
+The branch name must start with a valid type prefix:
+  feature/  fix/  hotfix/  chore/  research/
+
+Examples:
+  gwt-create fix/DEV-17556-escape-apostrophe --from origin/release/1.32.0/server-items
+  gwt-create feature/DEV-2774-add-pet-1.32
+  gwt-create research/redis-performance
+
+Options:
+  --from <ref>   Start point (branch, tag, or SHA). Defaults to main.
+  -h, --help     Show this help message.
+EOF
+}
+
+die() {
+    printf 'error: %s\n' "$1" >&2
+    exit 1
+}
+
+# --- Parse arguments ---
+
+if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    usage
+    exit 0
+fi
+
+BRANCH="$1"
+shift
+
+START_POINT=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --from)
+            [ $# -ge 2 ] || die "--from requires an argument"
+            START_POINT="$2"
+            shift 2
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            die "unexpected argument: $1"
+            ;;
+    esac
+done
+
+# --- Find PROJECT_ROOT by walking up from $PWD looking for .bare/ ---
+
+find_project_root() {
+    dir="$PWD"
+    while [ "$dir" != "/" ]; do
+        if [ -d "$dir/.bare" ]; then
+            printf '%s' "$dir"
+            return 0
+        fi
+        dir=$(dirname "$dir")
+    done
+    return 1
+}
+
+PROJECT_ROOT=$(find_project_root) || die "Not inside an organized bare-repo layout (no .bare/ found)"
+
+# --- Parse and validate branch type ---
+
+TYPE="${BRANCH%%/*}"
+NAME="${BRANCH#*/}"
+
+if [ "$TYPE" = "$BRANCH" ] || [ -z "$NAME" ]; then
+    die "Branch name must include a type prefix (e.g., feature/my-branch)"
+fi
+
+case "$TYPE" in
+    feature|fix|hotfix|chore|research) ;;
+    *)
+        die "Invalid branch type '$TYPE'. Valid types: feature, fix, hotfix, chore, research"
+        ;;
+esac
+
+# --- Determine worktree path ---
+
+WORKTREE_PATH="$PROJECT_ROOT/$TYPE/$NAME"
+
+# --- Fetch latest ---
+
+printf 'Fetching latest from remote...\n'
+git -C "$PROJECT_ROOT/main" fetch
+
+# --- Create worktree ---
+
+if [ -n "$START_POINT" ]; then
+    printf 'Creating worktree from %s...\n' "$START_POINT"
+    git -C "$PROJECT_ROOT/main" worktree add "$WORKTREE_PATH" -b "$BRANCH" "$START_POINT"
+else
+    printf 'Creating worktree from main...\n'
+    git -C "$PROJECT_ROOT/main" worktree add "$WORKTREE_PATH" -b "$BRANCH"
+fi
+
+# --- Done ---
+
+printf '\nWorktree created at:\n  %s\n\n' "$WORKTREE_PATH"
+printf 'Run:\n  cd "%s"\n' "$WORKTREE_PATH"
