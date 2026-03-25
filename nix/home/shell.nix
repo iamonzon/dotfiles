@@ -100,6 +100,9 @@
       gws = "~/.config/scripts/git-worktree-sync.sh";
       gwsa = "~/.config/scripts/git-worktree-sync.sh --all";
 
+      # Worktree create: create worktrees in the organized bare-repo layout
+      gwt = "~/.config/scripts/gwt-create";
+
       # Git bisect
       gbg = "git bisect good";
       gbb = "git bisect bad";

@@ -30,6 +30,12 @@
     source = ./scripts/git-worktree-sync.sh;
   };
 
+  # Worktree create script: create worktrees in the organized bare-repo layout
+  home.file.".config/scripts/gwt-create" = {
+    executable = true;
+    source = ./scripts/gwt-create;
+  };
+
   # Gitmux config (p10k-matching format)
   xdg.configFile."gitmux/.gitmux.conf".text = ''
     tmux:
