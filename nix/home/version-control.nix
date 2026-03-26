@@ -17,6 +17,7 @@
     settings = {
       color.ui = true;
       push.default = "simple";
+      push.autoSetupRemote = true;
       init.defaultBranch = "main";
     };
   };
