@@ -119,15 +119,26 @@ sync_repo() {
       local status_parts=()
 
       if [[ "$behind" -gt 0 && "$ahead" -gt 0 ]]; then
-        status_parts+=("${YELLOW}diverged${RESET} ${DIM}(ahead $ahead, behind $behind)${RESET}")
-        ((stale_count++)) || true
+        # Diverged — try rebase to replay local commits on top of upstream
+        if git -C "$wt_path" pull --rebase --quiet 2>/dev/null; then
+          status_parts+=("${GREEN}rebased${RESET} ${DIM}(ahead $ahead, pulled $behind)${RESET}")
+          ((updated_count++)) || true
+        else
+          git -C "$wt_path" rebase --abort 2>/dev/null || true
+          status_parts+=("${YELLOW}diverged${RESET} ${DIM}(ahead $ahead, behind $behind — rebase failed)${RESET}")
+          ((stale_count++)) || true
+        fi
       elif [[ "$behind" -gt 0 ]]; then
-        # Try to fast-forward
+        # Try fast-forward first, fall back to rebase
         if git -C "$wt_path" merge --ff-only "$upstream" --quiet 2>/dev/null; then
           status_parts+=("${GREEN}pulled${RESET} ${DIM}($behind commits)${RESET}")
           ((updated_count++)) || true
+        elif git -C "$wt_path" pull --rebase --quiet 2>/dev/null; then
+          status_parts+=("${GREEN}rebased${RESET} ${DIM}($behind commits)${RESET}")
+          ((updated_count++)) || true
         else
-          status_parts+=("${YELLOW}behind $behind${RESET} ${DIM}(ff failed)${RESET}")
+          git -C "$wt_path" rebase --abort 2>/dev/null || true
+          status_parts+=("${YELLOW}behind $behind${RESET} ${DIM}(rebase failed)${RESET}")
           ((stale_count++)) || true
         fi
       elif [[ "$ahead" -gt 0 ]]; then
@@ -183,12 +194,25 @@ sync_repo() {
       ahead=$(echo "$ab" | awk '{print $1}')
       behind=$(echo "$ab" | awk '{print $2}')
 
-      if [[ "$behind" -gt 0 ]]; then
+      if [[ "$behind" -gt 0 && "$ahead" -gt 0 ]]; then
+        if git -C "$wt_path" pull --rebase --quiet 2>/dev/null; then
+          echo -e "  [${GREEN}rebased${RESET} ${DIM}(ahead $ahead, pulled $behind)${RESET}] $wt_dir ${DIM}($wt_branch)${RESET}"
+          ((updated_count++)) || true
+        else
+          git -C "$wt_path" rebase --abort 2>/dev/null || true
+          echo -e "  [${YELLOW}diverged${RESET} ${DIM}(ahead $ahead, behind $behind — rebase failed)${RESET}] $wt_dir ${DIM}($wt_branch)${RESET}"
+          ((stale_count++)) || true
+        fi
+      elif [[ "$behind" -gt 0 ]]; then
         if git -C "$wt_path" merge --ff-only "$upstream" --quiet 2>/dev/null; then
           echo -e "  [${GREEN}pulled${RESET} ${DIM}($behind commits)${RESET}] $wt_dir ${DIM}($wt_branch)${RESET}"
           ((updated_count++)) || true
+        elif git -C "$wt_path" pull --rebase --quiet 2>/dev/null; then
+          echo -e "  [${GREEN}rebased${RESET} ${DIM}($behind commits)${RESET}] $wt_dir ${DIM}($wt_branch)${RESET}"
+          ((updated_count++)) || true
         else
-          echo -e "  [${YELLOW}behind $behind${RESET}] $wt_dir ${DIM}($wt_branch)${RESET}"
+          git -C "$wt_path" rebase --abort 2>/dev/null || true
+          echo -e "  [${YELLOW}behind $behind${RESET} ${DIM}(rebase failed)${RESET}] $wt_dir ${DIM}($wt_branch)${RESET}"
           ((stale_count++)) || true
         fi
       else
