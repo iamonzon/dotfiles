@@ -44,10 +44,10 @@
       b = "bat";
       g = "git";
       t = "tree";
-      c = "claude";
+      c = "claude --verbose";
 
       # Claude dangerous mode
-      cdsp = "claude --dangerously-skip-permissions";
+      cdsp = "claude --dangerously-skip-permissions --verbose";
 
       # Home Manager
       tks = "tmux kill-server";
