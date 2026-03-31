@@ -19,6 +19,8 @@
       push.default = "simple";
       push.autoSetupRemote = true;
       init.defaultBranch = "main";
+      merge.tool = "nvimdiff";
+      mergetool.keepBackup = false;
     };
   };
 
