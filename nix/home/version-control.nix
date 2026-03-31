@@ -18,6 +18,8 @@
       color.ui = true;
       push.default = "simple";
       init.defaultBranch = "main";
+      merge.tool = "nvimdiff";
+      mergetool.keepBackup = false;
     };
   };
 
