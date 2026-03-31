@@ -85,6 +85,7 @@
       gl = "git log";
       gt = "git tag";
       gm = "git merge";
+      gmt = "git mergetool";
       glog = "git log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
       ggstat = "git log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --stat";
       gcp = "git cherry-pick";
