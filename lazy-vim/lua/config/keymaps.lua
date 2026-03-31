@@ -122,10 +122,13 @@ vim.keymap.set("n", "<Esc>", "<cmd>noh<CR><Esc>", { desc = "Clear search and esc
 -- Escape terminal mode with <Esc>
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
--- Git merge tool (nvimdiff)
-vim.keymap.set("n", "<leader>ml", "<cmd>diffget LOCAL<CR>", { desc = "Accept LOCAL" })
-vim.keymap.set("n", "<leader>mr", "<cmd>diffget REMOTE<CR>", { desc = "Accept REMOTE" })
-vim.keymap.set("n", "<leader>mb", "<cmd>diffget BASE<CR>", { desc = "Accept BASE" })
+-- Git merge conflicts (nvimdiff) — which-key group label
+require("which-key").add({ { "<leader>gm", group = "merge conflicts" } })
+vim.keymap.set("n", "<leader>gml", "<cmd>diffget LOCAL<CR>", { desc = "Accept LOCAL" })
+vim.keymap.set("n", "<leader>gmr", "<cmd>diffget REMOTE<CR>", { desc = "Accept REMOTE" })
+vim.keymap.set("n", "<leader>gmb", "<cmd>diffget BASE<CR>", { desc = "Accept BASE" })
+vim.keymap.set("n", "<leader>gmn", "]c", { desc = "Next conflict" })
+vim.keymap.set("n", "<leader>gmp", "[c", { desc = "Prev conflict" })
 
 -- IDE-like buffer closing (:q closes buffer, :qa quits vim)
 local function close_buffer()
