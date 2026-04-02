@@ -8,6 +8,7 @@
     tldr       # simplified man pages
     lsd        # ls with icons
     starship   # cross-shell prompt (used for tmux env modules)
+    gum        # TUI toolkit for interactive prompts
   ];
 
   # Starship config (used for tmux status bar modules, not as shell prompt)
