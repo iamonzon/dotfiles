@@ -102,7 +102,7 @@ sync_repo() {
       upstream=$(git -C "$bare_dir" for-each-ref --format='%(upstream:short)' "refs/heads/$wt_branch" 2>/dev/null)
 
       if [[ -z "$upstream" ]]; then
-        echo -e "  ${YELLOW}[no remote]${RESET} $wt_dir ${DIM}($wt_branch)${RESET}"
+        echo -e "  ${YELLOW}[no upstream]${RESET} $wt_dir ${DIM}($wt_branch)${RESET}"
         echo -e "    ${YELLOW}Branch has no upstream tracking${RESET}"
         ((stale_count++)) || true
         wt_path="" wt_branch="" wt_head=""
@@ -185,7 +185,7 @@ sync_repo() {
     upstream=$(git -C "$bare_dir" for-each-ref --format='%(upstream:short)' "refs/heads/$wt_branch" 2>/dev/null)
 
     if [[ -z "$upstream" ]]; then
-      echo -e "  ${YELLOW}[no remote]${RESET} $wt_dir ${DIM}($wt_branch)${RESET}"
+      echo -e "  ${YELLOW}[no upstream]${RESET} $wt_dir ${DIM}($wt_branch)${RESET}"
       ((stale_count++)) || true
     else
       local ab
