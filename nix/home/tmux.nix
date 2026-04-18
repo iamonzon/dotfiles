@@ -15,7 +15,7 @@ let
   # Timing and sizing
   resizeAmount = 5;
   continuumSaveInterval = 15;
-  dateTimeFormat = " %H:%M, %A";
+  maxSessionNameLen = 8;
 
   # ====================
   # Config Sections
@@ -44,8 +44,13 @@ let
     set -g @catppuccin_directory_icon "#(~/.config/tmux/scripts/dir-icon.sh '#{pane_current_path}')"
     set -g @catppuccin_directory_color "#(~/.config/tmux/scripts/dir-color.sh '#{pane_current_path}')"
 
-    # Date/time module config (24h format)
-    set -g @catppuccin_date_time_text "${dateTimeFormat}"
+    # Session module config (truncate long names)
+    set -g @catppuccin_session_text " #{=${toString maxSessionNameLen}:session_name}"
+
+    # Meeting pill config (repurposes date_time module)
+    set -g @catppuccin_date_time_text "#(~/.config/tmux/scripts/meeting.sh text)"
+    set -g @catppuccin_date_time_color "#(~/.config/tmux/scripts/meeting.sh color)"
+    set -g @catppuccin_date_time_icon "#(~/.config/tmux/scripts/meeting.sh icon)"
   '';
 
   coreConfig = ''
@@ -246,5 +251,11 @@ in
   home.file.".config/tmux/scripts/starship-modules.sh" = {
     executable = true;
     source = ./scripts/tmux/starship-modules.sh;
+  };
+
+  # Meeting/calendar status for tmux status bar
+  home.file.".config/tmux/scripts/meeting.sh" = {
+    executable = true;
+    source = ./scripts/tmux/meeting.sh;
   };
 }
