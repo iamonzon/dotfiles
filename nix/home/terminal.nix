@@ -3,7 +3,7 @@
 {
   imports = [
     ./kitty.nix
-    ./tmux.nix
+    ./tmux
   ];
 
   # JetBrains Mono Nerd Font
