@@ -9,27 +9,24 @@
   pill = " #{E:@catppuccin_status_session}";
 
   keybindings = ''
-    # New session (Alt+Shift+N)
-    bind -n M-N command-prompt -p "Session name:" "new-session -s '%%'"
+    # Session navigation (Alt+j/k)
+    bind -n M-k switch-client -p
+    bind -n M-j switch-client -n
 
-    # Rename session (Alt+Shift+R)
-    bind -n M-R command-prompt -I "#S" "rename-session '%%'"
+    # Kill session (Alt+w)
+    bind -n M-w confirm-before -p "Kill session #S? (y/n)" kill-session
 
-    # Kill session (Alt+Shift+W)
-    bind -n M-W confirm-before -p "Kill session #S? (y/n)" kill-session
+    # List sessions (Alt+l)
+    bind -n M-l choose-tree -Zs
+
+    # New session (Alt+n)
+    bind -n M-n command-prompt -p "Session name:" "new-session -s '%%'"
+
+    # Rename session (Alt+r)
+    bind -n M-r command-prompt -I "#S" "rename-session '%%'"
 
     # Detach client (Alt+Shift+D)
     bind -n M-D detach-client
 
-    # Switch to session by number (Alt+Shift+1-9)
-    bind -n M-! run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 1p)\""
-    bind -n M-@ run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 2p)\""
-    bind -n 'M-#' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 3p)\""
-    bind -n 'M-$' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 4p)\""
-    bind -n 'M-%' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 5p)\""
-    bind -n 'M-^' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 6p)\""
-    bind -n 'M-&' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 7p)\""
-    bind -n 'M-*' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 8p)\""
-    bind -n 'M-(' run-shell "tmux switch-client -t \"$(tmux list-sessions -F '#S' | sed -n 9p)\""
   '';
 }
