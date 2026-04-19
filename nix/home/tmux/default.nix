@@ -25,7 +25,7 @@ let
 
   features = {
     panes = true;
-    windows = true;
+    windows = false;
     sessions = true;
   };
 
@@ -38,10 +38,11 @@ let
   windows = import ./windows.nix vars;
   sessions = import ./sessions.nix vars;
 
-  # Merge catppuccin config from theme + enabled features
+  # Merge catppuccin config from theme + features
+  # Window config is always included — catppuccin needs it to initialize status modules
   catppuccinConfig = lib.concatStrings [
     themeModule.catppuccinConfig
-    (lib.optionalString features.windows windows.catppuccinConfig)
+    windows.catppuccinConfig
     (lib.optionalString features.sessions sessions.catppuccinConfig)
   ];
 
@@ -72,6 +73,10 @@ let
     ${themeModule.layout}
     ${mkStatusSide "left" statusLeft}
     ${mkStatusSide "right" statusRight}
+    ${lib.optionalString (!features.windows) ''
+    set -g window-status-format " "
+    set -g window-status-current-format " "
+    ''}
   '';
 
 in
