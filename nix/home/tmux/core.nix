@@ -11,4 +11,7 @@
 
   # Prevent automatic renaming from overriding manual names
   set-option -g automatic-rename off
+
+  # Switch to another session instead of exiting when a session is destroyed
+  set -g detach-on-destroy no-detached
 ''
