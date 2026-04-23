@@ -10,9 +10,8 @@
 
   programs.git = {
     enable = true;
-    # Uncomment and fill in your details:
-    # userName = "Ivan";
-    # userEmail = "your@email.com";
+    userName = "iamonzon";
+    userEmail = "github@iamonzon.dev";
 
     settings = {
       color.ui = true;
