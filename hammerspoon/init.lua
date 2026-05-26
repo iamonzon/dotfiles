@@ -8,6 +8,7 @@ local chooser  = require("core.chooser")
 
 registry.register(require("modules.timer"))
 registry.register(require("modules.calendar"))
+registry.register(require("modules.ambient"))
 registry.register(require("modules.progress_bar"))
 registry.register(require("modules.tooltip"))
 

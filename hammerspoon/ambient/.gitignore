@@ -1,0 +1,4 @@
+# User-supplied audio files — kept local, not versioned.
+*
+!.gitkeep
+!.gitignore

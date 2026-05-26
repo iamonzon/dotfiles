@@ -20,5 +20,6 @@ local T = require("spec.harness")
 require("spec.timer_parser_spec")
 require("spec.ical_parser_spec")
 require("spec.duration_spec")
+require("spec.ambient_scanner_spec")
 
 T.run()

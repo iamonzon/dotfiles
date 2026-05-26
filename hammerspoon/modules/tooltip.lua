@@ -11,7 +11,7 @@ local duration = require("lib.duration")
 
 local HOT_W      = 120
 local HOT_H      = 28
-local POPUP_W    = 260
+local POPUP_W    = 320
 local POPUP_H    = 92
 local CORNER_PAD = 4
 local REFRESH    = 0.15  -- s between cursor polls / popup refreshes
@@ -102,7 +102,7 @@ local function appendButton(c, x, y, w, h, id, label)
   })
 end
 
-local function refreshPopup(c, src)
+local function refreshPopup(c, src, ambient)
   local now      = src.now or os.time()
   local total    = src.endEpoch - src.startEpoch
   local elapsed  = math.max(0, math.min(total, now - src.startEpoch))
@@ -132,10 +132,17 @@ local function refreshPopup(c, src)
   clearButtons(c)
   local actions = src.actions or {}
   local layout = { y = 54, h = 26, w = 70, gap = 8, x = 12 }
-  if actions.edit   then appendButton(c, layout.x, layout.y, layout.w, layout.h, "edit",   "Edit");   layout.x = layout.x + layout.w + layout.gap end
-  if actions.pause  then appendButton(c, layout.x, layout.y, layout.w, layout.h, "pause",  "Pause");  layout.x = layout.x + layout.w + layout.gap end
-  if actions.resume then appendButton(c, layout.x, layout.y, layout.w, layout.h, "resume", "Resume"); layout.x = layout.x + layout.w + layout.gap end
-  if actions.stop   then appendButton(c, layout.x, layout.y, layout.w, layout.h, "stop",   "Stop")   end
+  local function place(id, label)
+    appendButton(c, layout.x, layout.y, layout.w, layout.h, id, label)
+    layout.x = layout.x + layout.w + layout.gap
+  end
+  if actions.edit                       then place("edit",   "Edit")   end
+  if actions.pause                      then place("pause",  "Pause")  end
+  if actions.resume                     then place("resume", "Resume") end
+  if actions.stop                       then place("stop",   "Stop")   end
+  if ambient and ambient.hasMoods() then
+    place("ambient", "♪ " .. (ambient.currentMood() or "off"))
+  end
 end
 
 local function activeSource(registry)
@@ -149,7 +156,7 @@ end
 local function showIfSource(self)
   local src = activeSource(self.ctx.registry)
   if not src then return end
-  refreshPopup(self.popup, src)
+  refreshPopup(self.popup, src, self.ctx.registry.get("ambient"))
   self.popup:show()
   self.visible = true
 end
@@ -171,10 +178,19 @@ local function cursorOverEitherFrame(self)
 end
 
 local function handleClick(self, id)
+  local key = id and id:match("^btn:(.+)$")
+  if not key then return end
+
+  if key == "ambient" then
+    local ambient = self.ctx.registry.get("ambient")
+    if ambient then ambient.cycle() end
+    showIfSource(self)
+    return
+  end
+
   local src = activeSource(self.ctx.registry)
   if not src or not src.actions then return end
-  local key = id and id:match("^btn:(.+)$")
-  local fn = key and src.actions[key]
+  local fn = src.actions[key]
   if fn then
     fn()
     -- Re-render immediately so Pause flips to Resume without waiting a tick.
@@ -224,7 +240,7 @@ return {
         self.popup:show()
         self.visible = true
       end
-      pcall(refreshPopup, self.popup, src)
+      pcall(refreshPopup, self.popup, src, ctx.registry.get("ambient"))
     end))
 
     return self

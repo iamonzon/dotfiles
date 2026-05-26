@@ -4,6 +4,10 @@
 
 local parser = require("lib.timer_parser")
 
+local function ambientModule(self)
+  return self.ctx and self.ctx.registry.get("ambient") or nil
+end
+
 local function editPreset(self)
   if not self.active then return "" end
   local now = self.pausedAt or os.time()
@@ -25,35 +29,57 @@ local function prompt(self, preset)
     return
   end
 
-  local now = os.time()
-  self.active = {
-    startEpoch = now,
-    endEpoch   = now + math.floor(minutes * 60),
-    title      = title,
-  }
-  self.pausedAt = nil
-  self.expiredFired = false
-  hs.alert.show(("⏱  %s · %s"):format(title, parser.durationLabel(minutes)))
+  -- Snapshot the duration/title now, but start the clock only after any
+  -- mood picker closes — otherwise the user "loses" the picker time.
+  local function commit()
+    local now = os.time()
+    self.active = {
+      startEpoch = now,
+      endEpoch   = now + math.floor(minutes * 60),
+      title      = title,
+    }
+    self.pausedAt = nil
+    self.expiredFired = false
+    hs.alert.show(("⏱  %s · %s"):format(title, parser.durationLabel(minutes)))
+  end
+
+  local amb = ambientModule(self)
+  if preset == nil and amb and amb.hasMoods() and amb.pick then
+    amb.pick(commit)
+  else
+    commit()
+  end
 end
 
 local function stop(self, silent)
   if not self.active then return end
   self.active = nil
   self.pausedAt = nil
+  local amb = ambientModule(self)
+  if amb and amb.off then amb.off() end
   if not silent then hs.alert.show("Timer cancelled") end
 end
 
 local function pause(self)
   if not self.active or self.pausedAt then return end
   self.pausedAt = os.time()
+  local amb = ambientModule(self)
+  if amb and amb.pause then amb.pause() end
   hs.alert.show("⏸  Paused")
 end
 
 local function resume(self)
   if not self.active or not self.pausedAt then return end
+  -- Shift the entire window forward by the paused interval. Just bumping
+  -- endEpoch would keep `elapsed = now - startEpoch` ticking through the
+  -- paused seconds, so the popup jumps from "0:08 elapsed" → "0:13"
+  -- on resume even though no work-time passed.
   local elapsedPause = os.time() - self.pausedAt
-  self.active.endEpoch = self.active.endEpoch + elapsedPause
+  self.active.startEpoch = self.active.startEpoch + elapsedPause
+  self.active.endEpoch   = self.active.endEpoch   + elapsedPause
   self.pausedAt = nil
+  local amb = ambientModule(self)
+  if amb and amb.resume then amb.resume() end
   hs.alert.show("▶  Resumed")
 end
 
@@ -61,7 +87,7 @@ return {
   name = "timer",
 
   start = function(ctx)
-    local self = { active = nil, pausedAt = nil, expiredFired = false }
+    local self = { ctx = ctx, active = nil, pausedAt = nil, expiredFired = false }
 
     self._startHotkey = ctx.track(hs.hotkey.bind(
       {"ctrl", "alt", "cmd"}, "T", function() prompt(self) end
